@@ -1,0 +1,59 @@
+\chapter{Implementation}
+
+
+\section{Installation Deployment}
+
+One of the key components of my project is the back-end web application. As one of services I am providing is self hosted. So developer can host their own back-end on any server of their choosing as long as the operating system is Ubuntu 16.04. The complete system is available on Github.
+
+\url{https://github.com/collegboi/PerfectServer}
+
+\lstinputlisting[label={lst:login}, language=Bash, caption=Server Login]{implementation/code/login.m}
+
+SSH, or secure shell is a network protocol that provides a secure, encrypted way to communicate with your server. In Figure \ref{lst:login} is used to log in to your server. The user-name by default by root but we will change this next and the next field is the IP address of your server.
+
+
+\lstinputlisting[label={lst:user-name}, language=Bash, caption=Setting user-name]{implementation/code/setting-username.m}
+
+ In Figure \ref{lst:user-name} we are going to set your new user-name and password. Doing this will help secure your server by moving away from the default root user-name.
+
+\lstinputlisting[label={lst:github}, language=Bash, caption=Installing]{implementation/code/github.m}
+Last is to pull down the server from Github and install all the necessary packages This is done by running the following commands one at a time in Figure \ref{lst:github}.
+
+
+\section{Development}
+
+\subsection{Add the SDK}
+
+\lstinputlisting[label={lst:pod_init},language=Bash, caption=Init pods]{implementation/code/pod_init.m}
+
+After creating if you don't have an Xcode project, you will want to install the SDK. This will be done using CocoaPods. CocoaPods is a dependency manager for Swift projects. It contains thousands of libraries that can be used in your apps. One of which is MBaasKit. Start off with stepping into your project as seen in Figure \ref{lst:pod_init}.
+
+Next we will add the MBaasKit pod to the file \ref{lst:pod}.
+
+\lstinputlisting[label={lst:pod},language=Bash, caption=Pod file]{implementation/code/pod.m}
+
+Last part for adding the SDK to your project is to install the pod. This can be done by running the command in Figure \ref{lst:pod_install}
+
+\lstinputlisting[label={lst:pod_install},language=Bash, caption=Pod install]{implementation/code/pod_install.m}
+
+
+\subsection{Using the SDK}
+
+\subsubsection{Notifications}
+To start using notifications, we first need to create the installation object and send that to our server. This is done by adding the following function \ref{lst:installation} in our AppDelegate file.
+
+\lstinputlisting[label={lst:installation},language=Swift, caption=Register for Notifications]{implementation/swift/installation.m}
+
+
+\subsubsection{Storage}
+
+\lstinputlisting[label={lst:object},language=Swift, caption=Storing/Retrieving Objects]{implementation/swift/object.m}
+
+As you can see in Figure \ref{lst:object}, when creating a struct and using the protocol JSONSerialiszable, we can then send and retrieve the objects in the backgrounds using those commands.
+
+
+\subsubsection{Exception Handling}
+
+Exception is a problem that arises during the execution of a program. If exceptions are not handled, it can cause the app to crashes and when the app is live, we would have no way of knowing. But by adding the following lines 1 & 2 in Figure \ref{lst:exception} we can catch uncaught exceptions and send them to our back-end storage and view with the dashboard. Line 4 is an example of sending a caught exception that can have a message sent along.
+
+\lstinputlisting[label={lst:exception},language=Swift, caption=Storing/Retrieving Objects]{implementation/swift/exception.m}
