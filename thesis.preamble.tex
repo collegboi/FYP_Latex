@@ -3,11 +3,17 @@
 \usepackage{latexsym}
 \usepackage{mathchars}
 \usepackage{setspace}
-
+\usepackage{tabularx} % in the preamble
 \input{blocked.sty}
 \input{uhead.sty}
 \input{boxit.sty}
 \input{icthesis.sty}
+
+\usepackage{makecell}
+\renewcommand\theadalign{cb}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
 
 \newcommand{\ipc}{{\sf ipc}}
 
@@ -101,6 +107,10 @@
 
 \newtheorem{definition}{Definition}[chapter]
 \newtheorem{theorem}{Theorem}[chapter]
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
 % \newcommand{\Figref}[1]{Figure~\ref{#1}}
 % \newcommand{\fig}[3]{

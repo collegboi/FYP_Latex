@@ -1,0 +1,2 @@
+import XCPlayground
+XCPSetExecutionShouldContinueIndefinitely(continueIndefinitely: true)

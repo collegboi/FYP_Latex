@@ -177,11 +177,30 @@ MongoDB \cite{mongoDB} is also a free and open-source database type program, but
 \subsubsection{PostgreSQL}
 PostgreSQL \cite{postgreSQL} is an object-relational database with additional object features. It differs itself support for highly required and integral object-oriented and relational database functionality, such as complete support for reliable transactions. It also free and open-sourced, yet very powerful with the capabilities of storing procedures.
 
+\subsection{Web servers}
+
+\subsubsection{Apache}
+Apache \cite{apache} was created by Robert McCool in 1995 and has been furthered developed by Apache Software Foundation since 1999. The Apache web server has been the most popular server since 1996. Administrators choose this for its flexibility, power and widespread support. Apache creates processes and threads to handle additional connections. The admin can configure the server to control the maximum number of allowable processes, which is depending on the amount of physical memory. Each connects gets it own new thread which handles on user request.
+
+\subsubsection{Nginx}
+Ngnix \cite{nginx} was developed by Igor Sysoev in 2002, which answered to the problem that web-servers began handling ten thousands concurrent connection. It was initially released in 2004. Nginx has grown due to its light-weight resource utilization and its ability to scale. Nginx works different to Apache, in that it does not create new processes for each web request, instead the admin configures how many worker processes to create. The rule of thumb is that one work process for each CPU. Each worker can handle thousands of requests.
+
+\subsection{Cloud Computer Services (IAAS)}
+
+\subsubsection{Amazon Elastic Computer Cloud (EC2)}
+%reword
+EC2 " is a web service that provides secure, re-sizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers." \cite{ec2} Amazon EC2 is widely used by companies such as Netflix, AirBnB and Expedia. It can be used to launch as many or as few virtual servers as needed, that can be configured to suit your needs.
+
+\subsubsection{DigitalOcean server}
+
+DigitalOcean \cite{digital} is an American cloud infrastructure provider. It provides developers cloud services that help to deploy and scale applications that run simultaneously on multiple computers. As of December 2015, DigitalOcean was the second largest hosting company in the world in terms of web-facing computers. Within a few steps, you can have web-server up and running. The perfect choice for this project, that can set-up a Ubuntu 16.04 server in a matter of minutes. 
+
+\newpage
 \subsection{Evaluation}
 
 % \usepackage[table,xcdraw]{xcolor}
 % If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
-\begin{table}[h]
+\begin{table}[!h]
 \centering
 \caption{Findings}
 \label{my-label}
@@ -193,6 +212,9 @@ Linux      & 16.0.4 X64 & Server OS                          \\ \hline
 MongoDB    & 3.2.11     & Cloud Storage                      \\ \hline
 Flask      & 0.1.1      & Test Web Framework                 \\ \hline
 CocoaPods  & N/A        & Dependency Manager                 \\ \hline
+DigitalOcean    & N/A     & Cloud Service               \\ \hline
+Nginx            & 1.10.3       & Web server               \\ \hline
+Perfect            & 2.0      & Web Framework               \\ \hline
 \end{tabular}
 \end{table}
 
@@ -233,6 +255,12 @@ The database choice is MongoDB which is a NoSQL. It provides a dynamic way of st
 \end{itemize}
 The above 3 reasons are compelling enough to choose MongoDB because when designing a back-end as a service for applications of any type, then freedom and flexibility are key. Another valid reason is when you do not know the database structure and when providing a service to developers to give them tools to create any database structure is another strong reason to go with MongoDB. 
 
+\subsubsection{Cloud Computer Services (IAAS)}
+Digital Ocean
+
+\subsection{Web servers}
+Nginx has be decided for the project.
+
 \subsection{Extra tools required}
 
 \subsubsection{Xcode}
@@ -243,9 +271,18 @@ Xcode is an integrated development environment (IDE) containing a suite of softw
 
 Swift playground also know as just playground is an interactive work environment that allows you see the values in the sidebar for the written code. As and when you make changes to your code the sidebar reflects the changed result. It was introduced in Xcode 6 and enhanced in Xcode 7 that make learning Swift and experimenting much easier. Instead of having to create a app just to run and test some Swift code, a smaller playground can be made to view the outcome of each test piece. 
 
-\subsubsection{DigitalOcean server}
+\subsubsection{APNs Auth key}
 
-DigitalOcean is an American cloud infrastructure provider. It provides developers cloud services that help to deploy and scale applications that run simultaneously on multiple computers. As of December 2015, DigitalOcean was the second largest hosting company in the world in terms of web-facing computers. Within a few steps, you can have web-server up and running. The perfect choice for this project, that can set-up a Ubuntu 16.04 server in a matter of minutes. 
+The Apple Push Notifications (APNs) involves generating an authentication key, that will sit on the server and will send notifications to one or more devices. Until recently, the generating of the authentication key consisted of painful steps. These include filling out a Certificate Signing Request in Keychain Access, then uploading it to your developer account. After which downloading a signed certificate, to which converting to .pem format. Also certificate would then expire, so the steps would need to be done again every year.
+
+Now Apple has greatly improved this service, which involves the creation of one key of type .p8, which does not expire. The downloaded file, can then without converting be upload to the server to be used. Apple also gives three text keys that are used in authenticating the APNs and send the notifications. These include; APNs Auth key, Team ID and the App ID.
+
+\subsubsection{Github}
+
+Github \cite{github} is a web-based version control repository. It provides code sharing, publishing, deployment and much more. The developer can create as many private or public repositories as required. Github provides developers with tools to backup, version control and create branches to separate out builds.
+
+\subsubsection{Perfect Assistant}
+"This macOS companion application is a set of convenience tools designed to help Server Side Swift developers start, manage, compile, test, and prepare for deployment more easily. From those expanding into backend Swift development for the first time to seasoned senior engineers working on enterprise level projects, the Perfect Assistant will facilitate your work." \cite{perfectAssist} It is used to help include all the required packages required to build the project, and includes tools to deploy to amazon web-server and docker.
 
 
 % --------------------------------------------%
@@ -338,3 +375,5 @@ Amazon Web Services(AWS) \cite{aws} is a subsidiary of Amazon.com which offers a
 % \end{itemize}
 
 % Next came to part which is the reason why I wanted to do this project. A large challenge of a single developer without the money and resources for a design team, is struggling to think what end-users will like. This brought me to the next service requirement; A/B Testing. Also known as split testing is comparing two versions of a page to see which performs better.
+
+\section{Human Computer Interaction}

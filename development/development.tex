@@ -13,9 +13,47 @@ As explained in the design chapter, this project includes three deliverables. So
   \item CocoaPod Framework 
 \end{enumerate}
 
+\section{Project Management}
+
+Good software project management is essential in developing and delivery of software projects. Software development is often difficult to estimate the time required to complete the project, especially when using new technologies. Project milestones can be used to monitor the development progress of the project at certain key points. Above includes the list of the key points within the project. Each point had its own time frame; this kind of project can lead to expanding to including more services and tools, so sticking to the list will help be on schedule.
+
+This project differs from commercial project, in that the project manager, designer, developer and tester were all the same person. And with any project, testing plays a major role in software development and can easily be left out. So self-discipline was required as there was no "boss" to answer to. 
+
 \section{Services Development}
 
-Each service had its own flask application along with Playground app. This made is easy to decide whether or not it was possible to implement each service into the project.
+Each service had it's own Perfect server application along with Playground app. This made is easy to decide whether or not it was possible to implement each service into the project. For some of the services, the same Perfect web-server was used and able to be adapted to accommodate the requests needed. 
+
+\paragraph{Setup} Before any development was started, some services was required to be setup. Perfect web-server developers provides an "assistant" to help with the setup and include and required packages needed to develop the API. The list of packages for the project include the following:
+
+\begin{enumerate}
+  \item https://github.com/PerfectlySoft/Perfect-Turnstile-MongoDB.git
+  
+  -Used to provide functionality to interact with MongoDB database, and provide authentication when requests come to the server.
+  \item https://github.com/PerfectlySoft/Perfect-RequestLogger.git
+  
+  -Provides the web-server with a logging system.
+  \item https://github.com/hkellaway/Gloss.git
+  \item https://github.com/PerfectlySoft/Perfect-Notifications.git
+  
+  -Aid with the push notifications.
+  \item https://github.com/PerfectlySoft/Perfect-SMTP.git
+  
+  -To be able to send Mails
+  \item https://github.com/PerfectlySoft/Perfect-Zip.git
+  
+  -To zip backups folders, when sending to remote location.
+\end{enumerate}
+
+\newpage
+
+After the Perfect web-server was setup, the mongoDB was required to installed locally. This was done by running the following commands in list \ref{lst:mongodb}
+
+\lstinputlisting[label={lst:mongodb}, language=Bash, caption=MongoDB setup]{development/code/mongo.m}
+
+
+\lstinputlisting[label={lst:playground},language=Swift, caption=Playgrounds setup]{development/code/playground.m}
+
+To be able to run asynchronous code in the playgrounds, the following lines of code in list \ref{lst:playground} is required to be added to the top of the file. This will to make asynchronous code and get results.
 
 \subsubsection{Database storage}
 
@@ -38,10 +76,57 @@ The database storage required an object role model (ORM) which is a powerful met
 
 The two figures above show the difference to developing the standard way, with the developing having to create a JSON parser and then set-up a HTTPS connection to send it to the server in Fig \ref{fig:storage_old} . The new way in Fig \ref{fig:storage_new} using the project's storage protocol involves the developer only having to create the object, then using the objects functionality to send it to the server.
 
-\subsubsection{Push notifications}
+\subsubsection{Apple Push Notifications (APNs)}
+
+Push notifications requires a number of steps to be implemented. First the .p8 key was downloaded, then the Perfect server test project required accessing that file to send notifications. Using the DIT-Timetable app to receive the push notifications.  
+
+\begin{figure}[!h]
+    \caption{APNs \cite{apns}}
+    \centering
+    \includegraphics[width=75mm]{images/APNs}
+    \label{fig:apns}
+\end{figure}
+
+In fig \ref{fig:apns} represents the stages in which to send push notifications. Inside the red box is the server layer, where the .p8 file is located, the push model is where the messages come from. The notifications goes through Apple's sandbox APNs, then on to the mobile devices.
 
 
 \subsubsection{Analytics}
+
+\paragraph{Level 1}
+The first part for the analytic developed was the creation of the Perfect web-server which excepted POST requests. A playground application was developed with the lines of code in list \ref{lst:playground} to aid with HTTP requests. This class made gathers some information before sending the request, this include, time-stamp, build version, OS version, device make and model. For the purposes of testing this service, the data was hard-coded in separate function, that in turn would be reading from plist file. Some of methods and the parameters are included in the following table \ref{table:mob_analytics} shows how to use the library to send analytics. The server stores the analytic objects in the database corresponding to the application, this is done using the appKey which is sent up in the API request.
+
+\begin{table}[!h]
+\centering
+\caption{Analytics Library}
+\label{table:mob_analytics}
+\begin{tabular}{|c|c|c|c|}
+\hline
+\rowcolor{green!20}
+Library Method                    & Description                        & Parameters    & Result              \\ 
+\hline
+TBAnalytics.sendOpenApp();        & \makecell{Sends up object\\ with open app type} &   \makecell{view: UIView , \\ method: String? = \#function \\ , file: String? = \#file } & Successful/ Error   \\ 
+\hline
+TBAnayltics.send();               & \makecell{Send up object \\ with type as option} &  \makecell{ app: UIResponder, \\ type: SendType \\ , method: String? = \#function ,  \\ file: String? = \#file } & Successful/ Error   \\ 
+\hline
+ \makecell{ TBAnayltics \\.getAllInBackground(); } & \makecell{Retrieves all \\ TBAnayltic objects }   & NONE        & Array of TBAnayltics \\ 
+\hline
+\end{tabular}%
+\end{table}
+
+Fig \ref{table:analytics} shows how to use the API requests outside of the library.
+
+\begin{table}[!h]
+\centering
+\caption{Analytics API Requests}
+\label{table:analytics}
+\begin{tabular}{|l|l|l|l|}
+\hline
+\rowcolor{green!20}
+API Call                        & HTTP Method & Description                    & Parameters   \\ \hline
+/\{appKey\}/storage/TBAnalytics & POST        & Uploads analytics object       & JSON Object  \\ \hline
+/\{appKey\}/storage/TBAnalytics & GET         & Retrieves all analytic objects & JSON Objects \\ \hline
+\end{tabular}
+\end{table}
 
 
 \subsubsection{Backup}
