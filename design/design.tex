@@ -39,24 +39,22 @@ The methodology has three parts
     Levels stage is where we are proving/testing the functionalists. As we move up the tree into each node, the functionalists are combined together. Thus solving compatibilities issues at an earlier stage of the project development.
 \end{enumerate}
 
+\subsection{Advantages}
+
 This methodology is based on the test-driven development (TDD) process that relies on the repetition of very short development cycles. At each level, the nodes which holds the application are tested. These tests are from the functionality part, when combining the previous nodes, we want to make sure they still output the correct result.
+
+\subsection{Disadvantages}
 
 The methodology although sounds good from a theoretical point of view, in a real world it has its drawbacks. Each node (circle in each level) requires making new test application, combing the previous two node applications and potential re-factoring. This takes time where some projects do not have, but we reduce the number of bugs found but re-factoring at each level. To overcome this, the methodology allows to skip one level to reduce testing times.
 
-
 \section{Functional Requirements}
 
-% The features that are provide in my project are split up into sections. These sections are the different stages of an application.
-% \begin{itemize}
-%   \item Development
-%   \item Testing 
-%   \item Running/Live
-% \end{itemize}
+Functional requirement defines a function of a system or its component. After talking to out-sourced developers and researching current systems out there, the following table \ref{tb:functional} defines the list of functional requirement. They are grouped into sections, what the aim of the project is. 
 
 \begin{table}[h]
 \centering
 \caption{Functional Requirements}
-\label{my-label}
+\label{tb:functional}
 \begin{tabular}{|l|l|l|l|l|}
 \hline
 \cellcolor{green!20}ID & \cellcolor{green!20}Section  & \cellcolor{green!20}Name  & \cellcolor{green!20}Description        & \cellcolor{green!20}Priority \\ \hline
@@ -123,9 +121,17 @@ The systems supports two keys authentication, there is one key that allows reque
 Instead of all applications the developer owns being contained in one database, each application created gets their own database. These are only allowed access once the key gets authenticated.
 
 
-\section{Project Components}
+% \section{Project Components}
 
 
-% Instead of every application the developer has all being contained in one database, each application created gets their own database. There is one local database which contains the keys for each app. When a request comes in, the main key is authenticated which is stored in a secure file. The second key however is stored in database, when a request to the database is made, the main table is query and the database relating to that 
-% Each application in the dashboard is generated a random sequence of characters, these are to be included in the app builds. 
+% % Instead of every application the developer has all being contained in one database, each application created gets their own database. There is one local database which contains the keys for each app. When a request comes in, the main key is authenticated which is stored in a secure file. The second key however is stored in database, when a request to the database is made, the main table is query and the database relating to that 
+% % Each application in the dashboard is generated a random sequence of characters, these are to be included in the app builds. 
 
+
+
+% \begin{figure}[h]
+%     \caption{Framework Overview}
+%     \centering
+%     \includegraphics[width=100mm]{images/framwork_architecture}
+%     \label{fig:label}
+% \end{figure}

@@ -13,6 +13,8 @@ As explained in the design chapter, this project includes three deliverables. So
   \item CocoaPod Framework 
 \end{enumerate}
 
+As this project methodology is based on Test Driven Development (TDD) approach, the services was developed first and tested before adding to the project. Then once these services have cleared, they were integrated into the DIT-Timetable app explained later, this was to ensure how the new services were developed would pass Apples prepublish tests. Once this was accomplished, the dashboard was developed next to view the services in an interface. Then lastly the services were developed into a SDK to be used in any mobile application.
+
 \section{Project Management}
 
 Good software project management is essential in developing and delivery of software projects. Software development is often difficult to estimate the time required to complete the project, especially when using new technologies. Project milestones can be used to monitor the development progress of the project at certain key points. Above includes the list of the key points within the project. Each point had its own time frame; this kind of project can lead to expanding to including more services and tools, so sticking to the list will help be on schedule.
@@ -44,8 +46,6 @@ Each service had it's own Perfect server application along with Playground app. 
   -To zip backups folders, when sending to remote location.
 \end{enumerate}
 
-\newpage
-
 After the Perfect web-server was setup, the mongoDB was required to installed locally. This was done by running the following commands in list \ref{lst:mongodb}
 
 \lstinputlisting[label={lst:mongodb}, language=Bash, caption=MongoDB setup]{development/code/mongo.m}
@@ -57,15 +57,65 @@ To be able to run asynchronous code in the playgrounds, the following lines of c
 
 \subsubsection{Database storage}
 
-\paragraph{Design}
-% A protocol was design to provide the following functionality that all structures conforming to 
-TBJSONSerializable
-As part of the project architecture with regarding to storage, any structure should have the functionality to send to the server, and retrieve without the need to create another function to setup and communication over HTTP. As described in the design chapter, all structures conforming to the protocol will be able to send and retrieve the object/s between the server and the application. JSON is used in the transfer of data, a format in which both server and client can understand. JSON objects are simply just dictionaries where each value has an object of some type.
+The database storage section is split up into two parts of the development. 
 
-To be able to parse each object to JSON, the object is first mirrored which is a representation of the sub-structure. This mirror is then looped over each property, depending on the type will depended on how it is parsed. When the loop has finished, the result is a dictionary which can be parsed into a string of JSON objects and sent to the server. The design also stated that in reprieving objects, functionality is to be in placed to parse back to objects. Using protocol extension to type alias of dictionary and method chaining, a list of functions was implemented to parse each value back to the desired type. The method chaining speeds the development time for the developer, without needing to find the correct result.  
+\begin{enumerate}
+  \item Object-relational mapping (ORM)
+  \item Storage - how to send the objects to store persistently
+\end{enumerate}
 
-\paragraph{Implementation}
-The database storage required an object role model (ORM) which is a powerful method for designing and querying database models at the conceptual level, where the application is described in terms easily understood by non-technical database developers. It is a technique for converting data between incompatible type systems in object-oriented programming languages. The ORM was developed using Playground tool, where the creation of objects and parsing into JSON objects. The functionality of the ORM is to create a new object, parse it and send to the server, and be able to bring all objects back from the server. Extra functionality was added to be able to send filters.
+\paragraph{ORM}
+
+The database storage required an object role model (ORM) which is a powerful method for designing and querying database models at the conceptual level, where the application is described in terms easily understood by non-technical database developers. It is a technique for converting data between incompatible type systems in object-oriented programming languages. The ORM was developed using Playground tool, where the creation of objects and parsing into JSON objects. The functionality of the ORM is to create a new object, parse it and send to the server, and be able to bring all objects back from the server.
+
+This was developed using protocols and protocol extension. Protocols as Apple states "defines a blueprint of methods, properties, and other requirements that suit a particular task or piece of functionality." and extensions are "new functionality to an existing class, .., protocol type.". \cite{protocol} A protocol called TBJSONSerializable was developed as seen in listing \ref{lst:protocol_ext}
+
+\lstinputlisting[label={lst:protocol_ext},language=Swift, caption=Protocol]{development/code/protocol_ext.m}
+
+The first protocol TBJSONRepresentable simply states that this variable TBJSONRepresentation has to be used in any class or protocol conforming to that protocol. Inside the TBJSONSerializable protocol, we have two methods that any class or structure used throughout any mobile application will have to these two methods. The TBJSON to a type alias that is a dictionary, which holds the JSON objects which will be used when parsing. Next the protocol extension was developed, where the objects will be parsed into a dictionary type form that then can easily be parsed in JSON. In listing \ref{lst:TBJSONSerializable} illustrates how the objects are parsed.
+
+\lstinputlisting[label={lst:TBJSONSerializable},language=Swift, caption=TBJSONSerializable]{development/code/TBJSONSerializable.m}
+
+In listing \ref{lst:TBJSONSerializable}, the TBJSONRepresentation variable contains a switch case to loop through the mirrored; which is a representation of the sub-structure, each class property such as String, Int or Dictionary, and depending on the type be parsed into AnyObject and assigned to the dictionary with the key being the name of the variable.
+
+The design also stated that in reprieving objects, functionality is to be in placed to parse back to objects. Using protocol extension to type alias of dictionary and method chaining, a list of functions was implemented to parse each value back to the desired type. The method chaining speeds the development time for the developer, without needing to find the correct type first. An example of this is in listing \ref{lst:tryConvert} which takes the parameter of the key, and tries to parse the value in two ways. First if the value if of type integer, it will return that value, but if it is of type String, it will convert string to integer and return the new value.
+
+\lstinputlisting[label={lst:tryConvert},language=Swift, caption=Dictionary]{development/code/tryConvert.m}
+
+\paragraph{Storage}
+
+As part of the project architecture with regarding to storage, any structure should have the functionality to send to the server, and retrieve without the need to create another function to setup and communication over HTTP. As described in the design chapter, all structures conforming to the protocol will be able to send and retrieve the object/s between the server and the application. JSON is used in the transfer of data, a format in which both server and client can understand. JSON objects are simply just dictionaries where each value has an object of some type. The following table \ref{tb:object} illustrates the library commands to send and retrieve objects between the cloud storage. The T in the return column means that this function return type is of a certain type. In the following examples will be returning type TBJSONSerializable which is our protocol.
+
+\begin{table}[!h]
+\centering
+\caption{My caption}
+\label{tb:object}
+\begin{tabular}{|c|l|c|l|}
+\hline
+\rowcolor{green!20}
+\multicolumn{1}{|l|}{Library Method} & Description & \multicolumn{1}{l|}{Parameters}                                                       & Result            \\ \hline
+getFilteredInBackground                                      & \begin{tabular}[c]{@{}l@{}}Retrieves the filtered\\ object\end{tabular} & \begin{tabular}[c]{@{}c@{}}query: {[}String:AnyObject{]}, \\ type:T.Type, \\ appKey: String = ""\end{tabular} & T Object          \\ \hline
+getInBackground                                              & Retrieves the object                                                    & \begin{tabular}[c]{@{}c@{}}objectID: String, type:T.Type, \\ appKey: String = ""\end{tabular}                 & T Object          \\ \hline
+removeInBackground                                           & Removes the object                                                      & objectID: String, appKey: String = ""                                                                         & Successful/ Error \\ \hline
+sendInBackground                                             & \begin{tabular}[c]{@{}l@{}}Update or send the \\ object\end{tabular}    & \multicolumn{1}{l|}{objectID: String, appKey: String = ""}                                                    & Successful/ Error \\ \hline
+\end{tabular}
+\end{table}
+
+The next table \ref{tb:objects} illustrates returning back array of objects.
+
+
+\begin{table}[!h]
+\centering
+\caption{My caption}
+\label{tb:objects}
+\begin{tabular}{|c|l|c|l|}
+\hline
+\rowcolor{green!20}
+\multicolumn{1}{|l|}{Library Method} & Description & \multicolumn{1}{l|}{Parameters}                                                       & Result            \\ \hline
+getFilteredInBackground                                      & \begin{tabular}[c]{@{}l@{}}Retrieves the filtered\\ object\end{tabular} & \begin{tabular}[c]{@{}c@{}}query: {[}String:AnyObject{]}, \\ type:T.Type, \\ appKey: String = ""\end{tabular} & T Objects \\ \hline
+getAllInBackground                                           & Retrieves the object                                                    & \begin{tabular}[c]{@{}c@{}}objectID: String, type:T.Type, \\ appKey: String = ""\end{tabular}                 & T Objects \\ \hline
+\end{tabular}
+\end{table}
 
 \begin{figure}[!h]
     \caption{Storage Sequence Standard}
@@ -82,7 +132,7 @@ The database storage required an object role model (ORM) which is a powerful met
     \label{fig:storage_new}
 \end{figure}
 
-The two figures above show the difference to developing the standard way, with the developing having to create a JSON parser and then set-up a HTTPS connection to send it to the server in Fig \ref{fig:storage_old} . The new way in Fig \ref{fig:storage_new} using the project's storage protocol involves the developer only having to create the object, then using the objects functionality to send it to the server.
+The two figures \ref{fig:storage_old} and \ref{fig:storage_new} show the difference to developing the standard way, with the developing having to create a JSON parser and then set-up a HTTPS connection to send it to the server in Fig \ref{fig:storage_old} . The new way in Fig \ref{fig:storage_new} using the project's storage protocol involves the developer only having to create the object, then using the objects functionality to send it to the server.
 
 \subsubsection{Apple Push Notifications (APNs)}
 
@@ -148,8 +198,6 @@ API Call                        & HTTP Method & Description                    &
 
 \subsubsection{Analytics}
 
-\paragraph{Level 1}
-
 The first part for the analytic developed was the creation of the Perfect web-server which excepted POST requests. A playground application was developed with the lines of code in list \ref{lst:playground} to aid with HTTP requests. This class made gathers some information before sending the request, this include, time-stamp, build version, OS version, device make and model. For the purposes of testing this service, the data was hard-coded in separate function, that in turn would be reading from plist file. Some of methods and the parameters are included in the following table \ref{table:mob_analytics} shows how to use the library to send analytics. The server stores the analytic objects in the database corresponding to the application, this is done using the appKey which is sent up in the API request.
 
 \begin{table}[!h]
@@ -186,12 +234,6 @@ API Call                        & HTTP Method & Description                    &
 \end{table}
 
 
-\subsubsection{Backup}
-
-
-\subsubsection{Self hosted}
-
-
 \subsubsection{Remote Configuration}
 
 The remote configuration service development is broken up into four sections.
@@ -211,13 +253,26 @@ This section will discuss the first three, the remote change will be explained i
 
 \paragraph{JSON files}
 
-The first part was the development of the JSON file layout. The design chapter already discussed the design of the remote configuration, where each class object will contain the objects relating to that class, and subsequently the objects properties will be in the object. To help with this, the storage protocol TBJSONSerializable was used to be able to parse the objects into JSON string. In listing \ref{lst:config} shows the base structure of the configuration object.
+The first part was the development of the JSON file layout. The design chapter already discussed the design of the remote configuration, where each class object will contain the objects relating to that class, and subsequently the objects properties will be in the object. To help with this, the storage protocol TBJSONSerializable was used to be able to parse the objects into JSON string. In listing \ref{fig:rc-cd} illustrates the class diagram for the complete remote configuration structure.
 
-\lstinputlisting[label={lst:config},language=Swift, caption=Configuration Structure]{development/code/config.m}
+\begin{figure}[!h]
+    \caption{Remote Config Class Diagram}
+    \centering
+    \includegraphics[width=150mm]{images/classdiagrams/config}
+    \label{fig:rc-cd}
+\end{figure}
 
-In listing \ref{lst:config} lines 3 - 6 inclusive, holds the configuration objects for the applications. The colours objects is where all colours used in the app will be, this was placed here to speed up retrieval of each colour. The controllers objects is an array of view classes used within the app, then subsequently not shown are the objects within each class, and the properties relating to each object. The mainSettings variable on the same line of colours was placed here to speed up the retrieval of any import key values in the app such as URL. Last the languages list holds the list of languages available to the application. The languages part is based on the same as configuration files.
+In figure \ref{fig:rc-cd}, the remote configuration structure consists of 5 classes. The very first class of the structure is the Config class. This is where all the other class objects will be located. The config class holds a number of properties, the first being the colors value, where all colours used in the application will be stored. The RCColour object contains the RCG values along with alpha and the name of each colour. This name will be used in the properties of each object for example background colour. Next is controllers of type RCController, these are the main classes or commonly known as ViewControllers in the mobile app. 
 
-Lines 8 - 13 are to distinguishes this configuration file with another, so when an update of configuration is done, then the application call tell if it has the latest or needs to download. This is to stop re-downloading the same file over and over again. The following listing \ref{table:json_manager} shows the library methods which to use the remote configuration files.
+Moving on to the RCController class, the properties include the name for that class which is the same name in app, the class properties so for example, if that class is of type UIViewController, that class will contain backgroundColor property etc. The last property is objectList of type RCObject. This is where all objects such as labels, text fields, tables etc will be stored. The RCObject class contains the name of the object, along with its own properties, these are what are provided by the framework when developing an app. The object type property is a type of enumeration which will contain what base class name is for example UILabel. The reason for this will be explain later in the dashboard development section.
+
+Back to the Config class, the main setting are key value pairs that hold main data such as URLs, these are stored at this level to speed up retrieval. The language list are as the name states, contains the list of translation languages that the end user can change. This will be explained later in the language service section.
+
+% \lstinputlisting[label={lst:config},language=Swift, caption=Configuration Structure]{development/code/config.m}
+
+% In listing \ref{lst:config} lines 3 - 6 inclusive, holds the configuration objects for the applications. The colours objects is where all colours used in the app will be, this was placed here to speed up retrieval of each colour. The controllers objects is an array of view classes used within the app, then subsequently not shown are the objects within each class, and the properties relating to each object. The mainSettings variable on the same line of colours was placed here to speed up the retrieval of any import key values in the app such as URL. Last the languages list holds the list of languages available to the application. The languages part is based on the same as configuration files.
+
+% Lines 8 - 13 are to distinguishes this configuration file with another, so when an update of configuration is done, then the application call tell if it has the latest or needs to download. This is to stop re-downloading the same file over and over again. The following listing \ref{table:json_manager} shows the library methods which to use the remote configuration files.
 
 \paragraph{JSON file manager}
 
@@ -255,52 +310,345 @@ The extension LabelLoad is restricted for classes with type UILabel, and the dev
 
 \subsubsection{A/B Testing}
 
-A/B Testing utilizes two other services, remote configuration and Analytics. Using the JSON files, it can tell us what version of configuration is being used, so when an analytic object is sent up, then we include the version. The server however needs some development to handle A/B Testing. The dashboard explained later is used to set what applications, version of time the testing will be done. When a request comes into the web-server for configuration file, a check on the A/B Testing list is done to check whether that app version exists. 
+A/B Testing utilizes two other services, remote configuration and Analytics. Using the JSON files, it can tell us what version of configuration is being used, so when an analytic object is sent up, then we include the version. The server however needs some development to handle A/B Testing. The dashboard explained later is used to set what applications, version of time the testing will be done. When a request comes into the web-server for configuration file, a check on the A/B Testing list is done to check whether that app version exists as seen in figure \ref{fig:abtesting-cd}. 
+
+\begin{figure}[!h]
+    \caption{A/B Testing Class Diagram}
+    \centering
+    \includegraphics[width=100mm]{images/classdiagrams/ABTesting}
+    \label{fig:abtesting-cd}
+\end{figure}
+
+The class diagram comprises of the ABTesting table along with the protocol TBJSONSerializable mentioned earlier. The table properties include the name of the testing, the application id and version for which that testing is part of. The versionA and versionB are the two different configuration files, and the dates for which the testing is in place.
 
 To develop this service on the server, a singleton class "RemoteConfig" is used. When the server starts up, the singleton class is initialized with a current request number of zero. With each request, the count increases, and using this value can depend on what version of the configuration file that users gets.
 
-\subsubsection{Live Database}
-
+% \subsubsection{Live Database}
 
 \subsubsection{Exception catching}
 
-The design chapter explained there are two types of exception catching, uncaught and caught exceptions. Both types need to developed in different ways, as one would potentially crash the app, so not able to send POST request to the server. Not only are there two types of exceptions, but each exception has a different level, so when the developer views the dashboard, they can set a priority. The different levels are Fatal, Error, Warning, Info and Debug.
+The design chapter explained there are two types of exception catching, uncaught and caught exceptions. Both types need to developed in different ways, as one would potentially crash the app, so would not able to send POST request to the server. Not only are there two types of exceptions, but each exception has a different level, so when the developer views the dashboard, they can set a priority. The different levels are Fatal, Error, Warning, Info and Debug.
 
-The exception was developed using a singleton class to that all exceptions can be sent through. When the app opens, the exception objects gets initialised which includes setting the NSSetUncaughtExceptionHandler(), where the parameter is an internal function name which looks after catching the exception. The values that will be sent up to server include the following:
+The exception was developed using a singleton class to that all exceptions can be sent through. When the app opens, the exception objects gets initialised which includes setting the NSSetUncaughtExceptionHandler(), where the parameter is an internal function name which looks after catching the exception. The following figure \ref{fig:exception-cd} illustrates the exception class. The tags properties holds values relating to the device type, the OS running etc, the rest of the values are in relation to the exception values.
 
-\begin{itemize}
-  \item time-stamp
-  \item build version
-  \item OS version
-  \item device make and model
-  \item exception name
-  \item exception reason
-  \item user info if any
-  \item stack trace
-  \item stack symbols
-\end{itemize}
+\begin{figure}[!h]
+    \caption{Exception Class Diagram}
+    \centering
+    \includegraphics[width=100mm]{images/classdiagrams/Exception}
+    \label{fig:exception-cd}
+\end{figure}
 
 \paragraph{Uncaught exceptions}
+
 Uncaught exceptions makes the app crashes, so between the time crash happens and the app closes which is a small window, the exception has to be dealt with. Using the NSSetUncaughtExceptionHandler() with the parameter of function, that function is not allowed to make outside calls, which include HTTP request and function calls. So the exception is stored in UserDefaults which is a built in data dictionary that stores small amount of user settings for as long as the app is stored. When the user opens application again, the exception singleton class gets instantiated, and it does a check if any exceptions exists in UserDefaults, and then a HTTP post sends the exception to the server.
 
 \paragraph{Caught exceptions}
 
+Using the same class as above with uncaught exceptions, extra functionality was added to enable to developers to send these exceptions to the server. As the class is a singleton and gets initialized when the application opens, the sharedClient function can be used to return the instance of that object, then use the functions available to send the exceptions.
+Some of these are shown in table \ref{table:exceptions}
+
+\begin{table}[!h]
+\centering
+\caption{Caught Exceptions}
+\label{table:exceptions}
+\begin{tabular}{|c|l|l|l|}
+\hline
+\rowcolor{green!20}
+\multicolumn{1}{|l|}{Library Method}                             & Description                                                                                            & \multicolumn{1}{l|}{Parameters}                                                                                                        & Result            \\ \hline
+\begin{tabular}[c]{@{}c@{}}MyException.\\ sharedClient.\\ captureMessage();\end{tabular} & \begin{tabular}[c]{@{}l@{}}Captures the info message \\ and sends to the server\end{tabular}           & \begin{tabular}[c]{@{}c@{}}message : String,\\ method: String? = \#function, \\ file: String? = \#file, line: Int = \#line\end{tabular}                        & Successful/ Error \\ \hline
+\begin{tabular}[c]{@{}c@{}}MyException.\\ sharedClient.\\ captureMessage();\end{tabular} & \begin{tabular}[c]{@{}l@{}}Captures the message\\  along with error level\\ to the server\end{tabular} & \begin{tabular}[c]{@{}c@{}}message: String, level: ErrorLogLevel, \\ method: String? = \#function , \\ file: String? = \#file, line: Int = \#line\end{tabular} & Successful/ Error \\ \hline
+\begin{tabular}[c]{@{}c@{}}MyException.\\ sharedClient.\\ captureError();\end{tabular}   & \begin{tabular}[c]{@{}l@{}}Captures the error \\ and sends to the server\end{tabular}                  & \begin{tabular}[c]{@{}c@{}}error : NSError, method: String? = \#function,\\  file: String? = \#file, line: Int = \#line\end{tabular}                           & Successful/ Error \\ \hline
+\end{tabular}
+\end{table}
+
 
 \section{Integrate into Live App}
 
-For some parts of project, an already developed and published app called DIT-Timetable was used to add in the services, to test if Apple would allow it through. The services include remote configuration and language choice. Due to Apple's strict guidelines, the remote configuration was developed into the DIT-Timetable app into two stages, then each stage had a build and published.
+For some parts of project, an already developed and published app called DIT-Timetable was used to add in the services, to test if Apple would allow it through. The services include remote configuration and language choice. Due to Apple's strict guidelines, the remote configuration was developed into the DIT-Timetable app into different phases, then each stage had a build and published.
 
 \subsubsection{Phase 1}
 This phase included just the basic remote configuration, with the capability of updating text such as page title, and label values. Apple did approve this phase, and while the app live, using the iPad prototyping app the text values were able to be changed. 
 
 \subsubsection{Phase 2}
 
-Phase 2 gave the ability to adjust user interface values such as text colour, text size and user interaction enabling/disabling. This also been approved by Apple giving it a go ahead to be completely integrated into the project.  
+Phase 2 gave the ability to adjust user interface values such as text colour, text size and user interaction enabling/disabling. This also been approved by Apple giving it a go ahead to be completely integrated into the project.
+
+\subsubsection{Phase 3}
 
 \section{Dashboard Development}
 
 The dashboard was originally going to be created as an iPad app, but after some thought that not all mobile developers can be expected to own an iPad, the dashboard was developed as a Mac App. In the design chapter, the layout and design of the dashboard was discussed including what functionality will be provided to the developers.
 
+Mac Application using Swift 2 was used to develop the user interface that will enabled the developer to configuration their mobile backend.
+
+\subsection{Project structure}
+
+Xcode IDE was used to develop the dashboard interface with help of libraries. These libraries included Cocoa(API) and Charts. Cocoa is Apple's native object-oriented application programming interface (API) for their operating system macOS. The cocoa consists of the Foundation Kit, Application Kit and Core Data frameworks. It is responsible for the appearance of apps and their responsiveness to user actions. The figure illustrates where the Cocoa frameworks resides. Charts is a third party framework provided by developer called Daniel Cohen Gindi that can be found on Github. \cite{charts} 
+
+Already discussed in the design chapter, Apple gives an extensive section on Human Interface Guidelines on which to follow when developing Mac applications. So following these guidelines will help develop an application that can be submitted to the Mac App store. The IDE that will be used as already stated is Xcode, inside Xcode their are a number of views that can be used. In the following sections, the two main areas which will be mentioned are Interface builder and Code Editor views. The Interface Builder is where the storyboards can be edited. They are an user interface way of designing and developing the UI of an application, and the code editor view is what connects the UI view to the class files.
+
+\begin{figure}[!h]
+    \caption{Cocoa \cite{cocoa}}
+    \centering
+    \includegraphics[width=75mm]{images/dashboard/cocoa}
+    \label{fig:apns}
+\end{figure}
+
+\subsection{Dashboard Views}
+
+\subsubsection{Login view}
+
+\begin{figure}[!h]
+    \caption{Log in class diagram}
+    \centering
+    \includegraphics[width=150mm]{images/classdiagrams/Login}
+    \label{fig:login_cd}
+\end{figure}
+
+Figure \ref{fig:login_cd} illustrates the class diagram for the main view controller for the log in view, as well as the staff object that were used to authenticate the user. 
+
+In figure \ref{fig:log-in-view} illustrates the dashboard simple sign in view where the user gets verify with their credentials. The view contains three input values which the user must put in, as the server can be deployed on any server, the user is asked to put in the IP or domain name where the server is located. The other two values is user-name and password, and then there is option for the user to tick the remind me box, which keeps the user logged in. The Log-in button sends POST request to the server along with both values. A register button was decided against, as this is a restrictive application. The administrator once logged in, can create new users explained later on.
+
+\begin{figure}[!h]
+    \caption{Log-in View}
+    \centering
+    \includegraphics[width=75mm]{images/dashboard/login}
+    \label{fig:log-in-view}
+\end{figure}
+
+\newpage
+\subsubsection{Menu}
+
+% \begin{figure}[!h]
+%     \caption{Menu}
+%     \includegraphics[width=50mm]{images/dashboard/menu}
+%     \label{fig:menu}
+% \end{figure}
+
+% \begin{wrapfigure}{r}{0.25\textwidth} %this figure will be at the right
+%     \caption{Menu}
+%     \centering
+%     \includegraphics[width=0.25\textwidth]{images/dashboard/menu}
+%     \label{fig:menu}
+% \end{wrapfigure}
+
+Figure \ref{fig:menu} illustrates the side bar navigation. This routes the user across the whole application.
+
+\subsubsection{Status}
+
+\begin{figure}[!h]
+    \caption{Status View}
+    \centering
+    \includegraphics[width=100mm]{images/dashboard/status}
+    \label{fig:status-view}
+\end{figure}
+
+Figure \ref{fig:status-view} illustrated the server status view, it is the first page the user sees when entering the application. This view displays a number of graphs about the server. To help with displaying graphs, a framework was used called Charts, and figure \ref{lst:pie-chart} illustrates the code necessary to display a pie chart. 
+
+Starting from left to right with the pie charts, the first displays the current CPU usage, next storage usage and memory usage. The line chart displays the history and current CPU usage. This gives the developer an general overview on what the physical sever doing. This can help decide whether or not to upgrade the system.
+
+\lstinputlisting[label={lst:pie-chart},language=Swift, caption=Pie Chart]{development/code/piechart.m}
+
+\subsubsection{Settings}
+
+\begin{figure}[!h]
+    \caption{Settings View}
+    \centering
+    \includegraphics[width=150mm]{images/dashboard/settings}
+    \label{fig:settings-view}
+\end{figure} 
+
+
+\begin{figure}[!h]
+    \caption{Apps Class Diagram}
+    \centering
+    \includegraphics[width=75mm]{images/classdiagrams/Settings}
+    \label{fig:settings-cd}
+\end{figure} 
+
+Figure \ref{fig:settings-view} illustrates the settings view, where the configuration for the web-server and the mobile applications. The view is split up into three sections, the first section has some configurations values for accessing the web-server and database. The secret key, is part allows the mobile applications to access the web-server. This key is added to each request made to the API. The database user-name and password can be set, and allows for some extra security.
+
+The notification section is for configuring the Apple Push Notifications (APNs), this has changed in the past year was mention in the design chapter. The process now has sped up how to set up the APNs on both the Apple developer console and the server. Now one key file with extension .p8 is all that is required to send APNs, this and three other values are required. Two of them are the team id, which is the developers id found in the developer console, and the key id which is provided when requesting a new .p8 key file. The Select Key buttons brings up file window, to get the file from the developers computer, and uploads the file via HTTP to the server. Once the Save button has been selected, the three values are sent to the database.
+
+\begin{figure}[!h]
+    \begin{subfigure}{0.5\textwidth}
+        \includegraphics[width=0.9\linewidth, height=10cm]{images/dashboard/newapp}
+        \caption{App View}
+        \label{fig:subim1}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \includegraphics[width=0.9\linewidth, height=10cm]{images/dashboard/newversion}
+        \caption{App Version}
+        \label{fig:subim2}
+    \end{subfigure}
+\caption{Configuring Apps}
+\label{fig:app-version}
+\end{figure}
+
+\begin{figure}[!h]
+    \caption{iTunes API}
+    \centering
+    \includegraphics[width=150mm]{images/itunes-api}
+    \label{fig:itunes-API}
+\end{figure} 
+
+Figure \ref{fig:settings-cd} illustrates the classes for the application and version, and Figures \ref{fig:app-version} shows where these values are displayed. Each application contains a number of properties, and some of these are provided by Apples app API. In figure \ref{fig:subim1}, the button iTunes once the user has entered the iTunes App ID field retrieves a number of values which are displayed inside the box along with the app icon. The URL for making the request is https://itunes.apple.com/lookup?id=, and the app id is passed into the GET request, and JSON objects are returned to be parsed into objects as seen in figure \ref{fig:itunes-API}. After being parsed into iTunes object, these are then set into the TBApplication class to be saved in the database.
+
+This can only be done once the application has been published, but the other fields can be entered until then. The two important fields from this view is app key and database name, these are a security feature. Each applications gets their own database, by doing this keeps the data separate from other applications. The second security feature is the app key, this provides access to the applications database. As mentioned in the settings section, the secret is sent up each request, this is also the same with the app key. This will be discussed more in the server section later. 
+
+In figure \ref{fig:subim2}, the developer can keep history of app versions published. The iTunes API already mentioned does not provided history of published version, so by having the feature gives the developer a history of what changes has been made in each version. This view also displays any notes and app stores images that have been added in that version. The iTunes button at the bottom left, does the same as in figure \ref{fig:subim1}, but this view retrieves different fields to be save. The reason for this button, is that when a new version is published, the app id will return the new app versions data only.
+
+
+% \begin{figure}[!h]
+%     \caption{App View}
+%     \centering
+%     \includegraphics[width=75mm]{images/dashboard/newapp}
+%     \label{fig:newapp-view}
+% \end{figure}  
+
+% \begin{figure}[!h]
+%     \caption{App Version View}
+%     \centering
+%     \includegraphics[width=75mm]{images/dashboard/newversion}
+%     \label{fig:newversion-view}
+% \end{figure}  
+
+\subsubsection{Logs}
+
+\subsubsection{Admin}
+
+\subsubsection{Storage}
+
+\subsubsection{Analytics}
+
+\subsubsection{Languages}
+
+\subsubsection{Notifications}
+
+\subsubsection{Remote Configuration}
+
+\begin{figure}[!h]
+    \caption{Remote Configuration View}
+    \centering
+    \includegraphics[width=150mm]{images/dashboard/remote-config}
+    \label{fig:remote-config-view}
+\end{figure}
+
+\begin{figure}[!h]
+    \caption{Remote Configuration View}
+    \centering
+    \includegraphics[width=80mm]{images/classdiagrams/RemoteConfig}
+    \label{fig:remote-config-cd}
+\end{figure} 
+
+The remote configuration view as illustrated in figure \ref{fig:remote-config-view} contains four tables which in turn represents the four classes already discussed in the services section \ref{fig:rc-cd}. The figure displays the current configuration for the DIT-Timetable app with version 2.4.2. When the page initially loads, the first of each drop down list to display that current configuration. The first of the drop down menus display the list of applications, which are taken from TBApplication collection. This collection are set from the settings view already discussed, along with the applications versions, which is the contents of the next drop down. The last list contains the current configuration versions as seen in table \ref{fig:remote-config-cd}. Each remote configuration object has an application and version, its relates to. The configVersion property allows A/B Testing which be discussed next to use. 
+
+Starting from the top left table which contains the main settings values, next on the right at the colours used in that particular version in the app. The bottom left table contains the view controller or classes, and if a class contains objects the cell can be expanded to display all the objects. Once an object has been selected, the table on right contains all possible properties that can be used. This part of the dashboard also contains a JSON file, that contains all UI objects that can selected with their properties as illustrated in listing \ref{lst:label_json}. If a property options are a list type, then the raw string values are shown, for example textAlignment. In Swift, the UI object property options are type of enumeration, so when the user chooses an option the integer value is stored. When an property has been selected, ethier two of views will show as illustrated in figure \ref{fig:property1}. The value can then selected and set.
+
+\lstinputlisting[label={lst:label_json}, caption=UI Object JSON]{development/code/Label_json.m}
+
+\begin{figure}[!h]
+    \caption{Edit Property View}
+    \centering
+    \includegraphics[width=80mm]{images/dashboard/property-1}
+    \label{fig:property1}
+\end{figure} 
+
+\begin{figure}[!h]
+    \caption{Save Configuration View}
+    \centering
+    \includegraphics[width=80mm]{images/dashboard/configuration}
+    \label{fig:configuration}
+\end{figure} 
+
+Once the configuration has been set, the user has the option to save and publish that version. This can be done by pressing the Save button at the top right which displays a new window as illustrated in \ref{fig:configuration}. This view allows the user to set the version name and theme. This theme then can be used in the application for the mobile end user to choose. This will be illustrated later in the testing chapter. The live check box if unchecked can restrict this version for the mobile application to use. 
+
+\subsubsection{AB Testing}
+
+\begin{figure}[!h]
+    \caption{AB Testing View}
+    \centering
+    \includegraphics[width=120mm]{images/dashboard/abtesting}
+    \label{fig:abtesting-view}
+\end{figure} 
+
+\begin{figure}[!h]
+    \caption{AB Testing Config View}
+    \centering
+    \includegraphics[width=100mm]{images/dashboard/abtesting-config}
+    \label{fig:abtesting-config-view}
+\end{figure} 
+
+Figure \ref{fig:abtesting-view} illustrates the AB Testing view, and figure \ref{fig:abtesting-config-view} shows how to configure the AB Testing object. The main AB testing view displays a line chart with two line. Each line corresponds to a version that has been include that a particular testing set up as was already discussed with figure \ref{fig:abtesting-cd}. The analytical data gathered is from the TBAnalytics class that was discussed in section Analytics.
+
+The drop down list can used to select a particular testing, and then can be view to see what configuration version had the highest usage. To configure a new A/B testing, the new button is pressed to display the new in figure \ref{fig:abtesting-config-view}. The following values are required to be set, the name, the application name, the particular version of the app and the next two drop down list are the different versions that was already configured in Remote Configuration view. The start and end time are set to allow a time frame for which these test are run. Once all the values have been entered, the push button will send the new object to the database, and when a request is made to server for a configuration file, the ab testing object will be retrieved and one of the versions will be shown. This will be discussed more in the web-server section.
+
+\subsubsection{Backup}
+
+\subsubsection{Crashes}
+
+\begin{figure}[!h]
+    \caption{Crashes View}
+    \centering
+    \includegraphics[width=150mm]{images/dashboard/crashes}
+    \label{fig:crashes-view}
+\end{figure} 
+
+\subsubsection{Tickets}
+
+\begin{figure}[!h]
+    \caption{Tickets View}
+    \centering
+    \includegraphics[width=150mm]{images/dashboard/tickets}
+    \label{fig:issues-view}
+\end{figure} 
+
+
+\begin{figure}[!h]
+    \caption{Issues Class Diagram}
+    \centering
+    \includegraphics[width=100mm]{images/classdiagrams/Issues}
+    \label{fig:issues-cd}
+\end{figure} 
+
+Figure \ref{fig:issues-view} illustrates the tickets view page containing all different type of tickets being, bugs, features etc are displayed. After selecting the application name and version from the drop down list, the table below will get populated with the current issues relating to that application. The class diagram for each issue is illustrated in figure \ref{fig:issues-cd}, where the Issue class has the same protocol again. This give the class functionality to save and retrieve all the issues. The issue class consists of few enumeration type variables, where issue can be a bug, the issue has a status and priority. A enumeration was used to make sure of the value being parsed into the database, being only one of the values.
+
+To be able to create a new issue, a new window was developed. This view as seen in figure \ref{fig:new-issue}.
+
+\subsubsection{Sprint Board}
+
+\begin{figure}[!h]
+    \caption{Sprint Board View}
+    \centering
+    \includegraphics[width=150mm]{images/dashboard/sprint-board}
+    \label{fig:sprint-board-view}
+\end{figure} 
+
+Figure \ref{fig:sprint-board-view} illustrates the sprint board view, where the tickets/issues from the previous section will show. This view gives the developer an easier layout to monitor when working through assigned tickets. The issues can also be dragged and moved into a different table, so moving an issue from in progress section to completed. The main function for this can be seen in listing \ref{lst:sprint}, which looks after moving the value into the correct table.
+
+\lstinputlisting[label={lst:sprint},language=Swift, caption=Sprint]{development/code/sprint.m}
+
 \section{CocoaPod Framework}
 
-The CocoaPod was left to last to development, as all the test cases used in the Playground could be brought over and adjusted to fit the framework. After the CocoaPod was finished, a test project was created for external professional mobile developers to use and give some feedback.
+The CocoaPod was left to last to development, as all the test cases used in the Playground could be brought over and adjusted to fit the framework.
+
+\section{Web-server}
+
+\subsubsection{Self hosted}
+
+\section{Code Stats}
+
+\begin{table}[!h]
+\centering
+\caption{Project Code Stats}
+\label{my-label}
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor{green!20}
+Deliverable & Files & Code   \\ \hline
+Server      & 33    & 2,663  \\ \hline
+Dashboard   & 264   & 27,507 \\ \hline
+SDK         & 36    & 2,271  \\ \hline
+Total       & 333   & 29,778 \\ \hline
+\end{tabular}
+\end{table}

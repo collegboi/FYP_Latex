@@ -6,7 +6,65 @@ Software testing is an investigation conducted to provide information about the 
 
 \subsection{Service testing}
 
-Service testing is where we test the individual services to ensure they are working and outcome are what is expected. This is done by creating a small flask server that will take HTTP requests from a client app for each service such as storage etc. 
+As this project is Test Driven Development approach, all service unit testing has previously been done. These tests were done by building a small client application in Playground and web-server in Perfect which was developed and ran in Xcode. The API requests were tested afterwards using the Postman application, to run each API request and ensure the result is as expected. The tested included check the secret key and application key were authenticated, and if an incorrect key was used, then an error would be returned. Included bottom are some of the requests made along with the response.
+
+\begin{table}[!h]
+\centering
+\caption{Service Testing}
+\label{tb:service-testing}
+\begin{tabular}{|c|c|c|l|l|}
+\hline
+\rowcolor{green!20}
+\multicolumn{1}{|l|}{API Call}  & \multicolumn{1}{l|}{HTTP method} & \multicolumn{1}{l|}{Response}   & Body    & Result \\ \hline
+\begin{tabular}[c]{@{}c@{}}http://perfectserver.site/api/\\ cc2b14fa-f59b-4e13-905a-3eebaf2ff659/\\ storage/RemoteConfig\end{tabular} & GET                                                      & \ref\{fig:api1\}                                                                                                            &                                                                                                                                                     & PASS                           \\ \hline
+\begin{tabular}[c]{@{}c@{}}http://perfectserver.site/\\ storage/TBAnalyitcs/\end{tabular}                                             & GET                                                      & \begin{tabular}[c]{@{}c@{}}\{,"result": "error"\\ ,"message": ""\}\end{tabular}                                             &                                                                                                                                                     & FAIL                           \\ \hline
+\begin{tabular}[c]{@{}c@{}}http://perfectserver.site/api/\\ cc2b14fa-f59b-4e13-905a-3eebaf2ff659/\\ storage/Friends\end{tabular}      & GET                                                      & \ref\{fig:api2\}                                                                                                            &                                                                                                                                                     & PASS                           \\ \hline
+\begin{tabular}[c]{@{}c@{}}http://perfectserver.site/api/\\ cc2b14fa-f59b-4e13-905a-3eebaf2ff659/\\ storage/Friends\end{tabular}      & POST                                                     & \begin{tabular}[c]{@{}c@{}}\{,"result": "success",\\ "message":\\  "0e9635f6-b3fd-408d-\\ b4a2-458dab34c781"\}\end{tabular} & \begin{tabular}[c]{@{}l@{}}\{"dob": "12/12/2016",\\ "age": "44",\\ "name": "Jimmy"\\ ,"county": "Portsmouth"\\ ,"country": "England"\}\end{tabular} & \multicolumn{1}{c|}{PASS}      \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[!h]
+    \caption{API Call 1}
+    \centering
+    \includegraphics[width=100mm]{images/testing/api1}
+    \label{fig:api1}
+\end{figure} 
+
+\begin{figure}[!h]
+    \caption{API Call 2}
+    \centering
+    \includegraphics[width=100mm]{images/testing/api2}
+    \label{fig:api2}
+\end{figure} 
+
+\subsection{Integrated App Testing}
+
+This part of testing involved developing a new mobile application with a simply user interface. The SDK developed was downloaded uses Cocoapods and installed in the testing app workspace. The application illustrated in the following figures \ref{fig:dark-theme} and \ref{fig:light-theme} , displays a table view where an array of "Friends" are displayed. The objective of created this test application is to demonstrate the remote configuration that allows the user to choose a new theme \ref{fig:app-themes-options} , and instantly see the difference. 
+
+\begin{figure}[!h]
+    \caption{App Theme options}
+    \centering
+    \includegraphics[width=60mm]{images/testing/themes}
+    \label{fig:app-themes-options}
+\end{figure} 
+
+\begin{figure}[!h]
+    \begin{subfigure}{0.5\textwidth}
+        \includegraphics[width=0.8\linewidth, height=9cm]{images/testing/darkTheme}
+        \caption{Dark Theme}
+        \label{fig:dark-theme}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \includegraphics[width=0.8\linewidth, height=9cm]{images/testing/lightTheme}
+        \caption{App Version}
+        \label{fig:light-theme}
+    \end{subfigure}
+\caption{App Themes}
+\label{fig:app-themes}
+\end{figure}
+
+
+\subsection{User testing}
 
 \section{Evaluation}
 

@@ -271,6 +271,18 @@ Nginx has be decided for the project.
 
 Xcode is an integrated development environment (IDE) containing a suite of software development tools developed by Apple for developing software for macOS, iOS and tvOS. First released in 2003, the latest version 8 is free download via Mac App Store. It supports source code for programming languages C, C++, Objective-C and Swift etc. 
 
+\subsubsection{Postman}
+
+Postman is a powerful GUI platform that helps developing API faster and easier, from building API request to testing. The application can be downloaded on multiple of platforms as well as chrome extension. In figure \ref{fig:postman} illustrates the user interface. 
+
+\begin{figure}[!h]
+    \caption{Postman}
+    \centering
+    \includegraphics[width=150mm]{images/postman}
+    \label{fig:postman}
+\end{figure}
+
+
 \subsubsection{Swift Playgrounds}
 
 Swift playground also know as just playground is an interactive work environment that allows you see the values in the sidebar for the written code. As and when you make changes to your code the sidebar reflects the changed result. It was introduced in Xcode 6 and enhanced in Xcode 7 that make learning Swift and experimenting much easier. Instead of having to create a app just to run and test some Swift code, a smaller playground can be made to view the outcome of each test piece. 
@@ -380,4 +392,36 @@ Amazon Web Services(AWS) \cite{aws} is a subsidiary of Amazon.com which offers a
 
 % Next came to part which is the reason why I wanted to do this project. A large challenge of a single developer without the money and resources for a design team, is struggling to think what end-users will like. This brought me to the next service requirement; A/B Testing. Also known as split testing is comparing two versions of a page to see which performs better.
 
-\section{Human Computer Interaction}
+\section{Prototyping}
+
+\subsubsection{Dashboard}
+
+To help with the research and get some outsourced feedback, development of an iPad app was required. This involved developing a basic application, that focuses on the key feature of this project called Remote Configuration. Remote Configuration will be explained in the design chapter but briefly, it gives the developer the power to update the UI of their applications without needing to publish a new version. This will be done using configurations files, which the mobile apps will download and read from.
+
+This developed required three parts: the iPad dashboard app, demo mobile application, and the web-server. Already previously developed mobile application called DIT-Timetable was used, by adding the new functionality to update the UI object properties. Next the server required services to send and retrieve the configuration files which will be used to update the apps UI.The DIT-Timetable app already has an backend, so adapting that to include the services made it easier. Lastly the iPad was designed and developed to set these properties of the UI objects into JSON objects and update the server. The following figures shows what the iPad app looked liked.
+
+\newpage
+\begin{figure}[!h]
+    \caption{Main View}
+    \centering
+    \includegraphics[width=100mm]{images/ipad-images/mainview}
+    \label{fig:mainview}
+\end{figure}
+
+Figure \ref{fig:mainview} shows the main view of the application. The controller tab holds the list of classes contained in the application. The reason for this design will be discussed in the design chapter later. Then each class then will contain all the objects in each view, so when choosing the class, you are brought to the next screen seen in fig \ref{fig:update-config}. But first, this view has the functionality to add a new class, along with save this current configuration to the server, thus updating what the user sees in the DIT-Timetable app.
+
+\begin{figure}[h]
+    \caption{Properties updating}
+    \centering
+    \includegraphics[width=100mm]{images/ipad-images/update}
+    \label{fig:update-config}
+\end{figure}
+
+In this screen \ref{fig:update-config} once the users has chosen an object, the properties of object can be updated. In this example, the background colour along with the text colour can be set. This brings us to the next figure \ref{fig:config-color}, where the colours used can be updated. So for example, setting the background color of the main view, or a label etc.
+
+\begin{figure}[!h]
+    \caption{Properties updating}
+    \centering
+    \includegraphics[width=100mm]{images/ipad-images/color}
+    \label{fig:config-color}
+\end{figure}
