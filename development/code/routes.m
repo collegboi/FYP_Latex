@@ -1,0 +1,21 @@
+public func makeDatabaseRoutes() -> Routes {
+    var routes = Routes()
+    routes.add(method: .get, uri: "/api/{appkey}/storage/createIndex/{collection}/{index}/", handler: mongoCreateIndex)
+    routes.add(method: .get, uri: "/api/{appkey}/storage/dropCollection/{collection}/", handler: mongoDropCollection)
+    routes.add(method: .get, uri: "/api/{appkey}/storage/dropIndex/{collection}/{index}/", handler: mongoDropIndex)
+    routes.add(method: .get, uri: "/api/{appkey}/storage/rename/{oldcollection}/{newcollection}", handler: mongoRenameCollection)
+    routes.add(method: .get, uri: "/api/{appkey}/storage/{collection}", handler: mongoHandler)
+    routes.add(method: .get, uri: "/api/{appkey}/storage/{collection}", handler: mongoHandler)
+    routes.add(method: .get, uri: "/api/{appkey}/storage/{collection}/{skip}/{limit}", handler: mongoQueryLimit)
+    routes.add(method: .get, uri: "/api/{appkey}/storage/{collection}/{objectid}", handler: mongoFilterHandler)
+    routes.add(method: .post, uri: "/api/{appkey}/storage", handler: databasePost)
+    routes.add(method: .post, uri: "/api/{appkey}/storage/{collection}", handler: databaseCollectionPost)
+    routes.add(method: .post, uri: "/api/{appkey}/storage/all/{collection}", handler: databaseCollectionsPost)
+    routes.add(method: .delete, uri: "/api/{appkey}/storage/{collection}", handler: removeCollection)
+    routes.add(method: .delete, uri: "/api/{appkey}/storage/{collection}/{objectid}", handler: removeCollectionDoc)
+    routes.add(method: .post, uri: "/api/{appkey}/storage/remove/{collection}/{objectid}", handler: safeRemoveCollectionDoc)
+    routes.add(method: .post, uri: "/api/{appkey}/storage/query/{collection}/{skip}/{limit}", handler: databaseGetQuery)
+    routes.add(method: .post, uri: "/api/{appkey}/storage/query/{collection}/", handler: databaseGetQuery)
+    routes.add(method: .post, uri: "/storage/{collection}", handler: databaseCollectionPost)
+    return routes
+}

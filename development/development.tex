@@ -630,11 +630,69 @@ Figure \ref{fig:sprint-board-view} illustrates the sprint board view, where the 
 
 \section{CocoaPod Framework}
 
-The CocoaPod was left to last to development, as all the test cases used in the Playground could be brought over and adjusted to fit the framework.
+First the CocoaPod was initialised, and this was done all in command line as see in listing \ref{lst:pod_init}. The first command installs CocoaPods, then once that was installed, the pod was created. The pod lib lint creates the skeleton structure and associated files, next to create the project, pod lib create MBaaSKit was run which was followed by terminal asking for a number of inputs.
+
+\lstinputlisting[label={lst:pod_init}, language=Bash, caption=Pod Init]{development/code/pod_init.m}
+
+\begin{itemize}
+  \item What language do you want to use?
+  - Swift
+  \item Do you want to include demo application?
+  - Yes
+  \item What testing framework do you use?
+  - None (this will be done later)
+  \item Do you want to view based testing?
+  - No
+\end{itemize}
+
+After the pod is initialised, the .podspec files needs to be updated, so running nano MBaaSKit.podspec to edit the file. The following values are required to be updated: 
+
+\begin{itemize}
+  \item s.summary
+  - a brief summary of the pod
+  \item s.description
+  - a brief description of the pod
+  \item s.homepage
+  - Github link to the location of the pod
+\end{itemize}
+
+After the pod has been setup, the next listing \ref{lst:pod_git} adds all the files, and commits to local origin repository and pushes to master.
+
+\lstinputlisting[label={lst:pod_git}, language=Bash, caption=Pod Github]{development/code/pod_git.m}
+
+At this stage the pod has been set up, and the initial Github commit has been pushed. 
+
+Once the project files and code has added, the next stage was to make the pod available known as pod tagging. This was done by running the following commands in listing \ref{lst:pod_tagging}. The first command git tag "0.0.1" was run, which gives a version, then git push origin "0.0.1". After which pod spec lint MBaaSKit.podspec verifies that everything is configured correctly between where the source code is stored and the .podspec file. The output states "MBaaSKit.podspec passed validation", so the last command to push the pod can be done. 
+
+\lstinputlisting[label={lst:pod_tagging}, language=Bash, caption=Pod Tagging]{development/code/pod_tagging.m}
 
 \section{Web-server}
 
-\subsubsection{Self hosted}
+The web server developed was split up into two sections; the development of the web-server using the framework Perfect and setting up the server, and creating the installation file which will installed all the required dependency packages.
+
+\subsubsection{Deployment}
+
+DigitalOcean was used as server of choice and to create a virtual private servers or as DigitalOcean calls them Droplets. After creating an account and going to the page to create a droplet, the first choice was of distribution. The project required Ubuntu 16.04, after which the droplet size was asked, as for this project the basic 512MB ram, 20GB SSD Disk and 1000 GB transfer package was chosen. The next option was what region the droplet will be located and decided to go with London being the closest. Step 5 was additional options where IPv6 was chosen, for Apples requires the server to contain both IPv4 and IPv6. Step 6 was setting up SSH keys, which was done, and the last step was to give the droplet a name for the dashboard purposes.
+
+After the droplet had been created and to log in from the computer, terminal was used with the following command: ssh root@p<droplet ip address>. Once the password had been entered, a prompt message asking to set up SSH keys and followed by entering YES. After logging in a number of steps to setup and install the required packages, while running these commands and checking they installed correctly, they were added to a script file which would be used to create the installation script.
+
+\paragraph{Step 1}
+The first step once logged in, was to create a new user and password for security purposes. This was done by running the following commands in listing \ref{lst:username}.
+
+\lstinputlisting[label={lst:username}, language=Bash, caption=Setting user-name]{development/code/username.m}
+
+\paragraph{Step 2}
+Next the server required to set the locale along with updating and upgrading.
+\lstinputlisting[label={lst:init_server}, language=Bash, caption=Updating Server]{development/code/init_server.m}
+
+
+\subsubsection{Development}
+
+To start developing the server, Perfect provides a basic template with just the structure to start off with, found at https://github.com/PerfectlySoft/PerfectTemplate. A new directory was created, then running the command git clone following https://github.com/PerfectlySoft/PerfectTemplate.git. One the template was download, running the following command would create an Xcode project: swift package generate-xcodeproj. The package.swift file required updating with the required packages such as MongoDB and Notifications etc, then running the command sudo swift build inside the project directory retrieved all the packages that was included in the package.swift file. The project structure contains sources and packages directories, the packages are which was already downloaded and the sources where the web-server files are placed. 
+
+The web-server starts off with the main.swift which includes the creation the HTTP server, and adding routes and setting the port number, then starting the server. The routes are where each REST request will go, so for example if request /user then the route will go to the user class. An example of the routes is shown in listing \ref{lst:routes}. This example is the routes for the database, retrieving and sending object. The function is called from the main.swift file, which returns all the routes for the database handler class. The handler parameter is the method name in the same class for which implementation is done depending on the route.
+
+\lstinputlisting[label={lst:routes},language=Swift, caption=Routes]{development/code/routes.m}
 
 \section{Code Stats}
 
