@@ -498,32 +498,59 @@ This can only be done once the application has been published, but the other fie
 
 In figure \ref{fig:subim2}, the developer can keep history of app versions published. The iTunes API already mentioned does not provided history of published version, so by having the feature gives the developer a history of what changes has been made in each version. This view also displays any notes and app stores images that have been added in that version. The iTunes button at the bottom left, does the same as in figure \ref{fig:subim1}, but this view retrieves different fields to be save. The reason for this button, is that when a new version is published, the app id will return the new app versions data only.
 
+\subsubsection{Staff}
 
-% \begin{figure}[!h]
-%     \caption{App View}
-%     \centering
-%     \includegraphics[width=75mm]{images/dashboard/newapp}
-%     \label{fig:newapp-view}
-% \end{figure}  
+\begin{figure}[!h]
+    \caption{Staff View}
+    \centering
+    \includegraphics[width=120mm]{images/dashboard/staff}
+    \label{fig:staff}
+\end{figure} 
 
-% \begin{figure}[!h]
-%     \caption{App Version View}
-%     \centering
-%     \includegraphics[width=75mm]{images/dashboard/newversion}
-%     \label{fig:newversion-view}
-% \end{figure}  
+\begin{figure}[!h]
+    \caption{Edit Staff View}
+    \centering
+    \includegraphics[width=80mm]{images/dashboard/edit_staff}
+    \label{fig:edit_staff}
+\end{figure} 
 
-\subsubsection{Logs}
-
-\subsubsection{Admin}
+The staff view displays all current staff that have been registered as can be seen in figure \ref{fig:staff}. The bar chart at the top displays the analytics of staff members logging in at a month to month basis. This view allows staff members to be added the "New Staff" button, or edit the current user by clicking the record in the table. Once click, the "Staff Member" window as illustrated in figure \ref{fig:edit_staff} is display where a number of configurations can be done. If the current staff member is of type admin, then the complete window is enabled. The typical details such as user-name and email address are asked to be entered, but the check boxes inside the box allow the user different rights. The first two columns can be unchecked to limit the user of what is displayed in the side menu. The reset password if admin be checked for a staff member if they forgot their password. 
 
 \subsubsection{Storage}
 
+\begin{figure}[!h]
+    \caption{Storage View}
+    \centering
+    \includegraphics[width=120mm]{images/dashboard/storage}
+    \label{fig:staff}
+\end{figure} 
+
 \subsubsection{Analytics}
+
+\begin{figure}[!h]
+    \caption{Analytics View}
+    \centering
+    \includegraphics[width=120mm]{images/dashboard/analytics}
+    \label{fig:analytics}
+\end{figure} 
 
 \subsubsection{Languages}
 
+\begin{figure}[!h]
+    \caption{Languages View}
+    \centering
+    \includegraphics[width=120mm]{images/dashboard/languages}
+    \label{fig:languages}
+\end{figure} 
+
 \subsubsection{Notifications}
+
+\begin{figure}[!h]
+    \caption{Storage View}
+    \centering
+    \includegraphics[width=120mm]{images/dashboard/storage}
+    \label{fig:staff}
+\end{figure} 
 
 \subsubsection{Remote Configuration}
 
@@ -585,14 +612,34 @@ The drop down list can used to select a particular testing, and then can be view
 
 \subsubsection{Backup}
 
-\subsubsection{Crashes}
+\begin{figure}[!h]
+    \caption{Backup View}
+    \centering
+    \includegraphics[width=150mm]{images/dashboard/backup}
+    \label{fig:backup-view}
+\end{figure} 
+
+Figure \ref{fig:backup-view} illustrates the backup view, where completed backup of the database and files can be configured. This view offers a list of configurable values, including if backups are to be done in the first place. Once checked, the drop down list can be set to daily, weekly or a particular day of the week. Next the time of the backup can be set, then the developer has two options to save the backups locally or remotely. If locally the folder path only needs to be entered. 
+
+Each backup folder will contain the time-tamp in the name so no overwrites will be done. After the configuration has be done, the save button will send the values to the server, and start the process. In the web-server section later, the backup web app will be discussed in detail of what happens. The table to the bottom will contain a list of backups that have been done, and by right clicking a record and clicking delete, both the record and the backup directory will be deleted. 
+
+\subsubsection{Issues}
 
 \begin{figure}[!h]
-    \caption{Crashes View}
+    \caption{Issues View}
     \centering
     \includegraphics[width=150mm]{images/dashboard/crashes}
     \label{fig:crashes-view}
 \end{figure} 
+
+\begin{figure}[!h]
+    \caption{View Detailed Issue}
+    \centering
+    \includegraphics[width=150mm]{images/dashboard/view_crash}
+    \label{fig:view-crash}
+\end{figure} 
+
+The issue view as illustrated in figure \ref{fig:crashes-view} is where all exceptions from the mobile applications can be viewed. The line chart displays the number of exceptions at a 12 month basis. This can give the developer a quick overview on how the application is doing. The exception class structure was already discussed in the services section. If the table below displays any exceptions, the record can be click to display the exception in more detail as can be seen in figure \ref{fig:view-crash}. In this window the issue can be attached to a new ticket which be discussed next.
 
 \subsubsection{Tickets}
 
@@ -685,6 +732,26 @@ The first step once logged in, was to create a new user and password for securit
 Next the server required to set the locale along with updating and upgrading.
 \lstinputlisting[label={lst:init_server}, language=Bash, caption=Updating Server]{development/code/init_server.m}
 
+\paragraph{Step 3}
+To be able to run Perfect which is Swift based, Linux server requires the Swift package
+\lstinputlisting[label={lst:swift_install}, language=Bash, caption=Swift Installation]{development/code/swift_install.m}
+
+\paragraph{Step 4}
+MongoDB for persistent storage also required to be installed
+\lstinputlisting[label={lst:mongo_install}, language=Bash, caption=MongoDB Installation]{development/code/mongo_install.m}
+
+\paragraph{Step 5}
+Supervisor is a service that can be installed to monitor and manage a program that is defined in the configuration file.The following listing \ref{lst:supervisor} will set up GIT which is where the web-server will be installed, and then supervisor will be installed and set-up.
+\lstinputlisting[label={lst:supervisor}, language=Bash, caption=Supervisor]{development/code/supervisord.m}
+At line 6 where the nano command is ran, the post-recieve files needs to be updated to contain the project name.
+
+\paragraph{Step 6}
+Next the web-server itself needs to pulled from Github and then built. Once the build has been done, ownership for the folders need to changed. Then the built packages need to be moved into the running folder, which supervisor will pick up the server and start it.
+\lstinputlisting[label={lst:web-server}, language=Bash, caption=Web-Server]{development/code/web-server.m}
+
+\paragraph{Step 7}
+For the web-server to be access from the outside the server, a server needs to be installed to route the requests to the web-server. Nginx is installed and then some configurations needs to be done. When running line 3 in listing \ref{lst:server}, the port number needs to be updated to 8181 which is what the web-server runs on. Nginx will route traffic coming in at 80 and 443 which is HTTP and HTTPS to port 8181.
+\lstinputlisting[label={lst:server}, language=Bash, caption=Nginx Server]{development/code/nginx_setup.m}
 
 \subsubsection{Development}
 

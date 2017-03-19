@@ -1,0 +1,7 @@
+self.tfName.setupLabelView(className: self, name: "tfName")
+self.tfAge.setupLabelView(className: self, name: "tfAge")
+self.tfDOB.setupLabelView(className: self, name: "tfDOB")
+self.tfCountry.setupLabelView(className: self, name: "tfCountry")
+self.tfCounty.setupLabelView(className: self, name: "tfCounty")
+self.sendFriend.setupButton(className: self, "sendFriend")
+self.sendAlert.setupButton(className: self, "sendAlert")
