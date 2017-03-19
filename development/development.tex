@@ -688,11 +688,224 @@ Next the server required to set the locale along with updating and upgrading.
 
 \subsubsection{Development}
 
-To start developing the server, Perfect provides a basic template with just the structure to start off with, found at https://github.com/PerfectlySoft/PerfectTemplate. A new directory was created, then running the command git clone following https://github.com/PerfectlySoft/PerfectTemplate.git. One the template was download, running the following command would create an Xcode project: swift package generate-xcodeproj. The package.swift file required updating with the required packages such as MongoDB and Notifications etc, then running the command sudo swift build inside the project directory retrieved all the packages that was included in the package.swift file. The project structure contains sources and packages directories, the packages are which was already downloaded and the sources where the web-server files are placed. 
+To start developing the server, Perfect provides a basic template with just the structure to start off with, found at https://github.com/PerfectlySoft/PerfectTemplate. A new directory was created, then running the command git clone https://github.com/PerfectlySoft/PerfectTemplate.git. One the template was download, running the following command would create an Xcode project: swift package generate-xcodeproj. The package.swift file required updating with the required packages such as MongoDB and Notifications etc, then running the command sudo swift build inside the project directory retrieved all the packages that was included in the package.swift file. The project structure contains sources and packages directories, the packages are which was already downloaded and the sources where the web-server files are placed. 
 
 The web-server starts off with the main.swift which includes the creation the HTTP server, and adding routes and setting the port number, then starting the server. The routes are where each REST request will go, so for example if request /user then the route will go to the user class. An example of the routes is shown in listing \ref{lst:routes}. This example is the routes for the database, retrieving and sending object. The function is called from the main.swift file, which returns all the routes for the database handler class. The handler parameter is the method name in the same class for which implementation is done depending on the route.
 
 \lstinputlisting[label={lst:routes},language=Swift, caption=Routes]{development/code/routes.m}
+% Instead of creating a new app for each service as already mentioned before which does not follow the programming principle "Only write it once".
+
+The web-server deliverable consists of a number of apps, these apps is a web application that does something e.g. database of records. The design chapter under web-server section discussed the overview structure, and what apps to developed. This section will go into detail for each app, what functionality is required.
+
+\paragraph{Database}
+
+\begin{figure}[!h]
+    \caption{Database Sequence Diagram}
+    \centering
+    \includegraphics[width=150mm]{images/sequence/Database}
+    \label{fig:database-seq}
+\end{figure} 
+
+The database app consists of four layers; the routes, authentication, service and the database as can be seen in figure \ref{fig:database-seq} This allows the app to be loosely coupled meaning if the database type later can easily be changed without having to change the other layers. The objective of this app is to perform the four basic functions of persistent storage; create, read update and delete (CRUD). So the first four routes were developed, and the collection name was required to be passed as parameter as this is a generic app, the collection names would not be known until the developer creates them. This is show in table \ref{tb:db-routes}, where the app key is also passed to be authenticated. 
+
+\begin{table}[!h]
+\centering
+\caption{Database routes}
+\label{tb:db-routes}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{green!20}
+Route                                  & HTTP Method \\ \hline
+/api/\{appkey\}/storage/\{collection\} & GET         \\ \hline
+/api/\{appkey\}/storage/\{collection\} & POST        \\ \hline
+/api/\{appkey\}/storage/\{collection\} & DELETE      \\ \hline
+\end{tabular}
+\end{table}
+
+The database service layer function is called depending on the route, the service layer will then communicate with the database class to perform the task. The database class performs five steps for each of the CRUD operations;
+
+\begin{itemize}
+  \item Open client connection
+  - the connection being the Uniform Resource Identifier (URI) : "mongodb://localhost:27017" 
+  \item Database 
+  - connect to correct database depending on the application
+  \item Collection
+  - get the collection from the collection name which is passed in
+  \item Find
+  - run the query and pass in any where clauses if required
+  \item Close
+  - close the collection, then database and finally the client
+\end{itemize}
+
+Once these steps have finished, the function returns the search records, which in returns parses the records into JSON form to be sent back in the response object. After the four basic functions were completed, extra functionality was added to be able to pass query dictionary from the mobile application for example "{"name":"tim"}" which will return all records where name key contains values equal to "tim". This was developed by creating another route along with function which accepts the dictionary query and includes this in the find function.
+
+Next the routes had to be included for the dashboard to make requests, for example to retrieve all databases and in turn all collections relating to each database. This is used in the database page called Storage already discussed above. 
+
+\paragraph{File}
+
+\begin{figure}[!h]
+    \caption{File Sequence Diagram}
+    \centering
+    \includegraphics[width=150mm]{images/sequence/FileController}
+    \label{fig:file-seq}
+\end{figure}
+
+This app provides two purposes, one for uploading of files of any type and storing from the mobile app, as well as other web apps such as Remote Config discussed next to retrieved a stored file. The figure \ref{fig:file-seq} illustrates the steps required to manage files. The difference between singleton class and normal class, is that only one instance is made upon run time, this helps controller file writing, so that two instances are not trying to write to the same file at the same time.
+
+\begin{table}[!h]
+\centering
+\caption{File Handler Routes}
+\label{tb:file-routes}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{green!20}
+Route                                        & HTTP Method \\ \hline
+/api/\{appkey\}/upload/\{directory\}/          & POST        \\ \hline
+/api/\{appkey\}/upload/\{filepath\}/ & GET         \\ \hline
+\end{tabular}
+\end{table}
+
+
+The routes to handler send and retrieving files as show in table \ref{tb:file-routes}. The post route sends up the files to a particular directory path which is set from the client application side, as well as the file names. After the file handler has successfully saved the files in the specified directory, the file controller class calls the database service class and inserts the files that has been upload as history records. 
+
+This structure for the file web app allows the access from other apps such as the remote configuration and language to access the singleton file class. Inside the file class, there are a number of functionalities required such as setting the working directory. This is another reason for using the singleton pattern, as every time the working directory is called, it creates a new directory which would cause files to be lost in a multitude of sub-folders. The instantiation of the file class happens when the server starts up in the main.swift file, thus given all over apps access to one working directory.
+
+Extra functionality that was required is if a file path does not exist, then the directories need to be created. An example of this would be if file path was "/files/cars/image1.PNG", and the cars directory currently did not exists then a number of steps is required to ensure the file location was correct.
+
+\begin{enumerate}
+  \item check if the path exists
+  - if true then overwrite 
+  \item if path does not exit
+  - get directory path from file path string = "/files/cars/" 
+  \item create file path
+  \item save file to location
+\end{enumerate}
+
+
+\paragraph{Remote Configuration}
+
+\begin{figure}[!h]
+    \caption{Remote Config Sequence Diagram}
+    \centering
+    \includegraphics[width=150mm]{images/sequence/RemoteConfig}
+    \label{fig:rc-seq}
+\end{figure}
+
+\begin{table}[!h]
+\centering
+\caption{Remote Config Routes}
+\label{tb:rc-routes}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{green!20}
+Route                                        & HTTP Method \\ \hline
+/api/\{appkey\}/remote                       & POST        \\ \hline
+/api/\{appkey\}/remote/\{version\}           & GET         \\ \hline
+/api/\{appkey\}/remote/\{version\}/\{theme\} & GET         \\ \hline
+\end{tabular}
+\end{table}
+
+As illustrated in figure \ref{fig:rc-seq} to retrieve the configuration file contents, there are a number of steps. The HTTP GET request with the correct route seen in table \ref{tb:rc-routes} is made, then the app key is again authenticated, if passed the RCController class is called to get a version file. The RCController makes a call to the database service class for the collection of remote configuration along with the query of the app version. The record is returned with a file path, then file controller class is called to return the contents of the file. 
+
+\begin{figure}[!h]
+    \caption{A/B Testing Sequence Diagram}
+    \centering
+    \includegraphics[width=150mm]{images/sequence/ABTesting}
+    \label{fig:ab-seq}
+\end{figure} 
+
+The A/B Testing service discussed in the services section above requires extra functionality, this is illustrated in figure \ref{fig:ab-seq}. As can be seen in the RCController class, an extra query to the database service to get the records if any of A/B Testing. The A/B Testing records contain the application version which is query from the version passed in, if the return contains a record then a request to it self is made to get the request number. This request number is the number of requested modular 2, so depending on the number depends on what version A or B is returned to the response body. The RCController class is a singleton, meaning it only has one instance, this was used to store the request no, instead of writing to a text file which would cause performance issues. 
+
+\paragraph{Authentication}
+
+\begin{figure}[!h]
+    \caption{Authentication Sequence Diagram}
+    \centering
+    \includegraphics[width=150mm]{images/sequence/Authenticate}
+    \label{fig:authenticate-seq}
+\end{figure}
+
+Figure \ref{fig:authenticate-seq} illustrates the required steps to authenticate a user when signing in. The HTTP request method is POST to keep both user-name and password out of URL for security purposes. The authentication handler class which handles the routes, passes the values to the authentication controller class which performs four steps. The first step is to ensure the user exist using the user-name, next it does a check if the password reset field has been set to 1 meaning the administrator has authorized this account for the password to be changed. If the result is true, the message is sent back to the client app for the developer to allow the user to change the password. If the reset password flag has not been sent, then the password is first encrypted using the salt value used when registering. 
+
+The salt value is stored in a separate table for security reasons, and is a one way hashing function. The primary reason for using salt, is to defend against dictionary attacks, historically a password would of been stored in plain-text but overtime additional steps were in placed to safeguard the password and one these ways is called Salt. After the password has been salted, then the query can be run by passing the user-name and hashed password and if there returns one record then the client app is sent an authentication message. 
+
+\paragraph{System}
+
+The system handler and controller class are for the dashboard status view, the data for the four pie charts being CPU, memory and storage usage. This data is retrieved by running Linux commands from the server. The overview structure of this web app includes the system handler with only handles a get request for retrieving all the required data. The system controller class includes a number of functions with each pie chart data in each, which is shown in table \ref{tb:system} along with the command and output. 
+
+\begin{table}[!h]
+\centering
+\caption{My caption}
+\label{tb:system}
+\begin{tabular}{|l|l|l|}
+\hline
+\rowcolor{green!20}
+Function name    & Linux command & Values retrieved       \\ \hline
+getCPUUsuage()     & top -bn1      & user, system, idle     \\ \hline
+getMemoryUsuage()  & free -m       & total, used, available \\ \hline
+getStorageUsuage() & df -h         & size, used, available  \\ \hline
+\end{tabular}
+\end{table}
+
+The CPU usage is retrieved by running the "top" which displays all Linux tasks, the "-b" option puts the top in batch mode operation. The batch mode stops top from accepting any input until top has exited.The "-n1" is the number of iterations or frames to be run before ending, in this cause one. The output is then parsed into a dictionary for user, system and idle. 
+The "free" command displays the amount of free and used memory in the system. The "-m" option displays the output in MBs format. The result creates a number of columns, and the string is parsed and the total, used and free values are appended to the dictionary. 
+The "df" command gets a report of the file system disk space usage, and using the -h options returns the result in human readable format e.g 1K, 512M 2GB. After the three commands are run, the result is sent back to the response body parsed in JSON format.
+
+\paragraph{Backup}
+
+\begin{figure}[!h]
+    \caption{Backup Sequence Diagram}
+    \centering
+    \includegraphics[width=150mm]{images/sequence/backup}
+    \label{fig:backup-s}
+\end{figure}
+
+The backup feature discussed in the dashboard sections requires the web-server to a complete backup of all database collections and files to a remote or local location. The sequence diagram in figure \ref{fig:backup-s} illustrates the steps required to accomplish this. The sequence diagrams displays two types of requests, if a backup is requested to be done now or scheduled for later time. The first is quite simple with the request coming in and passed to the backup controller class, and performs the required steps to accomplish the backup while will be discussed after.
+
+First with scheduling a backup requires a few more steps, the Jobs class is a singleton which keeps an instance of the CronJob class. CronJobSwift is a package provided by developer called Ryan Collins with Github link "https://github.com/rymcol/SwiftCron-Example". The CronJob is on the same principle of Linux software utility called Cron which is a time-based job scheduler. These jobs can be run repeatedly at certain times of the day, week etc to perform tasks in the background with the developer. The CronJob class still requires to be kept running, and outside of the main.swift file to be updated with new jobs or cancelling jobs. The singleton pattern is used to keep an instance of CronJob running, and allow outside requests to update the jobs. 
+
+Back to the sequence diagram \ref{fig:backup-s}, the make instance method is only a fail safe if the main file when the server starts up does not create the instance. When the instance is return back to the backup controller class, the job can be created and updated. All scheduled jobs are also stored in the database along with the job id, so that a request can be made to cancel a particular job.
+
+Once the backup method has been called, a number of steps are required along with a package called Zip provided by Perfect. A Linux package is also required by running the following command "apt-get install libminizip-dev". The package for Swift zip can be found at the Github link https://github.com/PerfectlySoft/Perfect-Zip. The zip package will be used to put all the collections into one zipped folder so that it can stored locally or remotely without potentially using up a lot of space.
+
+\begin{enumerate}
+  \item get list of database 
+  \item get list of collections from each database
+  \item stored the collections in a backup folder, sub-folded the collection name
+  \item zip the backup folder with the current date
+  \item move the zip folder to destination
+  \item put history of the backup in the database
+\end{enumerate}
+
+\paragraph{Translations}
+
+
+\begin{figure}[!h]
+    \caption{Translation Sequence Diagram}
+    \centering
+    \includegraphics[width=150mm]{images/sequence/translation}
+    \label{fig:translation-s}
+\end{figure}
+
+\begin{table}[!h]
+\centering
+\caption{Translation Routes}
+\label{tb:translation-routes}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{green!20}
+Route                                        & HTTP Method \\ \hline
+/api/\{appkey\}/translation                  & POST        \\ \hline
+/api/\{appkey\}/translation/\{language\}/\{version\}           & GET         \\ \hline
+/api/\{appkey\}/translationVersion/\{language\}/\{langversion\} & GET         \\ \hline
+\end{tabular}
+\end{table}
+
+The last web app to be developed is translation, which handles posting and retrieving the correct translation version and language. The table \ref{tb:translation-routes} illustrates the routes, where the first post request will send the language to both the database and file location. When a request is made for a translation file, an extra check is done to see if that version is available; this can be see in the sequence diagram in figure \ref{fig:translation-s} This was discussed in the dashboard section, where the developer has the option of making a translation version live.
+
+The translation and configuration files availability are put into the top object of any database GET request sent to the server. Listing \ref{lst:header_json} displays the header of an object when making a request, the current version and date of what is available on the server for both configuration and translation, then the application can make a request for the latest if required.
+
+\lstinputlisting[label={lst:header_json}, caption=Header JSON]{development/code/header_json.m}
 
 \section{Code Stats}
 
