@@ -45,11 +45,11 @@ This methodology is based on the test-driven development (TDD) process that reli
 
 \subsection{Disadvantages}
 
-The methodology although sounds good from a theoretical point of view, in a real world it has its drawbacks. Each node (circle in each level) requires making new test application, combing the previous two node applications and potential re-factoring. This takes time where some projects do not have, but we reduce the number of bugs found but re-factoring at each level. To overcome this, the methodology allows to skip one level to reduce testing times.
+The methodology although sounds good from a theoretical point of view, but in a real world it has its drawbacks. Each node (circle in each level) requires making new test application, combing the previous two node applications and potential re-factoring. This takes time where some projects do not have, but we reduce the number of bugs found but re-factoring at each level. To overcome this, the methodology allows to skip one level to reduce testing times.
 
 \section{Functional Requirements}
 
-Functional requirement defines a function of a system or its component. After talking to out-sourced developers and researching current systems out there, the following table \ref{tb:functional} defines the list of functional requirement. They are grouped into sections, what the aim of the project is. 
+Functional requirement defines a function of a system or its component. After talking to out-sourced developers and researching current systems out there, the following table \ref{tb:functional} defines the list of functional requirement. They are grouped into sections and what the aim of the project will deliver.
 
 \begin{table}[h]
 \centering
@@ -61,10 +61,10 @@ Functional requirement defines a function of a system or its component. After ta
 1                      & Development                  & Database storage          & Create, Read, Update, Delete objects   & High   \\ \hline
 2                      & Development                  & Push notifications        & Send push notifications to devices     & Medium \\ \hline
 3                      & Production                   & Analytics                 & Measure users in app activities        & High   \\ \hline
-4                      & Production                      & Backup                    & Backup database to remote site         & Low    \\ \hline
-5                      & Production                      & Self hosted               & Host the MBaaS on developers server    & High   \\ \hline
-6                      & Production                      & Remote Configuration      & In app live updates                    & High   \\ \hline
-7                      & Production                      & A/B Testing               & Testing different variations           & High   \\ \hline
+4                      & Production                   & Backup                    & Backup database to remote site         & Low    \\ \hline
+5                      & Production                   & Self hosted               & Host the MBaaS on developers server    & High   \\ \hline
+6                      & Production                   & Remote Configuration      & In app live updates                    & High   \\ \hline
+7                      & Production                   & A/B Testing               & Testing different variations           & High   \\ \hline
 8                      & Development                  & Live Database             & Update objects without user refreshing & Low    \\ \hline
 9                      & Development                  & Dashboard                & Interface for developers manage apps   & High   \\ \hline
 10                     & Testing                      & Exception catching      & Interface for developers manage apps   & High   \\ \hline
@@ -72,6 +72,10 @@ Functional requirement defines a function of a system or its component. After ta
 \end{table}
 
 \subsection{Development}
+
+\subsubsection{Database}
+
+The API and framework will provide a service to send and retrieve objects to the  database. These tools will not only be able to post and get objects but also to set out filters.
 
 \subsubsection{Self hosted}
 Allow the developer to host their own system to have full control on when up and running, and not having to worry if the provider is going to shut down the system. By giving the developer a way to host their own back-end then this will keep the cost down of not having to paying for third party services.
@@ -82,15 +86,11 @@ This feature gives the developer a piece of mind that the applications data is c
 \subsubsection{Sprint board}
 Challenge faced when creating an application, is trying to keep a list of features or changes to be made for a version. Also knowing history of features already implemented. Their are already different sprint board applications out there, but I wanted a way to en-corporate it all in one single dashboard app, that can be used with teams.
 
-
 \subsection{Testing}
 
 \subsubsection{Crashes}
 
 \subsection{Production}
-
-\subsubsection{Database}
-The API and framework will provide a service to send and retrieve objects to the  database. These tools will not only be able to post and get objects but also to set out filters. Each collection of objects such as users can be viewed in a table format in the dashboard application explained later.
 
 \subsubsection{A/B Testing}
 A/B testing also known as split testing is comparing two versions of a page to see which performs better. Currently this popular with web pages but my plan is to bring this to mobile applications. All mobile applications no matter what services they provide all have one goal; a reason to exist. A/B testing allows you to make more out of your existing traffic. This is achieved by sending our to variants ( A and B ) to similar visitors at the same time and use analytics to provide us what version wins. Included in my research, I did a survey to see how end-users respond to different applications. How they look?, Are they concerned on the aesthetics of the app?. At stated end-users do choose whether or not they will continue to use an app. So by using A/B testing service we can quickly find out what they do and do not like. So how can we implement this service in mobile apps? This leads on to my next service.
@@ -120,18 +120,65 @@ The systems supports two keys authentication, there is one key that allows reque
 \subsubsection{Database}
 Instead of all applications the developer owns being contained in one database, each application created gets their own database. These are only allowed access once the key gets authenticated.
 
+\section{Deliverables}
 
-% \section{Project Components}
+\subsection{Dashboard}
 
+\subsubsection{Storage}
 
-% % Instead of every application the developer has all being contained in one database, each application created gets their own database. There is one local database which contains the keys for each app. When a request comes in, the main key is authenticated which is stored in a secure file. The second key however is stored in database, when a request to the database is made, the main table is query and the database relating to that 
-% % Each application in the dashboard is generated a random sequence of characters, these are to be included in the app builds. 
+Figure \ref{fig:storage_use_case} illustrates storage/database in use cases. In the storage view in the dashboard, the developer will be able to choose a database which is specific to each application. After which be able to view and select the collections within, and see the content records. Another feature is the ability to import collection from a JSON or CSV file into the database.
 
+This use case is limited by design, the typical create, read, update and delete (CRUD) operations known with database development will not be available. When designing systems that include both backend and frontend, the most important one of two is the frontend. This is what the end users will see, so this system will focus on designing the structure of each collection in the application, in development stage. Typically the dashboard will allow the developer to perform CRUD operations, and then they will have to mimic that structure for the frontend app, thereby creating a potential bug. A bug can occur if someone is able to change the collection name, or collection property name, thus creating an inconsistency between frontend and backend. Removing the capabilities from one side being backend will hopefully remove this potential issue. 
 
+\begin{figure}[!h]
+    \caption{Storage Use Case Diagram}
+    \centering
+    \includegraphics[width=100mm]{images/use_cases/storage_use_case}
+    \label{fig:storage_use_case}
+\end{figure}
 
-% \begin{figure}[h]
-%     \caption{Framework Overview}
-%     \centering
-%     \includegraphics[width=100mm]{images/framwork_architecture}
-%     \label{fig:label}
-% \end{figure}
+\subsection{SDK}
+
+\subsubsection{Storage}
+
+\begin{table}[!h]
+\centering
+\caption{SDK Storage Design}
+\label{tb:storage_design}
+\begin{tabular}{|l|l|}
+\hline
+\rowcolor{green!20}
+Functionality                  & Result                \\ \hline
+protocol for each object       & parsing objects to and from JSON \\ \hline
+convert objects to JSON        & JSON string \\ \hline
+parse collection into object   & collection of objects \\ \hline
+send object to server          & unique record id      \\ \hline
+filter when retrieving objects & filtered objects      \\ \hline
+\end{tabular}
+\end{table}
+
+The table \ref{tb:storage_design} shows the functionality requirements and result for the storage part in the library. The first functionality being the protocol, which will give all structures that same functionality. The development chapter later will go into detail how the protocol works.
+
+\section{Design Principles}
+Human Computer Interaction (HCI) principles plays a major role when designing an interface. These principles help keep applications of the same nature alike. An example is a mail app, the icon for mailbox or sending messages can be used to convey without having to read a manual of what a button does. As this system will be using a mac application, apples macOS interface guidelines will be closely followed.
+
+Apples Human Interface Guidelines \cite{guidelines} discussed the following design principles:
+
+\begin{enumerate}
+  \item Mental Model 
+  
+  - "..is the concept of an object or experience that people carry in their heads". It is the model of what users believes about the system, so the mental model of past experience on similar systems will be carried when looking to use this system. This will involve looking at current systems available and design the interface somewhat similar.
+  
+  \item Direct Manipulation
+  
+  - "..is an example of an implied action that helps users feel that they are controlling the objects represented by the computer". When designing a view that the user can control, the objects such as deleting a record, should only become invisible once the user has taken the action.
+  
+  \item User Control 
+  
+  - "..principle of user control presumes that the user, not the computer, should initiate and control actions." The interface should give the user the control depending on the type of user. So an professional user will want more control compared to novice user.
+  
+  \item Consistency
+  
+  - "..allows the user to transfer their knowledge and skills from one app to another". So by designing the system will the same general layout of other apps will help the user not feel lost.
+  
+\end{enumerate}
