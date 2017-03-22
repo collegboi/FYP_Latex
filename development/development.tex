@@ -522,8 +522,19 @@ The staff view displays all current staff that have been registered as can be se
     \caption{Storage View}
     \centering
     \includegraphics[width=120mm]{images/dashboard/storage}
-    \label{fig:staff}
+    \label{fig:storage}
+\end{figure}
+
+\begin{figure}[!h]
+    \caption{Storage class diagram}
+    \centering
+    \includegraphics[width=80mm]{images/classdiagrams/storage_class}
+    \label{fig:storage_class}
 \end{figure} 
+
+Illustrated in figure \ref{fig:storage}, the tables display the database contents. The first table contains the list of databases, these are the names that are set out when setting up an application in the settings view. Next once the database name of been chosen, the list of contained collections. The table on right outputs the contents of the collection, in a parent child format. So when a cell is click, if that parent has children, then it can be expanded to show the values.
+
+The class diagram for the storage view can be seen in figure \ref{fig:storage_class}, where both classes again conform to the TBJSONSerializable protocol. The GenericCollection is the first top class of the collection of records which are contained in the row variable. The row variable is of type Document array, where each Document properties are as follows: hasChildren for checking if that parent has children to be able to expand the row, key and value hold the values in each collection document, and last the children which contain the list of children as illustrated in figure \ref{fig:storage}. The TBAnalytics collection contains three documents, in the document there is key called "tags" which also holds children for example timeStamp.
 
 \subsubsection{Analytics}
 
@@ -532,7 +543,16 @@ The staff view displays all current staff that have been registered as can be se
     \centering
     \includegraphics[width=120mm]{images/dashboard/analytics}
     \label{fig:analytics}
-\end{figure} 
+\end{figure}
+
+Illustrated in figure \ref{fig:analytics} displays the analytics gathered from the different applications and versions. The drop down lists allows the developer to change where analytics was gathered from. The scroll view below contains a collection of views which display the analytics in a bar chart form. Each bar chart view is for the different types of analytic gathering, as the data gathered class diagram can be seen in figure \ref{fig:analytics_class}.
+
+\begin{figure}[!h]
+    \caption{Analytics class diagram}
+    \centering
+    \includegraphics[width=80mm]{images/classdiagrams/analytics_class}
+    \label{fig:analytics_class}
+\end{figure}
 
 \subsubsection{Languages}
 
@@ -543,14 +563,27 @@ The staff view displays all current staff that have been registered as can be se
     \label{fig:languages}
 \end{figure} 
 
-\subsubsection{Notifications}
+The languages view in figure \ref{fig:languages} illustrates the layout, where the language can be selected, along with creating/updating a translation. After the mobile app and version has been chosen, if any the languages and translations will be displayed in the tables below. The first table shows the current languages which can be changed to active/inactive as required. The next table is a collection of keys (translation keys) that is available, by separating this enables the developer to see what other translations have. This will remove any discrepancy's between the translations files, e.g between English and French.
 
 \begin{figure}[!h]
+    \caption{Language class diagram}
+    \centering
+    \includegraphics[width=80mm]{images/classdiagrams/lang_class}
+    \label{fig:lang_class}
+\end{figure}
+
+Figure \ref{fig:lang_class} shows the class diagram which is used in the Language View. The languages class holds properties include the name for example English, and if that language is available in the current selection version of the app. The language version class is where the meta-data regarding each version of translation are kept. These include the app version, the file path to the location where the language file is being stored, and if this version is published.
+
+\subsubsection{Notifications}
+
+\begin{figure}[. !h]
     \caption{Storage View}
     \centering
-    \includegraphics[width=120mm]{images/dashboard/storage}
-    \label{fig:staff}
-\end{figure} 
+    \includegraphics[width=120mm]{images/dashboard/notifications}
+    \label{fig:notification}
+\end{figure}
+
+The notification view in figure \ref{fig:notification} has two functionalities, one for view all sent notifications, and the other two send one manually. This can be done by selecting Send Push Notification button at the top right, which will bring up a new window. The fields that can be entered are what are used when sending notifications, and the two main ones are the message itself and the unique device id. The window also supports the capability of sending multiple notifications to all devices, or grouped by device type etc. The fields inside the box are optional, the title of the notification and if not set is the application name. Once the send button is pressed, a request is made to the web server to send the notifications now.
 
 \subsubsection{Remote Configuration}
 
@@ -570,7 +603,7 @@ The staff view displays all current staff that have been registered as can be se
 
 The remote configuration view as illustrated in figure \ref{fig:remote-config-view} contains four tables which in turn represents the four classes already discussed in the services section \ref{fig:rc-cd}. The figure displays the current configuration for the DIT-Timetable app with version 2.4.2. When the page initially loads, the first of each drop down list to display that current configuration. The first of the drop down menus display the list of applications, which are taken from TBApplication collection. This collection are set from the settings view already discussed, along with the applications versions, which is the contents of the next drop down. The last list contains the current configuration versions as seen in table \ref{fig:remote-config-cd}. Each remote configuration object has an application and version, its relates to. The configVersion property allows A/B Testing which be discussed next to use. 
 
-Starting from the top left table which contains the main settings values, next on the right at the colours used in that particular version in the app. The bottom left table contains the view controller or classes, and if a class contains objects the cell can be expanded to display all the objects. Once an object has been selected, the table on right contains all possible properties that can be used. This part of the dashboard also contains a JSON file, that contains all UI objects that can selected with their properties as illustrated in listing \ref{lst:label_json}. If a property options are a list type, then the raw string values are shown, for example textAlignment. In Swift, the UI object property options are type of enumeration, so when the user chooses an option the integer value is stored. When an property has been selected, ethier two of views will show as illustrated in figure \ref{fig:property1}. The value can then selected and set.
+Starting from the top left table which contains the main settings values, next on the right at the colours used in that particular version in the app. The bottom left table contains the view controller or classes, and if a class contains objects the cell can be expanded to display all the objects. Once an object has been selected, the table on right contains all possible properties that can be used. This part of the dashboard also contains a JSON file, that contains all UI objects that can selected with their properties as illustrated in listing \ref{lst:label_json}. If a property options are a list type, then the raw string values are shown, for example textAlignment. In Swift, the UI object property options are type of enumeration, so when the user chooses an option the integer value is stored. When an property has been selected, either two of views will show as illustrated in figure \ref{fig:property1}. The value can then selected and set.
 
 \lstinputlisting[label={lst:label_json}, caption=UI Object JSON]{development/code/Label_json.m}
 

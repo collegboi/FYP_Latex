@@ -60,11 +60,11 @@ Functional requirement defines a function of a system or its component. After ta
 \cellcolor{green!20}ID & \cellcolor{green!20}Section  & \cellcolor{green!20}Name  & \cellcolor{green!20}Description        & \cellcolor{green!20}Priority \\ \hline
 1                      & Development                  & Database storage          & Create, Read, Update, Delete objects   & High   \\ \hline
 2                      & Development                  & Push notifications        & Send push notifications to devices     & Medium \\ \hline
-3                      & Running                      & Analytics                 & Measure users in app activities        & High   \\ \hline
-4                      & Running                      & Backup                    & Backup database to remote site         & Low    \\ \hline
-5                      & Running                      & Self hosted               & Host the MBaaS on developers server    & High   \\ \hline
-6                      & Running                      & Remote Configuration      & In app live updates                    & High   \\ \hline
-7                      & Running                      & A/B Testing               & Testing different variations           & High   \\ \hline
+3                      & Production                   & Analytics                 & Measure users in app activities        & High   \\ \hline
+4                      & Production                      & Backup                    & Backup database to remote site         & Low    \\ \hline
+5                      & Production                      & Self hosted               & Host the MBaaS on developers server    & High   \\ \hline
+6                      & Production                      & Remote Configuration      & In app live updates                    & High   \\ \hline
+7                      & Production                      & A/B Testing               & Testing different variations           & High   \\ \hline
 8                      & Development                  & Live Database             & Update objects without user refreshing & Low    \\ \hline
 9                      & Development                  & Dashboard                & Interface for developers manage apps   & High   \\ \hline
 10                     & Testing                      & Exception catching      & Interface for developers manage apps   & High   \\ \hline
@@ -87,7 +87,7 @@ Challenge faced when creating an application, is trying to keep a list of featur
 
 \subsubsection{Crashes}
 
-\subsection{Running/Live}
+\subsection{Production}
 
 \subsubsection{Database}
 The API and framework will provide a service to send and retrieve objects to the  database. These tools will not only be able to post and get objects but also to set out filters. Each collection of objects such as users can be viewed in a table format in the dashboard application explained later.
