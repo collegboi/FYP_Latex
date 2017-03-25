@@ -58,7 +58,7 @@ To be able to run asynchronous code in the playgrounds, the following lines of c
 
 \subsubsection{Database storage}
 
-The database storage section is split up into two parts of the development. 
+The database storage section was split up into two parts of the development. 
 
 \begin{enumerate}
   \item Object-relational mapping (ORM)
@@ -77,9 +77,9 @@ The first protocol TBJSONRepresentable simply states that this variable TBJSONRe
 
 \lstinputlisting[label={lst:TBJSONSerializable},language=Swift, caption=TBJSONSerializable]{development/code/TBJSONSerializable.m}
 
-In listing \ref{lst:TBJSONSerializable}, the TBJSONRepresentation variable contains a switch case to loop through the mirrored; which is a representation of the sub-structure, each class property such as String, Int or Dictionary, and depending on the type be parsed into AnyObject and assigned to the dictionary with the key being the name of the variable.
+In listing \ref{lst:TBJSONSerializable}, the TBJSONRepresentation variable contains a switch case to loop through the mirrored object properties; which is a representation of the sub-structure. Then each property such as String, Int or Dictionary, and depending on the type can be parsed into an AnyObject type and assigned to the dictionary with the key being the name of the variable.
 
-The design also stated that in reprieving objects, functionality is to be in placed to parse back to objects. Using protocol extension to type alias of dictionary and method chaining, a list of functions was implemented to parse each value back to the desired type. The method chaining speeds the development time for the developer, without needing to find the correct type first. An example of this is in listing \ref{lst:tryConvert} which takes the parameter of the key, and tries to parse the value in two ways. First if the value if of type integer, it will return that value, but if it is of type String, it will convert string to integer and return the new value.
+The design also stated that in retrieving objects, functionality is to be in placed to parse back to objects. Using protocol extension to type alias of dictionary and method chaining, a list of functions was implemented to parse each value back to the desired type. The method chaining speeds the development time for the developer, without needing to find the correct type first. An example of this is in listing \ref{lst:tryConvert} which takes the parameter of the key, and tries to parse the value in two ways. First if the value if of type integer, it will return that value, but if it is of type String, it will convert string to integer and return the new value.
 
 \lstinputlisting[label={lst:tryConvert},language=Swift, caption=Dictionary]{development/code/tryConvert.m}
 
@@ -577,7 +577,7 @@ Figure \ref{fig:lang_class} shows the class diagram which is used in the Languag
 
 \subsubsection{Notifications}
 
-\begin{figure}[. !h]
+\begin{figure}[!h]
     \caption{Storage View}
     \centering
     \includegraphics[width=120mm]{images/dashboard/notifications}

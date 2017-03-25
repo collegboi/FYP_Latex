@@ -51,7 +51,7 @@ The methodology although sounds good from a theoretical point of view, but in a 
 
 Functional requirement defines a function of a system or its component. After talking to out-sourced developers and researching current systems out there, the following table \ref{tb:functional} defines the list of functional requirement. They are grouped into sections and what the aim of the project will deliver.
 
-\begin{table}[h]
+\begin{table}[!h]
 \centering
 \caption{Functional Requirements}
 \label{tb:functional}
@@ -67,7 +67,8 @@ Functional requirement defines a function of a system or its component. After ta
 7                      & Production                   & A/B Testing               & Testing different variations           & High   \\ \hline
 8                      & Development                  & Live Database             & Update objects without user refreshing & Low    \\ \hline
 9                      & Development                  & Dashboard                & Interface for developers manage apps   & High   \\ \hline
-10                     & Testing                      & Exception catching      & Interface for developers manage apps   & High   \\ \hline
+10                     & Testing                      & Crashes                 & Tools to collect and view crashes   & High   \\ \hline
+11                     & Testing                      & Test environment      & Testing bugs/issues in a test enviornment & Medium \\ \hline
 \end{tabular}
 \end{table}
 
@@ -75,10 +76,6 @@ Functional requirement defines a function of a system or its component. After ta
 
 \subsubsection{Database}
 
-The API and framework will provide a service to send and retrieve objects to the  database. These tools will not only be able to post and get objects but also to set out filters.
-
-\subsubsection{Self hosted}
-Allow the developer to host their own system to have full control on when up and running, and not having to worry if the provider is going to shut down the system. By giving the developer a way to host their own back-end then this will keep the cost down of not having to paying for third party services.
 
 \subsubsection{Backup}
 This feature gives the developer a piece of mind that the applications data is constantly backup to local or remote location.
@@ -90,6 +87,8 @@ Challenge faced when creating an application, is trying to keep a list of featur
 
 \subsubsection{Crashes}
 
+\subsubsection{Test environment}
+
 \subsection{Production}
 
 \subsubsection{A/B Testing}
@@ -97,6 +96,7 @@ A/B testing also known as split testing is comparing two versions of a page to s
 
 \subsubsection{Remote Configuration}
 Remote configuration is a service that lets you change the behaviour and appearance of the app without requiring the users to download an app update. When using this service, you create the default appearance such as how a button looks, whats the title etc. Then later on we can update this values via the dashboard to configure these. So how does the app know when to get the new version? Included in each request done within the app is the configuration object at the top. This object will tell you, what version is available to download. So why use remote configuration? 
+
 \begin{itemize}
   \item Quickly roll out changes to your app
   \item Customise your app depending on the version they are running
@@ -122,8 +122,6 @@ Instead of all applications the developer owns being contained in one database, 
 
 \section{Deliverables}
 
-\subsection{Dashboard}
-
 \subsubsection{Storage}
 
 Figure \ref{fig:storage_use_case} illustrates storage/database in use cases. In the storage view in the dashboard, the developer will be able to choose a database which is specific to each application. After which be able to view and select the collections within, and see the content records. Another feature is the ability to import collection from a JSON or CSV file into the database.
@@ -139,7 +137,7 @@ This use case is limited by design, the typical create, read, update and delete 
 
 \subsection{SDK}
 
-\subsubsection{Storage}
+\subsubsection{Database}
 
 \begin{table}[!h]
 \centering
@@ -158,6 +156,9 @@ filter when retrieving objects & filtered objects      \\ \hline
 \end{table}
 
 The table \ref{tb:storage_design} shows the functionality requirements and result for the storage part in the library. The first functionality being the protocol, which will give all structures that same functionality. The development chapter later will go into detail how the protocol works.
+
+\subsubsection{Self hosted}
+Allow the developer to host their own system to have full control on when up and running, and not having to worry if the provider is going to shut down the system. By giving the developer a way to host their own back-end then this will keep the cost down of not having to paying for third party services.
 
 \section{Design Principles}
 Human Computer Interaction (HCI) principles plays a major role when designing an interface. These principles help keep applications of the same nature alike. An example is a mail app, the icon for mailbox or sending messages can be used to convey without having to read a manual of what a button does. As this system will be using a mac application, apples macOS interface guidelines will be closely followed.

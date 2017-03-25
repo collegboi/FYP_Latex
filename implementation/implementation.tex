@@ -36,14 +36,30 @@ Last part for adding the SDK to your project is to install the pod. This can be 
 
 \lstinputlisting[label={lst:pod_install},language=Bash, caption=Pod install]{implementation/code/pod_install.m}
 
-
 \subsection{Using the SDK}
+
+Once the SDK has been included in the project, the following values are required to be added in the Info.plist file.
+
+\begin{enumerate}
+  \item APPKEY - from the dashboard settings view, in the application window
+  \item SERVERKEY - the secret key in the dashboard settings view
+  \item URL - the domain name for the location of the web server
+\end{enumerate}
+
+\subsubsection{Remote Configuration}
+
+Remote Configuration provides the ability to maintain the application user interface in production. The framework contains a list of protocols for the UI objects such as UITextField, UITableView etc. This protocol will grab the required properties for the object from locally stored configuration files. This files are download initially when the application is first opened, and the end user has the option depending on the developers choice of themes if any. The steps required to implement this is shown in the following listing \ref{lst:rc}.
+
+\lstinputlisting[label={lst:rc},language=Swift, caption=Remote Configuration Setup]{implementation/swift/rc_implemented.m}
+
+To handle downloading a new theme that the end user can select, the listing \ref{lst:new_theme} illustrates how this is done. The call back function takes the parameter of the theme name, once the call back has been called, updating the view can be done. Line 4 is update the configuration file with the reading file name. This can be changed to be included in function that handles when the app goes in the background. The updateViews() function can be implemented to refresh the view if changes are immediate.
+
+\lstinputlisting[label={lst:new_theme},language=Swift, caption=Retrieving new theme]{implementation/swift/config_update.m}
 
 \subsubsection{Notifications}
 To start using notifications, we first need to create the installation object and send that to our server. This is done by adding the following function \ref{lst:installation} in our AppDelegate file.
 
 \lstinputlisting[label={lst:installation},language=Swift, caption=Register for Notifications]{implementation/swift/installation.m}
-
 
 \subsubsection{Storage}
 
@@ -54,6 +70,6 @@ As you can see in Figure \ref{lst:object}, when creating a struct and using the 
 
 \subsubsection{Exception Handling}
 
-Exception is a problem that arises during the execution of a program. If exceptions are not handled, it can cause the app to crashes and when the app is live, we would have no way of knowing. But by adding the following lines 1 & 2 in Figure \ref{lst:exception} we can catch uncaught exceptions and send them to our back-end storage and view with the dashboard. Line 4 is an example of sending a caught exception that can have a message sent along.
+Exception is a problem that arises during the execution of a program. If exceptions are not handled, it can cause the app to crashes and when the app is live, we would have no way of knowing. But by adding the following lines 1 and 2 in Figure \ref{lst:exception} we can catch uncaught exceptions and send them to our back-end storage and view with the dashboard. Line 4 is an example of sending a caught exception that can have a message sent along.
 
 \lstinputlisting[label={lst:exception},language=Swift, caption=Storing/Retrieving Objects]{implementation/swift/exception.m}

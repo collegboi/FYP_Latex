@@ -80,7 +80,26 @@ In listing \ref{lst:test2} the configuration file is being updated. This mean th
 \end{figure}
 
 
-\subsection{User testing}
+\subsection{Sanity testing}
+
+Sanity testing is kind of software testing which is performed once a build is completed with changes made. The goal is to run through the functionality in the application, and ensure they work as expected. Sanity testing is also carried out to check that the reported bugs fixed and new features does not break previously working functionality. The kind of testing is performed by testers which was done using college colleagues. A list of tests was given as seen in table \ref{tb:sanity} along with the average result found. The table \ref{tb:sanity} tests refers to the application stated above in integrated app testing section.
+
+\begin{table}[!h]
+\centering
+\caption{Sanity testing 1}
+\label{tb:sanity}
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\rowcolor{green!20}
+No & Description     & Initial state     & Steps                                                                                                   & Expected Result                                                                                                                 & Result \\ \hline
+1  & Add new Friend  & App opened        & \begin{tabular}[c]{@{}l@{}}1. Selected add option\\ 2. Fill in details \\ 3. Press send\end{tabular}    & \begin{tabular}[c]{@{}l@{}}Friend has been added\\ and view returns to list of \\ friends view\end{tabular}                     & Pass   \\ \hline
+2  & Update Friend   & Friends list view & \begin{tabular}[c]{@{}l@{}}1. Select friend to update\\ 2. Update values\\ 3. Press send\end{tabular}   & \begin{tabular}[c]{@{}l@{}}Friend is updated and view\\ returns to list of friends with\\ friend updated\end{tabular}           & Pass   \\ \hline
+3  & Remove Friend   & Friends list view & \begin{tabular}[c]{@{}l@{}}1. Slide cell with friend\\ 2. Press delete\end{tabular}                     & \begin{tabular}[c]{@{}l@{}}Friend is deleted, and record\\ is gone\end{tabular}                                                 & Pass   \\ \hline
+4  & Change Theme    & App opened        & \begin{tabular}[c]{@{}l@{}}1. Select icon at top left\\ 2. Choose theme ie. Dark\end{tabular}           & \begin{tabular}[c]{@{}l@{}}A pop up message stating \\ Dark Them downloaded, and \\ UI view is changed accordingly\end{tabular} & Pass   \\ \hline
+5  & Change Language & App opened        & \begin{tabular}[c]{@{}l@{}}1. Select icon at top left\\ 2. Choose language\\   ie. English\end{tabular} & \begin{tabular}[c]{@{}l@{}}A pop up messaging stating\\ English downloaded, and title\\ bar caption is changed\end{tabular}     & Pass   \\ \hline
+\end{tabular}
+\end{table}
 
 \section{Evaluation}
 
+The evaluation was done by two outsourced developers, by using the test example project. The evaluation feedback from both developers are included in the case chapter until section evaluation.
