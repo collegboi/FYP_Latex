@@ -751,42 +751,6 @@ Once the project files and code has added, the next stage was to make the pod av
 
 The web server developed was split up into two sections; the development of the web-server using the framework Perfect and setting up the server, and creating the installation file which will installed all the required dependency packages.
 
-\subsubsection{Deployment}
-
-DigitalOcean was used as server of choice and to create a virtual private servers or as DigitalOcean calls them Droplets. After creating an account and going to the page to create a droplet, the first choice was of distribution. The project required Ubuntu 16.04, after which the droplet size was asked, as for this project the basic 512MB ram, 20GB SSD Disk and 1000 GB transfer package was chosen. The next option was what region the droplet will be located and decided to go with London being the closest. Step 5 was additional options where IPv6 was chosen, for Apples requires the server to contain both IPv4 and IPv6. Step 6 was setting up SSH keys, which was done, and the last step was to give the droplet a name for the dashboard purposes.
-
-After the droplet had been created and to log in from the computer, terminal was used with the following command: ssh root@p<droplet ip address>. Once the password had been entered, a prompt message asking to set up SSH keys and followed by entering YES. After logging in a number of steps to setup and install the required packages, while running these commands and checking they installed correctly, they were added to a script file which would be used to create the installation script.
-
-\paragraph{Step 1}
-The first step once logged in, was to create a new user and password for security purposes. This was done by running the following commands in listing \ref{lst:username}.
-
-\lstinputlisting[label={lst:username}, language=Bash, caption=Setting user-name]{development/code/username.m}
-
-\paragraph{Step 2}
-Next the server required to set the locale along with updating and upgrading.
-\lstinputlisting[label={lst:init_server}, language=Bash, caption=Updating Server]{development/code/init_server.m}
-
-\paragraph{Step 3}
-To be able to run Perfect which is Swift based, Linux server requires the Swift package
-\lstinputlisting[label={lst:swift_install}, language=Bash, caption=Swift Installation]{development/code/swift_install.m}
-
-\paragraph{Step 4}
-MongoDB for persistent storage also required to be installed
-\lstinputlisting[label={lst:mongo_install}, language=Bash, caption=MongoDB Installation]{development/code/mongo_install.m}
-
-\paragraph{Step 5}
-Supervisor is a service that can be installed to monitor and manage a program that is defined in the configuration file.The following listing \ref{lst:supervisor} will set up GIT which is where the web-server will be installed, and then supervisor will be installed and set-up.
-\lstinputlisting[label={lst:supervisor}, language=Bash, caption=Supervisor]{development/code/supervisord.m}
-At line 6 where the nano command is ran, the post-recieve files needs to be updated to contain the project name.
-
-\paragraph{Step 6}
-Next the web-server itself needs to pulled from Github and then built. Once the build has been done, ownership for the folders need to changed. Then the built packages need to be moved into the running folder, which supervisor will pick up the server and start it.
-\lstinputlisting[label={lst:web-server}, language=Bash, caption=Web-Server]{development/code/web-server.m}
-
-\paragraph{Step 7}
-For the web-server to be access from the outside the server, a server needs to be installed to route the requests to the web-server. Nginx is installed and then some configurations needs to be done. When running line 3 in listing \ref{lst:server}, the port number needs to be updated to 8181 which is what the web-server runs on. Nginx will route traffic coming in at 80 and 443 which is HTTP and HTTPS to port 8181.
-\lstinputlisting[label={lst:server}, language=Bash, caption=Nginx Server]{development/code/nginx_setup.m}
-
 \subsubsection{Development}
 
 To start developing the server, Perfect provides a basic template with just the structure to start off with, found at https://github.com/PerfectlySoft/PerfectTemplate. A new directory was created, then running the command git clone https://github.com/PerfectlySoft/PerfectTemplate.git. One the template was download, running the following command would create an Xcode project: swift package generate-xcodeproj. The package.swift file required updating with the required packages such as MongoDB and Notifications etc, then running the command sudo swift build inside the project directory retrieved all the packages that was included in the package.swift file. The project structure contains sources and packages directories, the packages are which was already downloaded and the sources where the web-server files are placed. 
@@ -980,7 +944,6 @@ Once the backup method has been called, a number of steps are required along wit
 
 \paragraph{Translations}
 
-
 \begin{figure}[!h]
     \caption{Translation Sequence Diagram}
     \centering
@@ -1007,6 +970,47 @@ The last web app to be developed is translation, which handles posting and retri
 The translation and configuration files availability are put into the top object of any database GET request sent to the server. Listing \ref{lst:header_json} displays the header of an object when making a request, the current version and date of what is available on the server for both configuration and translation, then the application can make a request for the latest if required.
 
 \lstinputlisting[label={lst:header_json}, caption=Header JSON]{development/code/header_json.m}
+
+\paragraph{Testing enviornment}
+
+The last part of the web server work was to develop a way to enable a testing enviornment. This was done using the library with each request being sent up to the server, included in the header was a value that is to set if the developer is in testing/debug mode. Then on the server side, a new database would be created to automatically to handle storing the testing data. The storage view in the dashboard included a new functionality where a replicate of a database can be done with a naming convention of <database name>-Test. This provides the developer with live data without having the worry of destroying valuable users data.
+
+\subsubsection{Deployment}
+
+DigitalOcean was used as server of choice and to create a virtual private servers or as DigitalOcean calls them Droplets. After creating an account and going to the page to create a droplet, the first choice was of distribution. The project required Ubuntu 16.04, after which the droplet size was asked, as for this project the basic 512MB ram, 20GB SSD Disk and 1000 GB transfer package was chosen. The next option was what region the droplet will be located and decided to go with London being the closest. Step 5 was additional options where IPv6 was chosen, for Apples requires the server to contain both IPv4 and IPv6. Step 6 was setting up SSH keys, which was done, and the last step was to give the droplet a name for the dashboard purposes.
+
+After the droplet had been created and to log in from the computer, terminal was used with the following command: ssh root@p<droplet ip address>. Once the password had been entered, a prompt message asking to set up SSH keys and followed by entering YES. After logging in a number of steps to setup and install the required packages, while running these commands and checking they installed correctly, they were added to a script file which would be used to create the installation script.
+
+\paragraph{Step 1}
+The first step once logged in, was to create a new user and password for security purposes. This was done by running the following commands in listing \ref{lst:username}.
+
+\lstinputlisting[label={lst:username}, language=Bash, caption=Setting user-name]{development/code/username.m}
+
+\paragraph{Step 2}
+Next the server required to set the locale along with updating and upgrading.
+\lstinputlisting[label={lst:init_server}, language=Bash, caption=Updating Server]{development/code/init_server.m}
+
+\paragraph{Step 3}
+To be able to run Perfect which is Swift based, Linux server requires the Swift package
+\lstinputlisting[label={lst:swift_install}, language=Bash, caption=Swift Installation]{development/code/swift_install.m}
+
+\paragraph{Step 4}
+MongoDB for persistent storage also required to be installed
+\lstinputlisting[label={lst:mongo_install}, language=Bash, caption=MongoDB Installation]{development/code/mongo_install.m}
+
+\paragraph{Step 5}
+Supervisor is a service that can be installed to monitor and manage a program that is defined in the configuration file.The following listing \ref{lst:supervisor} will set up GIT which is where the web-server will be installed, and then supervisor will be installed and set-up.
+\lstinputlisting[label={lst:supervisor}, language=Bash, caption=Supervisor]{development/code/supervisord.m}
+At line 6 where the nano command is ran, the post-recieve files needs to be updated to contain the project name.
+
+\paragraph{Step 6}
+Next the web-server itself needs to pulled from Github and then built. Once the build has been done, ownership for the folders need to changed. Then the built packages need to be moved into the running folder, which supervisor will pick up the server and start it.
+\lstinputlisting[label={lst:web-server}, language=Bash, caption=Web-Server]{development/code/web-server.m}
+
+\paragraph{Step 7}
+For the web-server to be access from the outside the server, a server needs to be installed to route the requests to the web-server. Nginx is installed and then some configurations needs to be done. When running line 3 in listing \ref{lst:server}, the port number needs to be updated to 8181 which is what the web-server runs on. Nginx will route traffic coming in at 80 and 443 which is HTTP and HTTPS to port 8181.
+\lstinputlisting[label={lst:server}, language=Bash, caption=Nginx Server]{development/code/nginx_setup.m}
+
 
 \section{Code Stats}
 

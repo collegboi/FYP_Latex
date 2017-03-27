@@ -81,6 +81,9 @@ Cloud storage is a service model in which data is manged remotely and made avail
 \subsubsection{Sprint board}
 Challenge faced when creating an application, is trying to keep a list of features or changes to be made for a version. Also knowing history of features already implemented. Their are already different sprint board applications out there, but I wanted a way to en-corporate it all in one single dashboard app, that can be used with teams.
 
+\subsubsection{Self hosted}
+This will allow the developer to host their own system to have full control on when up and running, and not having to worry if the provider is going to shut down the system. By giving the developer a way to host their own back-end then this will keep the cost down of not having to paying for third party services.
+
 \subsection{Testing}
 
 \subsubsection{Exceptions}
@@ -94,7 +97,8 @@ In the exceptions section, we discussed that bugs/issues can occur will applicat
 \subsection{Production}
 
 \subsubsection{Backup}
-This feature gives the developer a piece of mind that the applications data is constantly backup to local or remote location.
+
+During the research when asking developers what services are missing from current mobile cloud services, and one was backup. They wanted a way to completely backup their data being files and the database contents. This would enable them to both have the piece of mind that their users data is safe, and to all have the friend to change cloud service providers. It seems that providers would create their system in such a way that once the developer would start using it, they would be stuck. This is down to not being able to transfer their users data, so this system will provide two services: one to backup their data to a remote or local location, and secondly to import data.
 
 \subsubsection{A/B Testing}
 A/B testing also known as split testing is comparing two versions of a page to see which performs better. Currently this popular with web pages but my plan is to bring this to mobile applications. All mobile applications no matter what services they provide all have one goal; a reason to exist. A/B testing allows you to make more out of your existing traffic. This is achieved by sending our to variants ( A and B ) to similar visitors at the same time and use analytics to provide us what version wins. Included in my research, I did a survey to see how end-users respond to different applications. How they look?, Are they concerned on the aesthetics of the app?. At stated end-users do choose whether or not they will continue to use an app. So by using A/B testing service we can quickly find out what they do and do not like. So how can we implement this service in mobile apps? This leads on to my next service.
@@ -109,7 +113,7 @@ Remote configuration is a service that lets you change the behaviour and appeara
 \end{itemize}
 
 \subsubsection{Notifications}
-Allowing the developer to reach their users and perform tasks in the background. These allows the developers to bring the attention of the users to their app if for example a message comes in. A powerful tool to keep the app in real time and the user connected to the app. Ability to add notification certificates relating to each applications and to send individual or bulk notifications.
+Apple push notifications (APNs) provides the developer a way to reach their users and perform tasks in the background. These allows the developers to bring the attention of the users to their app if for example a message comes in. A powerful tool to keep the app in real time and the user connected to the app. Ability to add notification certificates relating to each applications and to send individual or bulk notifications.
 
 \subsubsection{Analytics}
 Analytics to give the developer real time information on how their app is doing, how users are using their app. Custom tool to configure what data they want to analyse for example, if the applications is based on vehicles then it can be configured to show list of top vehicle type, make or model. Each configuration will have a graph on the main screen. Analytics will also be used for AB Testing service explained later.
@@ -127,43 +131,162 @@ Instead of all applications the developer owns being contained in one database, 
 
 \section{Deliverables}
 
+\subsection{SDK}
+
+The software development kit (SDK) provides the developer with the necessary tools in the application to communicate with the web server (backend), through the API. The number of services discussed next will be included in the SDK.
+
 \subsubsection{Storage}
 
-Figure \ref{fig:storage_use_case} illustrates storage/database in use cases. In the storage view in the dashboard, the developer will be able to choose a database which is specific to each application. After which be able to view and select the collections within, and see the content records. Another feature is the ability to import collection from a JSON or CSV file into the database.
+% \begin{table}[!h]
+% \centering
+% \caption{SDK Storage Design}
+% \label{tb:storage_design}
+% \begin{tabular}{|l|l|}
+% \hline
+% \rowcolor{green!20}
+% Functionality                  & Result                \\ \hline
+% convert objects to JSON        & JSON string \\ \hline
+% parse collection into object   & collection of objects \\ \hline
+% send object to server          & unique record id      \\ \hline
+% filter when retrieving objects & filtered objects      \\ \hline
+% \end{tabular}
+% \end{table}
+
+\begin{figure}[!h]
+    \caption{Storage SDK Design}
+    \centering
+    \includegraphics[width=100mm]{images/design/objects}
+    \label{fig:sdk_storage}
+\end{figure}
+
+The fig \ref{fig:sdk_storage} illustrates the design of the storage library. The objects that the developers requires for their app will all need the same functionality, being the way that the objects exchange information with the server. This then states that they all need to conform to same way, and this is done using a protocol. The development chapter will go into detail what protocol in software terms mean and how it is implemented with the storage library.  
+
+\subsubsection{APNs}
+
+\begin{figure}[!h]
+    \caption{Notification SDK Design}
+    \centering
+    \includegraphics[width=100mm]{images/design/notification}
+    \label{fig:apns_storage}
+\end{figure}
+
+Apple push notifications as stated above provides a way for apps to alert the user that an action has occurred. This action can be a text message, a friend has been added etc. The notifications has to be activated by a sender, so when the user sends a message, a notification object will be sent to the server and in turn to the receiver. The library will contain a notification class, that will contain the required properties and the functionality to send the notification as illustrated in fig \ref{fig:apns_storage}.
+
+\subsubsection{Analytics}
+
+\begin{figure}[!h]
+    \caption{Notification SDK Design}
+    \centering
+    \includegraphics[width=100mm]{images/design/analytics}
+    \label{fig:analytics_design}
+\end{figure}
+
+The analytics library as illustrated in figure \ref{fig:analytics_design}, has the capabilities of send categorised types of analytics to the server. The type can be when a user clicks a button, or when a view is opened. The class will contain a number of different functionality to make it easier for the developer to use. An example can be seen in figure \ref{fig:analytics_design} where the open app function is straight forward to send what is happening in the application.
+
+\subsubsection{Remote Configuration/Language}
+
+\begin{figure}[!h]
+    \caption{RC/Language SDK Design}
+    \centering
+    \includegraphics[width=120mm]{images/design/remote_config}
+    \label{fig:remote_config_design}
+\end{figure}
+
+
+\begin{figure}[!h]
+    \caption{RC File Design}
+    \centering
+    \includegraphics[width=70mm]{images/design/rc_file}
+    \label{fig:rc_file_design}
+\end{figure}
+
+This section is contains two parts: remote configuration and language sections. The are designed together as they both use the same system to update the application remotely. The figure \ref{fig:remote_config_design} shows two components of the library, where one part is for downloading the correct language and configuration file, the other to retrieve from. The downloading section for both takes a key parameter which distinguishes it from the other such as language name, or theme name i.e Dark, Light.  
+
+The remote configurations will be stored in JSON files, that can be both easily retrieved and stored on the device. Using the JSON files will also speed up reading for each object properties. The structure of the configuration file as illustrated in figure \ref{fig:rc_file_design} contains an object inside a controller class, and then the properties of the object.
+
+\subsection{Dashboard}
+
+\subsubsection{Settings}
+
+\begin{figure}[!h]
+    \caption{Settings Use Case Diagram}
+    \centering
+    \includegraphics[width=100mm]{images/use_cases/settings_uc}
+    \label{fig:settings_uc}
+\end{figure}
+
+The use case diagram for the settings view can be seen in figure \ref{fig:settings_uc}. The developer in the settings view can set up the notifications requirements such as sending the certificate file. This certificate is crucial for sending notifications, it authenticates the developers id when about to send the notification object.
+
+The next part of the settings view, the developer can create and edit applications. These apps are the mobile apps that will be used in conjunction with the web-server and the SDK. These apps and versions will be used throughout the rest of the dashboard when setting remote configuration for example. When the application is being set, values can also be retrieved from iTunes API.
+
+\subsubsection{Storage}
+
+Figure \ref{fig:storage_use_case} illustrates storage/database use case. In the storage view in the dashboard, the developer will be able to choose a database which is specific to each application. After which be able to view and select the collections within, and see the content records. Another feature is the ability to import collection from a JSON or CSV file into the database.
 
 This use case is limited by design, the typical create, read, update and delete (CRUD) operations known with database development will not be available. When designing systems that include both backend and frontend, the most important one of two is the frontend. This is what the end users will see, so this system will focus on designing the structure of each collection in the application, in development stage. Typically the dashboard will allow the developer to perform CRUD operations, and then they will have to mimic that structure for the frontend app, thereby creating a potential bug. A bug can occur if someone is able to change the collection name, or collection property name, thus creating an inconsistency between frontend and backend. Removing the capabilities from one side being backend will hopefully remove this potential issue. 
 
 \begin{figure}[!h]
-    \caption{Storage Use Case Diagram}
+    \caption{Storage View Use Case Diagram}
     \centering
-    \includegraphics[width=100mm]{images/use_cases/storage_use_case}
+    \includegraphics[width=120mm]{images/use_cases/storage_use_case}
     \label{fig:storage_use_case}
 \end{figure}
 
-\subsection{SDK}
+\subsubsection{Notifications}
 
-\subsubsection{Database}
+\begin{figure}[!h] 
+    \caption{APNs View Use Case Diagram}
+    \centering
+    \includegraphics[width=80mm]{images/use_cases/notifications_uc}
+    \label{fig:notifications_uc}
+\end{figure}
 
-\begin{table}[!h]
-\centering
-\caption{SDK Storage Design}
-\label{tb:storage_design}
-\begin{tabular}{|l|l|}
-\hline
-\rowcolor{green!20}
-Functionality                  & Result                \\ \hline
-protocol for each object       & parsing objects to and from JSON \\ \hline
-convert objects to JSON        & JSON string \\ \hline
-parse collection into object   & collection of objects \\ \hline
-send object to server          & unique record id      \\ \hline
-filter when retrieving objects & filtered objects      \\ \hline
-\end{tabular}
-\end{table}
+Apple push notifications (APNs) that have been sent can be view in the notifications view as illustrated in \ref{fig:notifications_uc}. The developer can also send notifications from the dashboard to the mobile apps, for example telling users about an update, or new theme etc. 
 
-The table \ref{tb:storage_design} shows the functionality requirements and result for the storage part in the library. The first functionality being the protocol, which will give all structures that same functionality. The development chapter later will go into detail how the protocol works.
+\subsubsection{Remote Configuration}
 
-\subsubsection{Self hosted}
-Allow the developer to host their own system to have full control on when up and running, and not having to worry if the provider is going to shut down the system. By giving the developer a way to host their own back-end then this will keep the cost down of not having to paying for third party services.
+\begin{figure}[!h]
+    \caption{RC View Use Case Diagram}
+    \centering
+    \includegraphics[width=100mm]{images/use_cases/rc_uc}
+    \label{fig:rc_uc}
+\end{figure}
+ 
+The developer in the remote configuration view once an application and version has been chosen, can create versions. These versions define what will user interface of the app will look like. Each version will be dependant on an app version or a particular theme. In figure \ref{fig:rc_uc} defines what the capabilities of this view.
+ 
+\subsubsection{Languages}
+
+\begin{figure}[!h]
+    \caption{Language View Use Case Diagram}
+    \centering
+    \includegraphics[width=100mm]{images/use_cases/rc_uc}
+    \label{fig:language_uc}
+\end{figure}
+
+The language view use case in figure \ref{fig:language_uc} is similar to the remote configuration use case above. This is because both are design in the same way, that each version can be downloaded and the data is retrieved in the app.
+
+\subsubsection{Backup}
+
+\begin{figure}[!h]
+    \caption{Backup View Use Case Diagram}
+    \centering
+    \includegraphics[width=80mm]{images/use_cases/backup_uc}
+    \label{fig:backup_uc}
+\end{figure}
+
+The backup view is where the developer can either set up a scheduled a backup or do a backup now. In the use case figure \ref{fig:backup_uc}, all the previous backups can also been seen in this view. The developer will also be able to select a location for these backups placed, being either remotely or locally. The backups will have the time-stamp and zipped to help safe space.
+
+\subsection{Web Server}
+
+\begin{figure}[!h]
+    \caption{Web Server Design}
+    \centering
+    \includegraphics[width=100mm]{images/design/api_handler}
+    \label{fig:api_handler}
+\end{figure}
+
+The web server brief design can be seen in figure \ref{fig:api_handler}. The web server uses an application programming interface (API) which defines a set of methods for communication. In this system, the database and notifications are an example of defined tools that will be used. The API Handler takes the request in and forwards it on to the correct web app to handle the request, and relay a response back. The development chapter under web server section will discuss in detail the list of tools.
+
 
 \section{Design Principles}
 Human Computer Interaction (HCI) principles plays a major role when designing an interface. These principles help keep applications of the same nature alike. An example is a mail app, the icon for mailbox or sending messages can be used to convey without having to read a manual of what a button does. As this system will be using a mac application, apples macOS interface guidelines will be closely followed.
