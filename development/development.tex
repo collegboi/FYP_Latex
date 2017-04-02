@@ -692,10 +692,13 @@ Figure \ref{fig:login_cd} illustrates the class diagram of the main view control
 \begin{figure}[!h]
     \caption{Status View}
     \centering
-    \includegraphics[width=100mm]{images/dashboard/status}
+    \includegraphics[width=100mm]{images/dashboard/status_view}
     \label{fig:status-view}
 \end{figure}
 % change to include the menu view
+
+Before discussing the status view, the menu on the left will exist on view. The menu bar routes the user across the whole application. The bar contains grouped submenus to help clarify to the user what the view provides. The accounts section, for example, provides staff, so before clicking on this option, it is already known that it is staff accounts. This design is following Apple's guidelines on the mental model and consistency mentioned in the design chapter.
+
 Figure \ref{fig:status-view} illustrates the server status view, it is the first page the user sees when entering the application. This view displays a number of graphs about the server. To help with displaying graphs, a framework was used called Charts, and listing \ref{lst:pie-chart} illustrates the code necessary to display a pie chart. In lines 1 to 4, the content of the chart is being populated. The values past are the sections within a pie chart, being the size of section and label name. The sections in line 9 are given their own color to help distinguish them.
 % change to include the menu view
 Starting from left to right with the pie charts, the first displays the current CPU usage, next storage usage and memory usage (last one). The line chart displays the history and current CPU usage. This gives the developer an general overview on what the physical sever doing. This can help decide whether or not to upgrade the system.
@@ -948,8 +951,15 @@ The issue view as illustrated in Figure \ref{fig:crashes-view} is where all exce
 
 Figure \ref{fig:issues-view} illustrates the tickets view containing all the different type of tickets being, bugs, features, etc. are displayed. After selecting the application name and version from the drop-down list, the table below will get populated with the current issues relating to that application. The class diagram for each issue is illustrated in Figure \ref{fig:issues-cd}, where the Issue class has the same protocol again. This gives the class functionality to save and retrieve all the issues. The issue class consists of few enumeration type variables, where an issue can be a bug, the issue has a status and priority. An enumeration was used to make sure of the value being parsed into the database, being only one of the values.
 
-%new issue window to be done
-To be able to create a new issue, a new window was developed. This view as seen in figure \ref{fig:new-issue}.
+\begin{figure}[!h]
+    \caption{Tickets View}
+    \centering
+    \includegraphics[width=100mm]{images/dashboard/edit_issue}
+    \label{fig:edit_issue-view}
+\end{figure} 
+
+
+To be able to create a new and edit an issue, a new window was developed. This view as seen in Figure \ref{fig:edit_issue-view} contains several values, starting off with the name of the ticket, and the assignee. The issue displayed has a type of feature, the status of \textit{TODO} and low priority and the app version. The \textit{"Add your comments"} section contain the logged comments regarding this ticket, which can be done several times. Each recorded comment will include the assignee and the timestamp.
 
 \subsubsection{Sprint Board}
 
