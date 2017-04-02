@@ -21,35 +21,35 @@
 %     \label{fig:label}
 % \end{figure}
 
-After doing research, I decided to implement my own methodology called "Tree-Shaped". The idea behind this methodology is to en-corporate the functionality into different sections, and prove each functionality at a lower, early stage. This benefits by setting out the goal into sections and filling in what functional requirements are need to reach the goal. The proving of functionality part is to able to fix any potential compatibilities at an earlier stage or remove if necessary.
+After doing research, I decided to implement my methodology called ”Tree-Shaped”. The idea behind this method is to en-corporate the functionality into different sections and prove each functionality at a lower, early stage. This benefits by setting out the goal into sections and filling in what functional requirements are needed to reach the target. The proving of functionality part is to able to fix any potential compatibilities at an earlier stage or remove if necessary.
 
 The methodology has three parts
 
 \begin{enumerate}
   \item Sections
   
-    The sections stage is first step in using the "tree shaped" methodology. This part is where we set out what we are trying to achieve. Then incorporate each functionality into their respective sections.
+    The sections stage is the first step in using this ”tree-shaped”. This part is where we set out what we are trying to achieve. Then incorporate each functionality into their respective sections.
     
   \item Functionality   
     
-     After we define our sections including their respective functionalities, tests are to be written out for each functionality. This are to show that they still output the correct result, being what they are supposed to do.
+    After we define our sections including their respective functionalities, tests are to be written out for each functionality. The test shows that they still output the correct result, being what they are supposed to do.
     
   \item Levels
   
-    Levels stage is where we are proving/testing the functionalists. As we move up the tree into each node, the functionalists are combined together. Thus solving compatibilities issues at an earlier stage of the project development.
+   Levels stage is where we are proving/testing the functionalists. As we move up the tree into each node, the functionalists are combined. Thus solving compatibilities issues at an earlier stage of the project development.
 \end{enumerate}
 
 \subsection{Advantages}
 
-This methodology is based on the test-driven development (TDD) process that relies on the repetition of very short development cycles. At each level, the nodes which holds the application are tested. These tests are from the functionality part, when combining the previous nodes, we want to make sure they still output the correct result.
+This methodology based on the test-driven development (TDD) process that relies on the repetition of very short development cycles. At each level, the nodes which hold the application are tested. These tests are from the functionality part when combining the previous nodes to make sure they still output the correct result.
 
 \subsection{Disadvantages}
 
-The methodology although sounds good from a theoretical point of view, but in a real world it has its drawbacks. Each node (circle in each level) requires making new test application, combing the previous two node applications and potential re-factoring. This takes time where some projects do not have, but we reduce the number of bugs found but re-factoring at each level. To overcome this, the methodology allows to skip one level to reduce testing times.
+The methodology although sounds good from a theoretical point of view, but in a real world it has its drawbacks. Each node (circle in each level) requires making new test application, combine the previous two node applications and possible refactoring. This takes time what some projects do not have, but it reduces the number of bugs found by refactoring at each level. To overcome this, the methodology allows skipping one level to reduce testing times.
 
 \section{Functional Requirements}
 
-Functional requirement defines a function of a system or its component. After talking to out-sourced developers and researching current systems out there, the following table \ref{tb:functional} defines the list of functional requirement. They are grouped into sections and what the aim of the project will deliver.
+Functional requirement defines a function of a system or its component. After having discussions with outsourced developers and researching current systems, the following \ref{tb:functional} illustrates the list of functional requirement. They are grouped into sections and what the aim of the project will deliver.
 
 \begin{table}[!h]
 \centering
@@ -74,37 +74,37 @@ Functional requirement defines a function of a system or its component. After ta
 
 \subsection{Development}
 
-\subsubsection{Cloud Storage}
+\subsubsection{Cloud Storage} \label{d-d:cloud_storage}
 
-Cloud storage is a service model in which data is manged remotely and made available to users over a network. This services allows developers to keep the application data in one or more locations, for the end users to access. Users want the ability to be connected to others, to share information but without filling up local storage. To solve this problem, cloud storage holds the data persistently and the application makes requests through some protocol to access the users data. The service will provide tools for the developer to create, read, update and delete the data.
+Cloud storage is a service model in which data is managed remotely and made available to users over the Internet. This service allows developers to keep the application data in one or more locations, for the end users to access. Mobile app users want the ability to be connected to others, to share information but without filling up local storage. This cloud service solves this problem by storing the data remotely, and the application makes requests through some protocol to access the user's data. The service will provide tools for the developer to create, read, update and delete the data.
 
-\subsubsection{Sprint board}
-Challenge faced when creating an application, is trying to keep a list of features or changes to be made for a version. Also knowing history of features already implemented. Their are already different sprint board applications out there, but I wanted a way to en-corporate it all in one single dashboard app, that can be used with teams.
+\subsubsection{Sprint board} \label{d-d:sprint_board}
+Challenges faced when developing an application, is trying to keep a list of features implemented in each version. There are already different sprint board applications out there, but wanted a way to en-corporate it all in one single dashboard application. This feature will be incorporated with exceptions discussed in section \ref{testing subsection}, where an exception can be attached to a ticket. This will help with tracking issues and signed off once completed.
 
-\subsubsection{Self hosted}
-This will allow the developer to host their own system to have full control on when up and running, and not having to worry if the provider is going to shut down the system. By giving the developer a way to host their own back-end then this will keep the cost down of not having to paying for third party services.
+\subsubsection{Self hosted} \label{d-d:self_hosted}
+This will allow the developer to host their system, to have full control of when running, and not to have to worry if the provider is going to shut down the service. By giving the developer a way to host their back-end then this will keep the cost down of not having to pay for third party services.
 
-\subsection{Testing}
+\subsection{Testing} 
 
-\subsubsection{Exceptions}
+\subsubsection{Exceptions} \label{testing subsection}
 
-When an application crashes, the reason for this is called an uncaught exception. An exception is an event, which occurs when the application is running, that disrupts the flow of a set of actions. An exception can occur when trying to read that value from a variable that does not exist. When developing application, the common rule of thumb is to design the software in such a way to handle potential exceptions. This is known as caught exception and the application does not crash. These exceptions can only be seen by the developer when testing the application, but can not always find these potential issues. This project will design a way, that the exceptions can sent to the developer both uncaught and caught.
+When an application crash, the reason for this is called an uncaught exception. An exception is an event, which occurs when the application is running, that disrupts the flow of a set of actions. An exception can occur when trying to read a value from a variable that does not exist. When developing applications, a good design is to handle all potential exceptions. This is known as a caught exception, and the application does not crash. These exceptions can only be seen by the developer when testing the application, but can not always find these potential issues. This project will design a way, which the both uncaught and caught exceptions can send to the developer.
 
-\subsubsection{Test environment}
+\subsubsection{Test environment} \label{d-t:test_enviornment}
 
-In the exceptions section, we discussed that bugs/issues can occur will application, but testing the application on live data the wrong approach. The idea when the application is being tested, a test database will be used without the hassle of creating one. The cloud services currently do not provide a testing enviornment, where the integrity of the data is not a priority. The project will be design so that when the application is in debug mode, it will use the testing environment. 
+In the exceptions section \ref{testing subsection},we discussed that bugs/issues could occur will application, but testing the application on live data is the wrong approach. This can be done when the application is being tested; a test database will be used without the hassle of creating one. The cloud services currently do not provide a testing environment, where the integrity of the data is a priority. The project will be designed so that when the application is in debug mode, it will use the testing environment.
 
 \subsection{Production}
 
-\subsubsection{Backup}
+\subsubsection{Backup} \label{d-p:backup}
 
-During the research when asking developers what services are missing from current mobile cloud services, and one was backup. They wanted a way to completely backup their data being files and the database contents. This would enable them to both have the piece of mind that their users data is safe, and to all have the friend to change cloud service providers. It seems that providers would create their system in such a way that once the developer would start using it, they would be stuck. This is down to not being able to transfer their users data, so this system will provide two services: one to backup their data to a remote or local location, and secondly to import data.
+During the research when asking developers what services are missing from current mobile cloud services, one was a backup feature. They wanted a way to completely backup their data being files and database contents. This would enable them to both have the piece of mind that their user's data is safe, and to have the option to change cloud service providers. It seems that providers create their systems in such a way that once the developer starts using it, they would not be able to migrate. This is down to not providing a service to transfer their user's data. This system will provide two services: one to backup their data to a remote or local location, and secondly to import data to aid in migrating to using this system.
 
-\subsubsection{A/B Testing}
-A/B testing also known as split testing is comparing two versions of a page to see which performs better. Currently this popular with web pages but my plan is to bring this to mobile applications. All mobile applications no matter what services they provide all have one goal; a reason to exist. A/B testing allows you to make more out of your existing traffic. This is achieved by sending our to variants ( A and B ) to similar visitors at the same time and use analytics to provide us what version wins. Included in my research, I did a survey to see how end-users respond to different applications. How they look?, Are they concerned on the aesthetics of the app?. At stated end-users do choose whether or not they will continue to use an app. So by using A/B testing service we can quickly find out what they do and do not like. So how can we implement this service in mobile apps? This leads on to my next service.
+\subsubsection{A/B Testing} \label{design:abtesting}
+A/B testing also known as split testing is comparing two variations of a page to see which performs better. Currently this popular with web pages but my plan is to bring this to mobile applications. All mobile applications no matter what services they provide all have one goal: a reason to exist. A/B testing allows you to make more out of your existing traffic. This is achieved by sending our two variants ( A and B ) to similar visitors at the same time and use analytics to provide display what variation wins. Included in the research, a survey was conducted in section \ref{research:mobile_users} to see what users felt about mobile apps. The results were that end-users do choose whether or not they will continue to use an app based on the content. So by using A/B testing service, we can quickly find out what they do and do not like. So how can this be implemented in mobile apps? This leads on to the next service.
 
-\subsubsection{Remote Configuration}
-Remote configuration is a service that lets you change the behaviour and appearance of the app without requiring the users to download an app update. When using this service, you create the default appearance such as how a button looks, whats the title etc. Then later on we can update this values via the dashboard to configure these. So how does the app know when to get the new version? Included in each request done within the app is the configuration object at the top. This object will tell you, what version is available to download. So why use remote configuration? 
+\subsubsection{Remote Configuration} \label{d-p:remote_config}
+Remote configuration is a service that lets you change the behaviour and appearance of the app without requiring a new build to be published. When using this service, the default properties will be what the developer put in the build. Then when the developer wants to make an update, this feature can be used to publish a new version. The mobile app can then perform the update in the background. Another feature is giving the user an option of choosing a theme for the app. This theme can change the look of the app from dark to a light mode for example. So what use remote configuration?. It can provide the following:
 
 \begin{itemize}
   \item Quickly roll out changes to your app
@@ -112,22 +112,22 @@ Remote configuration is a service that lets you change the behaviour and appeara
   \item Use this along with A/B testing to find improvements
 \end{itemize}
 
-\subsubsection{Notifications}
-Apple push notifications (APNs) provides the developer a way to reach their users and perform tasks in the background. These allows the developers to bring the attention of the users to their app if for example a message comes in. A powerful tool to keep the app in real time and the user connected to the app. Ability to add notification certificates relating to each applications and to send individual or bulk notifications.
+\subsubsection{Notifications} \label{d-p:notifications}
+Apple push notifications (APNs) provides the developer with a way to reach their users and perform tasks in the background. A powerful tool to keep the app in real time and users connected to the app. These notifications can be used along with the remote configuration service, to notify the users of a new theme out.
 
-\subsubsection{Analytics}
-Analytics to give the developer real time information on how their app is doing, how users are using their app. Custom tool to configure what data they want to analyse for example, if the applications is based on vehicles then it can be configured to show list of top vehicle type, make or model. Each configuration will have a graph on the main screen. Analytics will also be used for AB Testing service explained later.
+\subsubsection{Analytics} \label{d-p:analytics}
+Analytics to give the developer real-time information on the activity of their app, how users are interacting with the app. It can help understand the mobile app and users to evaluate the performance of the content. Analytics will also be used along with A/B testing already discussed in section \ref{design:abtesting}.
 
 \subsection{Non Functional Requirements}
 
 \subsection{Security}
-Security is a big part to any cloud based applications. Users personal information being sent up to cloud, where potential hacks could expose these. Not along has able enforcing developers to user HTTPS request, to secure data transmission, I have also taken into account some security measures. 
+Security is a big part of any cloud-based applications. The user's personal information being sent up to the cloud, where potential hacks could expose these. The system will need to ensure its security and the integrity of its data.
 
 \subsubsection{Keys}
-The systems supports two keys authentication, there is one key that allows requests to access the web server services. The next key allows data back and fourth to the database.
+The systems support two keys authentication; there is one key that allows requests to access the web server services. The next key allows data back and forth to the database. The development chapter will illustrate how this is being achieved.
 
 \subsubsection{Database}
-Instead of all applications the developer owns being contained in one database, each application created gets their own database. These are only allowed access once the key gets authenticated.
+The mobile applications accessing the backend, will each have their database. This will provide data security to ensure users data do not get accessed accidentally by another app. These are only accessed once the app key is authenticated.
 
 \section{Deliverables}
 
@@ -135,7 +135,7 @@ Instead of all applications the developer owns being contained in one database, 
 
 The software development kit (SDK) provides the developer with the necessary tools in the application to communicate with the web server (backend), through the API. The number of services discussed next will be included in the SDK.
 
-\subsubsection{Storage}
+\subsubsection{Storage} \label{d-sdk:storage}
 
 % \begin{table}[!h]
 % \centering
@@ -159,9 +159,9 @@ The software development kit (SDK) provides the developer with the necessary too
     \label{fig:sdk_storage}
 \end{figure}
 
-The fig \ref{fig:sdk_storage} illustrates the design of the storage library. The objects that the developers requires for their app will all need the same functionality, being the way that the objects exchange information with the server. This then states that they all need to conform to same way, and this is done using a protocol. The development chapter will go into detail what protocol in software terms mean and how it is implemented with the storage library.  
+Figure \ref{fig:sdk_storage} illustrates the design of the storage library. The objects that the developers require for their app will all need the same functionality, being the way that the objects exchange information with the server. This then states that they all need to conform to the same way, and this is done using a protocol. The development chapter will go into detail what protocol in software terms mean and how it is implemented within the storage library.
 
-\subsubsection{APNs}
+\subsubsection{APNs} \label{d-sdk:apns}
 
 \begin{figure}[!h]
     \caption{Notification SDK Design}
@@ -170,9 +170,9 @@ The fig \ref{fig:sdk_storage} illustrates the design of the storage library. The
     \label{fig:apns_storage}
 \end{figure}
 
-Apple push notifications as stated above provides a way for apps to alert the user that an action has occurred. This action can be a text message, a friend has been added etc. The notifications has to be activated by a sender, so when the user sends a message, a notification object will be sent to the server and in turn to the receiver. The library will contain a notification class, that will contain the required properties and the functionality to send the notification as illustrated in fig \ref{fig:apns_storage}.
+Apple push notifications as stated above provides a way for apps to alert the user that an action has occurred. This action can be a text message or a friend that has been added. The notifications have to be activated by a sender, so when the user sends a message, a notification object will be sent to the server and in turn to the receiver. The library will contain a notification class, that will contain the required properties and the functionality to send the notification as illustrated in figure \ref{fig:apns_storage}.
 
-\subsubsection{Analytics}
+\subsubsection{Analytics} \label{d-sdk:analytics}
 
 \begin{figure}[!h]
     \caption{Notification SDK Design}
@@ -181,9 +181,9 @@ Apple push notifications as stated above provides a way for apps to alert the us
     \label{fig:analytics_design}
 \end{figure}
 
-The analytics library as illustrated in figure \ref{fig:analytics_design}, has the capabilities of send categorised types of analytics to the server. The type can be when a user clicks a button, or when a view is opened. The class will contain a number of different functionality to make it easier for the developer to use. An example can be seen in figure \ref{fig:analytics_design} where the open app function is straight forward to send what is happening in the application.
+The analytics library as illustrated in figure \ref{fig:analytics_design}, has the capabilities of sending categorised types of analytics to the server. The type can be when a user clicks a button, or when a view is opened. The class will contain many different functionalities to make it easier for the developer to use. An example can be seen in \ref{fig:analytics_design} where the open app function is straight forward to send.
 
-\subsubsection{Remote Configuration/Language}
+\subsubsection{Remote Configuration/Language} \label{d-sdk:rc_l}
 
 \begin{figure}[!h]
     \caption{RC/Language SDK Design}
@@ -200,13 +200,13 @@ The analytics library as illustrated in figure \ref{fig:analytics_design}, has t
     \label{fig:rc_file_design}
 \end{figure}
 
-This section is contains two parts: remote configuration and language sections. The are designed together as they both use the same system to update the application remotely. The figure \ref{fig:remote_config_design} shows two components of the library, where one part is for downloading the correct language and configuration file, the other to retrieve from. The downloading section for both takes a key parameter which distinguishes it from the other such as language name, or theme name i.e Dark, Light.  
+This section contains two parts: remote configuration and language. The are designed together as they both use the same system to update the application remotely. Figure \ref{fig:remote_config_design} shows two components of the library, where one part is for downloading the correct language and configuration file, the other to retrieve from. The downloading section for both takes a key parameter which distinguishes it from the other such as language name, or theme name, i.e., Dark, Light.  
 
-The remote configurations will be stored in JSON files, that can be both easily retrieved and stored on the device. Using the JSON files will also speed up reading for each object properties. The structure of the configuration file as illustrated in figure \ref{fig:rc_file_design} contains an object inside a controller class, and then the properties of the object.
+The remote configurations and translations will be stored in JSON files, that can be both easily retrieved and stored on the device. Using the JSON files will speed up reading for each object properties. The structure of the configuration file as illustrated in \ref{fig:rc_file_design} contains an object inside a controller class, and then the properties of the object.
 
 \subsection{Dashboard}
 
-\subsubsection{Settings}
+\subsubsection{Settings} \label{d-db:settings}
 
 \begin{figure}[!h]
     \caption{Settings Use Case Diagram}
@@ -215,15 +215,17 @@ The remote configurations will be stored in JSON files, that can be both easily 
     \label{fig:settings_uc}
 \end{figure}
 
-The use case diagram for the settings view can be seen in figure \ref{fig:settings_uc}. The developer in the settings view can set up the notifications requirements such as sending the certificate file. This certificate is crucial for sending notifications, it authenticates the developers id when about to send the notification object.
+The use case diagram for the settings views shown in \ref{fig:settings_uc}. The developer in this view can set up the notifications requirements such as sending the certificate file. This certificate is crucial for sending notifications; it authenticates the developer's id when about to send the notification object.
 
-The next part of the settings view, the developer can create and edit applications. These apps are the mobile apps that will be used in conjunction with the web-server and the SDK. These apps and versions will be used throughout the rest of the dashboard when setting remote configuration for example. When the application is being set, values can also be retrieved from iTunes API.
+The next part of the settings view, the developer can create and edit applications. These apps are the mobile apps that will be used in conjunction with the web-server and the SDK. These apps and versions will be used throughout the rest of the dashboard when setting remote configuration for example. When an application is being updated, some key values can also be retrieved from the iTunes API.
 
-\subsubsection{Storage}
+\subsubsection{Storage} \label{d-db:storage}
 
-Figure \ref{fig:storage_use_case} illustrates storage/database use case. In the storage view in the dashboard, the developer will be able to choose a database which is specific to each application. After which be able to view and select the collections within, and see the content records. Another feature is the ability to import collection from a JSON or CSV file into the database.
+Figure \ref{fig:storage_use_case} illustrates the storage/database use case. In the storage view in the dashboard, the developer will be able to choose a database which is specific to each application. After which be able to view and select the collections within and see the content records. Another feature is the ability to import collection from a JSON or CSV file into the database.
 
-This use case is limited by design, the typical create, read, update and delete (CRUD) operations known with database development will not be available. When designing systems that include both backend and frontend, the most important one of two is the frontend. This is what the end users will see, so this system will focus on designing the structure of each collection in the application, in development stage. Typically the dashboard will allow the developer to perform CRUD operations, and then they will have to mimic that structure for the frontend app, thereby creating a potential bug. A bug can occur if someone is able to change the collection name, or collection property name, thus creating an inconsistency between frontend and backend. Removing the capabilities from one side being backend will hopefully remove this potential issue. 
+This use case is limited by design, the typical create, read, update and delete (CRUD) operations known with database development will not be available. When designing systems that include both backend and frontend, the most important one of two is the frontend. This is what the end users will see, so this system will focus on designing the structure of each collection in the application, in the development stage. 
+
+Typically the dashboard will allow the developer to perform CRUD operations, and then they will have to mimic that structure for the frontend app, thereby creating a potential bug. A bug can occur if someone can change the collection name, or collection property name, thus creating an inconsistency between frontend and backend. Removing the capabilities from one side being backend will hopefully eliminate this potential issue.
 
 \begin{figure}[!h]
     \caption{Storage View Use Case Diagram}
@@ -232,7 +234,7 @@ This use case is limited by design, the typical create, read, update and delete 
     \label{fig:storage_use_case}
 \end{figure}
 
-\subsubsection{Notifications}
+\subsubsection{Notifications} \label{d-db:notifications}
 
 \begin{figure}[!h] 
     \caption{APNs View Use Case Diagram}
@@ -241,9 +243,9 @@ This use case is limited by design, the typical create, read, update and delete 
     \label{fig:notifications_uc}
 \end{figure}
 
-Apple push notifications (APNs) that have been sent can be view in the notifications view as illustrated in \ref{fig:notifications_uc}. The developer can also send notifications from the dashboard to the mobile apps, for example telling users about an update, or new theme etc. 
+Apple push notifications (APNs) that have sent can be viewed in the notifications view as illustrated in \ref{fig:notifications_uc}. The developer can also send notifications from the dashboard to the mobile apps, for example telling users about an update, or new theme, etc. 
 
-\subsubsection{Remote Configuration}
+\subsubsection{Remote Configuration} \label{d-db:remote_config}
 
 \begin{figure}[!h]
     \caption{RC View Use Case Diagram}
@@ -252,9 +254,9 @@ Apple push notifications (APNs) that have been sent can be view in the notificat
     \label{fig:rc_uc}
 \end{figure}
  
-The developer in the remote configuration view once an application and version has been chosen, can create versions. These versions define what will user interface of the app will look like. Each version will be dependant on an app version or a particular theme. In figure \ref{fig:rc_uc} defines what the capabilities of this view.
+The developer in the remote configuration view once an application and version have been chosen can create versions. These versions define the user interface of the mobile app. Each version will be dependent on an app version or a particular theme. In figure \ref{fig:rc_uc} illustrates what the capabilities of this view. After a version is created or being updated, the properties for the UI objects such as a label can be set.
  
-\subsubsection{Languages}
+\subsubsection{Languages} \label{d-db:languages}
 
 \begin{figure}[!h]
     \caption{Language View Use Case Diagram}
@@ -263,9 +265,9 @@ The developer in the remote configuration view once an application and version h
     \label{fig:language_uc}
 \end{figure}
 
-The language view use case in figure \ref{fig:language_uc} is similar to the remote configuration use case above. This is because both are design in the same way, that each version can be downloaded and the data is retrieved in the app.
+The language view use case in figure \ref{fig:language_uc} is similar to the remote configuration use case above. This is because both are designed in the same way, that each version can be downloaded and the data is retrieved in the app.
 
-\subsubsection{Backup}
+\subsubsection{Backup} \label{d-db:backup}
 
 \begin{figure}[!h]
     \caption{Backup View Use Case Diagram}
@@ -274,9 +276,9 @@ The language view use case in figure \ref{fig:language_uc} is similar to the rem
     \label{fig:backup_uc}
 \end{figure}
 
-The backup view is where the developer can either set up a scheduled a backup or do a backup now. In the use case figure \ref{fig:backup_uc}, all the previous backups can also been seen in this view. The developer will also be able to select a location for these backups placed, being either remotely or locally. The backups will have the time-stamp and zipped to help safe space.
+The backup view is where the developer can either set up a scheduled backup or do a backup now. In the use case figure \ref{fig:backup_uc}, all the previous backups can be seen in this view. The developer will also be able to select a location for these backups placed, being either remotely or locally. The backups will have the time-stamp and zipped to help save space.
 
-\subsection{Web Server}
+\subsection{Web Server} \label{d-web_server}
 
 \begin{figure}[!h]
     \caption{Web Server Design}
@@ -285,11 +287,12 @@ The backup view is where the developer can either set up a scheduled a backup or
     \label{fig:api_handler}
 \end{figure}
 
-The web server brief design can be seen in figure \ref{fig:api_handler}. The web server uses an application programming interface (API) which defines a set of methods for communication. In this system, the database and notifications are an example of defined tools that will be used. The API Handler takes the request in and forwards it on to the correct web app to handle the request, and relay a response back. The development chapter under web server section will discuss in detail the list of tools.
+The web server brief design is illustrated in \ref{fig:api_handler}. The web server uses an application programming interface (API) which defines a set of methods for communication. In this system, the database and notifications are an example of defined tools that will be used. The API Handler takes the request in and forwards it on to the correct web app to handle the request, and relay a response back. The development chapter under web server section will discuss in detail the list of tools.
 
 
 \section{Design Principles}
-Human Computer Interaction (HCI) principles plays a major role when designing an interface. These principles help keep applications of the same nature alike. An example is a mail app, the icon for mailbox or sending messages can be used to convey without having to read a manual of what a button does. As this system will be using a mac application, apples macOS interface guidelines will be closely followed.
+
+Human-Computer Interaction (HCI) principles play a major role when designing an interface. These principles help keep applications of the same nature alike. An example is a mail app, the icon for a mailbox or sending messages can be used to convey without having to read a manual of what a button does. As this system will be using a Mac application, the macOS interface guidelines will be closely followed.
 
 Apples Human Interface Guidelines \cite{guidelines} discussed the following design principles:
 
@@ -300,11 +303,11 @@ Apples Human Interface Guidelines \cite{guidelines} discussed the following desi
   
   \item Direct Manipulation
   
-  - "..is an example of an implied action that helps users feel that they are controlling the objects represented by the computer". When designing a view that the user can control, the objects such as deleting a record, should only become invisible once the user has taken the action.
+  - ”..is an example of an implied action that helps users feel that they are controlling the objects represented by the computer”. When designing a view that the user can control, the objects such as deleting a record should only become invisible once the user has taken action.
   
   \item User Control 
   
-  - "..principle of user control presumes that the user, not the computer, should initiate and control actions." The interface should give the user the control depending on the type of user. So an professional user will want more control compared to novice user.
+  - ”..principle of user control presumes that the user, not the computer, should initiate and control actions.” The interface should give the user the control depending on the type of user. So a professional user will want more power compared to a novice user.
   
   \item Consistency
   

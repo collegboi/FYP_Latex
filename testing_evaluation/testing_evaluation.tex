@@ -2,11 +2,11 @@
 
 \section{Testing}
 
-Software testing is an investigation conducted to provide information about the quality of the product or service under test. Testing is executing a system in order to identify any gaps, errors, or missing requirements in contrary to the actual requirements. In my project I am using test-driven approach method, this helps eliminate parts of the code that will not work or fix them before adding them to system.
+Software testing is an investigation conducted to provide information about the quality of the product or service under test. Testing is executing a system to identify any gaps, errors, or missing requirements in contrary to the actual conditions. In this project the test-driven approach method was used, this helps eliminate parts of the code that will not work or fix them before adding them to the system.
 
 \subsection{Service testing}
 
-As this project is Test Driven Development approach, all service unit testing has previously been done. These tests were done by building a small client application in Playground and web-server in Perfect which was developed and ran in Xcode. The API requests were tested afterwards using the Postman application, to run each API request and ensure the result is as expected. The tested included check the secret key and application key were authenticated, and if an incorrect key was used, then an error would be returned. Included bottom are some of the requests made along with the response in table \ref{tb:service-testing}.
+As this project is Test Driven Development approach, all service unit testing has previously been done. These tests were done by building a small client application in Playground and web-server in Perfect which was developed and ran in Xcode. The API requests were tested afterwards using the Postman application, to run each API request and ensure the result is as expected. The tests included checking the secret key and application key were authenticated, and if an incorrect key were used, then an error would be returned.  In Table \ref{tb:service-testing} are some of the test requests made along with the response, where the second test has failed due to missing authentication keys.
 
 \begin{table}[!h]
 \centering
@@ -17,7 +17,7 @@ As this project is Test Driven Development approach, all service unit testing ha
 \rowcolor{green!20}
 \multicolumn{1}{|l|}{API Call}  & \multicolumn{1}{l|}{HTTP method} & \multicolumn{1}{l|}{Response}   & Body    & Result \\ \hline
 \begin{tabular}[c]{@{}c@{}}http://perfectserver.site/api/\\ cc2b14fa-f59b-4e13-905a-3eebaf2ff659/\\ storage/RemoteConfig\end{tabular} & GET                                                      & Figure \ref{fig:api1}                                                                                                            &                                                                                                                                                     & PASS                           \\ \hline
-\begin{tabular}[c]{@{}c@{}}http://perfectserver.site/\\ storage/TBAnalyitcs/\end{tabular}                                             & GET                                                      & \begin{tabular}[c]{@{}c@{}}\{,"result": "error"\\ ,"message": ""\}\end{tabular}                                             &                                                                                                                                                     & FAIL                           \\ \hline
+\begin{tabular}[c]{@{}c@{}}http://perfectserver.site/\\ storage/TBAnalyitcs/\end{tabular}                                             & GET                                                      & \begin{tabular}[c]{@{}c@{}}\{,"result": "error"\\ ,"message": \\"access rights"\}\end{tabular}                                             &                                                                                                                                                     & FAIL                           \\ \hline
 \begin{tabular}[c]{@{}c@{}}http://perfectserver.site/api/\\ cc2b14fa-f59b-4e13-905a-3eebaf2ff659/\\ storage/Friends\end{tabular}      & GET                                                      & Figure \ref{fig:api2}                                                                                                            &                                                                                                                                                     & PASS                           \\ \hline
 \begin{tabular}[c]{@{}c@{}}http://perfectserver.site/api/\\ cc2b14fa-f59b-4e13-905a-3eebaf2ff659/\\ storage/Friends\end{tabular}      & POST                                                     & \begin{tabular}[c]{@{}c@{}}\{,"result": "success",\\ "message":\\  "0e9635f6-b3fd-408d-\\ b4a2-458dab34c781"\}\end{tabular} & \begin{tabular}[c]{@{}l@{}}\{"dob": "12/12/2016",\\ "age": "44",\\ "name": "Jimmy"\\ ,"county": "Portsmouth"\\ ,"country": "England"\}\end{tabular} & \multicolumn{1}{c|}{PASS}      \\ \hline
 \end{tabular}
@@ -41,19 +41,19 @@ As this project is Test Driven Development approach, all service unit testing ha
 
 \subsection{Integrated App Testing}
 
-This part of testing involved developing a new mobile application with a simply user interface. The SDK developed was downloaded uses Cocoapods and installed in the testing app workspace. The application illustrated in the following figures \ref{fig:dark-theme} and \ref{fig:light-theme} , displays a table view where an array of "Friends" are displayed. The objective of created this test application is to demonstrate the remote configuration that allows the user to choose a new theme \ref{fig:app-themes-options} , and instantly see the difference.
+This part of testing involved developing a new mobile application with a simple user interface. The SDK developed was downloaded uses Cocoapods and installed in the testing app workspace. The application illustrated in the following Figures \ref{fig:dark-theme} and \ref{fig:light-theme}, displays a table view where an array of “Friend“ are shown. The objective of creating this test application is to demonstrate the remote configuration that allows the user to choose a new theme in Figure \ref{fig:app-themes-options}, and instantly see the difference.
 
-The project aim from the beginning was to speed up development, testing and when the app is live. The figures \ref{fig:dark-theme} and \ref{fig:light-theme} illustrates how the app can be updated when the application is live quickly. The next three listings illustrate on what is required in the development stage to be able to update the UI objects when the app is published. 
+The project aim from the beginning was to speed up development, testing and when the app is live. The Figures \ref{fig:dark-theme} and \ref{fig:light-theme} illustrates how the app can be updated when the application is live quickly. The next three listings demonstrate on what is required in the development stage to be able to refresh the UI objects when the app is published.
 
-In listing \ref{lst:test1} is UI objects include label and button, and these in one line can be initialised to start using the remote configuration feature.
+Listing \ref{lst:test1} is UI objects include label and button, and these in one line can be initialised to start using the remote configuration feature.
 
 \lstinputlisting[label={lst:test1},language=Swift, caption=Remote Config demo1]{testing_evaluation/code/test_project1.m}
 
-In listing \ref{lst:test2} illustrates how the remote configuration file is being retrieved based on the theme chosen.
+Listing \ref{lst:test2} illustrates how the remote configuration file is being retrieved based on the theme chosen.
 
 \lstinputlisting[label={lst:test2},language=Swift, caption=Remote Config demo2]{testing_evaluation/code/test_theme.m}
 
-In listing \ref{lst:test2} the configuration file is being updated. This mean the old file is being deleted, and the new file updated to current main name and location. Next the navigation bar is being updated.
+Listing \ref{lst:test2}, the configuration file is being updated. This means the old file is being deleted, and the new file updated to the current name and location. Next, the navigation bar is being updated.
 
 \lstinputlisting[label={lst:test3},language=Swift, caption=Remote Config demo3]{testing_evaluation/code/test_update.m}
 
@@ -82,7 +82,7 @@ In listing \ref{lst:test2} the configuration file is being updated. This mean th
 
 \subsection{Sanity testing}
 
-Sanity testing is kind of software testing which is performed once a build is completed with changes made. The goal is to run through the functionality in the application, and ensure they work as expected. Sanity testing is also carried out to check that the reported bugs fixed and new features does not break previously working functionality. The kind of testing is performed by testers which was done using college colleagues. A list of tests was given as seen in table \ref{tb:sanity} along with the average result found. The table \ref{tb:sanity} tests refers to the application stated above in integrated app testing section.
+Sanity testing is kind of software testing which is performed once a build is completed with changes made. The goal is to run through the functionality of the application, and ensure they work as expected. Sanity testing is also carried out to check that the reported bugs fixed and new features do not break previously working functionality. The kind of testing is performed by testers which were done using college colleagues. A list of tests was given as seen in Table \ref{tb:sanity} along with the average result found. The Table \ref{tb:sanity} tests refer to the application stated above in integrated app testing section.
 
 \begin{table}[!h]
 \centering
@@ -91,7 +91,7 @@ Sanity testing is kind of software testing which is performed once a build is co
 \begin{tabular}{|l|l|l|l|l|l|}
 \hline
 \rowcolor{green!20}
-No & Description     & Initial state     & Steps                                                                                                   & Expected Result                                                                                                                 & Result \\ \hline
+No & Description     & Initial state     & Steps  & Expected Result  & Result \\ \hline
 1  & Add new Friend  & App opened        & \begin{tabular}[c]{@{}l@{}}1. Selected add option\\ 2. Fill in details \\ 3. Press send\end{tabular}    & \begin{tabular}[c]{@{}l@{}}Friend has been added\\ and view returns to list of \\ friends view\end{tabular}                     & Pass   \\ \hline
 2  & Update Friend   & Friends list view & \begin{tabular}[c]{@{}l@{}}1. Select friend to update\\ 2. Update values\\ 3. Press send\end{tabular}   & \begin{tabular}[c]{@{}l@{}}Friend is updated and view\\ returns to list of friends with\\ friend updated\end{tabular}           & Pass   \\ \hline
 3  & Remove Friend   & Friends list view & \begin{tabular}[c]{@{}l@{}}1. Slide cell with friend\\ 2. Press delete\end{tabular}                     & \begin{tabular}[c]{@{}l@{}}Friend is deleted, and record\\ is gone\end{tabular}                                                 & Pass   \\ \hline
@@ -102,4 +102,10 @@ No & Description     & Initial state     & Steps                                
 
 \section{Evaluation}
 
-The evaluation was done by two outsourced developers from Trust5, by using the test example project. The evaluation feedback from both developers are included in the case chapter until section evaluation. The general feedback is good based the usability of the library, and how effortless using the library is. The developer also offered some constructive feedback where improvements can be made, such as expanding the documentation on the Github page, and possibly to make the library with Objective-C. 
+Throughout the project, continuous communication with the outsourced developers from Trust5 and Tapadoo was done to ensure the changes made was acceptable. The substantial changes made were moving from Django web server to Perfect (server side swift), and the dashboard from iPad to Mac app. Once the project was completed, an evaluation was done by two developers from Trust5. The first developer gave me a non-technical feedback, while the second did. The full feedback report is in appendices chapter under the evaluation section \ref{appendices:evaluation}.
+
+The general feedback is good based on the usability of the library, and how effortless using the library is, developer 2 states:  "the MBaaSKit library to be very easy to integrate with any iOS app". He also went on to say that using Cocoapods was a good choice as this "is the most common practice to include libraries".
+
+One of interesting feedback that wasn't considered before was the fact that the library can be used a "functional test tool". This enables the developer to load different configuration files and see which one looks the best without the need for a new build.
+
+The developer also offered some constructive feedback where improvements can be made, such as expanding the documentation on the Github page. He also suggests making the library compatible with Objective-C as it is still being used.
