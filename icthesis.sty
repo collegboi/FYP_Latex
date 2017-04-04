@@ -8,50 +8,63 @@
 \linespread{1.5}
 \def\submitdate#1{\gdef\@submitdate{#1}}
 
-\def\maketitle{
-  \begin{titlepage}{
-    %\linespread{1.5}
-    \Large Dublin Institute of Technology \\
-    %\linebreak
-    Department of Computing
-    \rm
-    \vskip 3in
-    \Large \bf \@title \par
-  }
-  \vskip 0.3in
-  \par
-  {\Large \@author}
-  \linebreak
-  Student number: C13720705
-  \linebreak
-  \linebreak
-  Supervisor: Edina Hatunic Webster
-  \linebreak
-  Second Reader: Dr. Susan McKeever
-  \vskip 4in
-  \par
-  Submitted in part fulfilment of the requirements for the degree of 
-  \linebreak
-  Computer Science, \@submitdate
-  \vfil
-  \end{titlepage}
-}
+% \def\maketitle{
+%   \begin{titlepage}{
+%     %\linespread{1.5}
+%     \Large Dublin Institute of Technology \\
+%     %\linebreak
+%     Department of Computing
+%     \rm
+%     \vskip 3in
+%     \Large \bf \@title \par
+%   }
+%   \vskip 0.3in
+%   \par
+%   {\Large \@author}
+%   \linebreak
+%   Student number: C13720705
+%   \linebreak
+%   \linebreak
+%   Supervisor: Edina Hatunic Webster
+%   \linebreak
+%   Second Reader: Dr. Susan McKeever
+%   \vskip 4in
+%   \par
+%   Submitted in part fulfilment of the requirements for the degree of 
+%   \linebreak
+%   Computer Science, \@submitdate
+%   \vfil
+%   \end{titlepage}
+% }
 
-\def\titlepage{
-  \newpage
-  \centering
-  \linespread{1}
-  \normalsize
-  \vbox to \vsize\bgroup\vbox to 9in\bgroup
-}
-\def\endtitlepage{
-  \par
-  \kern 0pt
-  \egroup
-  \vss
-  \egroup
-  \cleardoublepage
-}
+% \def\titlepage{
+%   \newpage
+%   \centering
+%   \linespread{1}
+%   \normalsize
+%   \vbox to \vsize\bgroup\vbox to 9in\bgroup
+% }
+% \def\endtitlepage{
+%   \par
+%   \kern 0pt
+%   \egroup
+%   \vss
+%   \egroup
+%   \cleardoublepage
+% }
+
+% \def\maketitle{
+%   \begin{center}{
+%     \large\bf Abstract}
+%   \end{center}
+%   \small
+%   %\def\baselinestretch{1.5}
+%   \linespread{1.5}
+%   \normalsize
+% }{\cleardoublepage}
+% \def\endabstract{
+%   \par
+% }
 
 \def\abstract{
   \begin{center}{

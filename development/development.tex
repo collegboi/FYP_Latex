@@ -81,7 +81,7 @@ The first protocol \textit{TBJSONRepresentable} just states that this variable \
 
 In Listing \ref{lst:TBJSONSerializable}, the \textit{TBJSONRepresentation} variable contains a switch case to loop through the mirrored object properties; which is a representation of the sub-structure. Then each property type such as String, Int or Dictionary, and depending on the type can be parsed into an AnyObject type and assigned to the dictionary with the key being the name of the variable.
 
-The design also stated that in retrieving objects, functionality is to be in placed to parse back to objects. A list of functions was implemented to parse each value back to the desired type using protocol extension to type dictionary and method chaining. The method chaining speeds the development time for the developer, without needing to find the correct type first. An example of this is in Listing \ref{lst:tryConvert} which takes the parameter of the key and tries to parse the value in two ways. First, if the value if of type integer, it will return that value, but if it is of type String, it will convert a string to integer and return the new value.
+The design also stated that in retrieving objects, functionality is to be in placed to parse back to objects. A design feature that was discussed in the design chapter, is that the values going up to the server are in \textit{String} format. The functions to parse the object next will try parse the values from both their type or type \textit{String}. A list of functions was implemented to parse each value back to the desired type using protocol extension to type dictionary and method chaining. The method chaining speeds the development time for the developer, without needing to find the correct type first. An example of this is in Listing \ref{lst:tryConvert} which takes the parameter of the key and tries to parse the value in two ways. First, if the value if of type integer, it will return that value, but if it is of type String, it will convert a string to integer and return the new value.
 
 \lstinputlisting[label={lst:tryConvert},language=Swift, caption=Dictionary]{development/code/tryConvert.m}
 
@@ -670,6 +670,28 @@ Already discussed in the design chapter, Apple gives an extensive section on Hum
 
 \subsubsection{Login view}
 
+% \begin{figure}[!h]
+%     \caption{Login View}
+%     \centering
+%     \includegraphics[width=75mm]{images/dashboard/login}
+%     \label{fig:log-in-view}
+% \end{figure}
+
+\begin{figure}[!h]
+    \begin{subfigure}{0.5\textwidth}
+        \includegraphics[width=0.9\linewidth]{images/dashboard/login}
+        \caption{Login View 1}
+        \label{fig:log-in-view}
+    \end{subfigure}
+    \begin{subfigure}{0.5\textwidth}
+        \includegraphics[width=0.9\linewidth]{images/dashboard/oauth_view}
+        \caption{Login View 2}
+        \label{fig:oauth-view}
+    \end{subfigure}
+\caption{Configuring Apps}
+\label{fig:Login View}
+\end{figure}
+
 \begin{figure}[!h]
     \caption{Log in class diagram}
     \centering
@@ -679,30 +701,28 @@ Already discussed in the design chapter, Apple gives an extensive section on Hum
 
 Figure \ref{fig:login_cd} illustrates the class diagram of the main view controller for the login view, as well as the staff object that was used to authenticate the user. In Figure \ref{fig:log-in-view} illustrates the simple dashboard sign in view where the user gets verify their credentials. The view contains three input values which the user must put in, as the server can be deployed on any server, the user is asked to put in the IP or domain name where the server is located. The other two values are user-name and password, and then there is an option for the user to tick the remind me box, which keeps the user logged in. The Log-in button sends POST request to the server along with both values. A register button was decided against, as this is a restrictive application. The administrator once logged in can create new users explained later on.
 
-\begin{figure}[!h]
-    \caption{Login View}
-    \centering
-    \includegraphics[width=75mm]{images/dashboard/login}
-    \label{fig:log-in-view}
-\end{figure}
+Initially, the plan was to use the login view in \ref{fig:log-in-view} and is still an option to revert to. The other way of authenticating a user, and in the industry is preferred to be used OAuth. The first step was to download the package from Github using \textit{git clone --recursive https://github.com/p2/OAuth2App.git} inside the project directory. OAuth 2 provides a highly secure authentication service, and the Listing \ref{lst:oauth} shows the code necessary to perform this. The loader is a protocol which all services uses, which calls the \textit{requestUserdata} function to do the login. The services class, for example, Google each contain their API endpoint for authentication;  \url{https://accounts.google.com/o/oauth2/auth}. If the call back function is successful, then limited users information is stored locally to use within the application.
+
+The view was updated as illustrated in Figure \ref{fig:oauth-view}, where several service options can be used.
+
+\lstinputlisting[label={lst:oauth},language=Swift, caption=OAuth 2 Login]{development/code/oauth.m}
 
 \subsubsection{Status}
 
-% change to include the menu view
 \begin{figure}[!h]
     \caption{Status View}
     \centering
     \includegraphics[width=100mm]{images/dashboard/status_view}
     \label{fig:status-view}
 \end{figure}
-% change to include the menu view
 
 Before discussing the status view, the menu on the left will exist on view. The menu bar routes the user across the whole application. The bar contains grouped submenus to help clarify to the user what the view provides. The accounts section, for example, provides staff, so before clicking on this option, it is already known that it is staff accounts. This design is following Apple's guidelines on the mental model and consistency mentioned in the design chapter.
 
 Figure \ref{fig:status-view} illustrates the server status view, it is the first page the user sees when entering the application. This view displays a number of graphs about the server. To help with displaying graphs, a framework was used called Charts, and listing \ref{lst:pie-chart} illustrates the code necessary to display a pie chart. In lines 1 to 4, the content of the chart is being populated. The values past are the sections within a pie chart, being the size of section and label name. The sections in line 9 are given their own color to help distinguish them.
-% change to include the menu view
-Starting from left to right with the pie charts, the first displays the current CPU usage, next storage usage and memory usage (last one). The line chart displays the history and current CPU usage. This gives the developer an general overview on what the physical sever doing. This can help decide whether or not to upgrade the system.
-% change to include the menu view
+
+The top section of this view, displays the current status of the server and Mongodb database. The server status and IP labels retrieves the data from digital ocean's API. The settings discussed next will show the configuration needed to make the requests to the API. The last part on the top right outputs the status of the database, giving the developer a button to restart the Mongodb instance if required. Starting from left to right with the pie charts, the first displays the current CPU usage, next storage usage and memory usage. The line chart displays the history and current CPU usage. This gives the developer an general overview on what the physical sever doing. This can help decide whether or not to upgrade the system.
+
+
 \lstinputlisting[label={lst:pie-chart},language=Swift, caption=Pie Chart]{development/code/piechart.m}
 
 The bottom line chart in figure \ref{fig:status-view}, displays the number of requests made over a period of time.
@@ -714,8 +734,7 @@ The bottom line chart in figure \ref{fig:status-view}, displays the number of re
     \centering
     \includegraphics[width=150mm]{images/dashboard/settings}
     \label{fig:settings-view}
-\end{figure} 
-
+\end{figure}
 
 \begin{figure}[!h]
     \caption{Apps Class Diagram}
@@ -724,7 +743,7 @@ The bottom line chart in figure \ref{fig:status-view}, displays the number of re
     \label{fig:settings-cd}
 \end{figure} 
 
-Figure \ref{fig:settings-view} illustrates the settings view, where the configuration for the web-server and the mobile applications occurs. The view is split up into three sections; the first section has some configurations values for accessing the web-server and database. The secret key allows the mobile applications to access the web-server so that the key will be put in the header. The database username and password can be set and allows for some extra security.
+Figure \ref{fig:settings-view} illustrates the settings view, where the configuration for the web-server and the mobile applications occurs. The view is split up into three sections; the first section has some configurations values for accessing the web-server and database. The secret key allows the mobile applications to access the web-server so that the key will be put in the header. The database username and password can be set and allows for some extra security. The dashboard includes two API request to DigitalOcean and Github, the tokens and key names in this view are stored in \textit{UserDefaults} to be accessed quickly when needed.
 
 The notification section is for configuring the Apple Push Notifications (APNs), this has changed in the past year as was mentioned in the design chapter. The process now has sped up to set up the APNs on both the Apple developer console and the server. Now one key file with extension .p8 is all that is required to send APNs, this and three other values. Two of them are the team id, which is the developer's id found in the developer console, and the key id which is provided when requesting a new .p8 key file. The Select Key buttons bring up file window, to get the file from the developer's computer, and uploads the file via HTTP to the server. Once the Save button has been selected, the two values and the key file are sent to the database. The other app id value will be set when an application is being made discussed next.
 
@@ -1016,7 +1035,7 @@ The classes to be used in the library has already been implemented in the servic
 
 \section{Conclusion}
 
-The project development was a challenging part, with not knowing the suggestive improvements would work.
+This chapter discussed the development for the three deliverables: Mac App, SDK and web server. The next chapter will demonstrate the implementation, on how to install and use the web server and SDK. 
 
 \subsection{Code Stats}
 
@@ -1028,9 +1047,11 @@ The project development was a challenging part, with not knowing the suggestive 
 \hline
 \rowcolor{green!20}
 Deliverable & Files & Code   \\ \hline
-Server      & 33    & 2,663  \\ \hline
-Dashboard   & 264   & 27,507 \\ \hline
-SDK         & 36    & 2,271  \\ \hline
-Total       & 333   & 29,778 \\ \hline
+Prototype iPad & 24 & 1412 \\ \hline
+Test App & 4 & 345 \\ \hline
+Server      & 35    & 2,911  \\ \hline
+Dashboard   & 275   & 28,138 \\ \hline
+SDK         & 36    & 2,433  \\ \hline
+Total       & 375   & 34,894 \\ \hline
 \end{tabular}
 \end{table}

@@ -159,7 +159,7 @@ The software development kit (SDK) provides the developer with the necessary too
     \label{fig:sdk_storage}
 \end{figure}
 
-Figure \ref{fig:sdk_storage} illustrates the design of the storage library. The objects that the developers require for their app will all need the same functionality, being the way that the objects exchange information with the server. This then states that they all need to conform to the same way, and this is done using a protocol. The development chapter will go into detail what protocol in software terms mean and how it is implemented within the storage library.
+Figure \ref{fig:sdk_storage} illustrates the design of the storage library. The objects that the developers require for their app will all need the same functionality, being the way that the objects exchange information with the server. This then states that they all need to conform to the same way, and this is done using a protocol. The storage library will contain an object-relational mapping (ORM) tool, that will speed up parsing the objects to and from JSON format. This way the developer does not need to understand JSON format, but that the functionality is there to handle it. The last part of the design is that the properties being sent to the server will always be of type \textit{String}. The reasoning for this, is that if the developer decides to change their mind regarding the client app object property, it will not ruin the already stored data. The \textit{String} type is the only one that can handle all over types such as \textit{Int} and \textit{Boolean}. The development chapter will go into detail what protocol in software terms mean and how it is implemented within the storage library. 
 
 \subsubsection{APNs} \label{d-sdk:apns}
 

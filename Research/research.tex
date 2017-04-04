@@ -58,9 +58,13 @@ After reviewing why developers should use an MBaaS, the research paper goes on t
 
 \subsection{Mobile developers}
 
-The fundamental part of this project is to research from experienced developers, asking them in person and forums. A list of questions was put up on different forums regarding the functionality required for mobile Baas. What advantages and disadvantages do you find with current third party mobile back-end as services?. What features do you want to be included that are not currently available? Where do you see the future of third party services going, are they required or should mobile developers implement their own back- end? This, however, was not successful, as comments were coming backing saying that the questions should be problem specific.
+The fundamental part of this project is to research from experienced developers, asking them in person and forums. A list of questions was put up on different forums regarding the functionality required for the mobile backend as service. These include: What advantages and disadvantages do you find with current third party mobile back-end as services?, What features do you want to be included that are not currently available?, Where do you see the future of third party services going, are they required or should mobile developers implement their own back- end?. This, however, was not successful, as comments were coming backing saying that the questions should be problem specific.
 
-The next plan after the forums did not help, was to meet with Trust5  \cite{trust5} and Tapadoo \cite{tapadoo}, two mobile software developing companies based in Dublin City to discuss my project proposal. The general feedback was positive, seeing the potential and powerful tool it could be. A working prototype iPad app was used to demonstrate the remote configuration service as part of the project which updates a client mobile app interface which will explain later. See appendices chapter for the case study of each company.
+The next plan after the forums did not help, was to meet with Trust5  \cite{trust5} and Tapadoo \cite{tapadoo}, two mobile software developing companies based in Dublin City to discuss my project proposal. The general feedback was positive, seeing the potential and powerful tool it could be. A working prototype iPad and iPhone app was used to demonstrate the remote configuration service as part of the project which updates a client mobile app interface which will explain later. 
+
+This enabled them to get a feel for the project, and both companies gave constructive feed; where to be careful and keep parts to look out for. Tapadoo developer discussed that the A/B testing is a plausible key feature to use along with the remote configuration, he also mentioned to keep close to Apple guidelines. Trust5 developers mentioned the project can give developers the capability of creating a white label product, that one app can be used for different products.
+
+See appendices chapter for the complete case study of each company. 
 
 \subsection{Mobile users} \label{research:mobile_users}
 
@@ -303,6 +307,24 @@ Github \cite{github} is a web-based version control repository. It provides code
 \subsubsection{Perfect Assistant}
 "This macOS companion application is a set of convenience tools designed to help Server Side Swift developers start, manage, compile, test, and prepare for deployment more easily. From those expanding into backend Swift development for the first time to seasoned senior engineers working on enterprise level projects, the Perfect Assistant will facilitate your work." \cite{perfectAssist} It is used to help include all the required packages needed to build the project, and includes tools to deploy to Amazon web-server and docker.
 
+\subsubsection{OAuth 2}
+OAuth 2 \cite{oauth} is an authorization framework that enables applications to obtain user accounts through services such as Facebook, Google, Github, etc. It works by delegating the authentication service to another third party which returns limited user information. This is a service that can be used to authenticate a user to access an application and is commonly used. OAuth 2 defines four roles:
+
+\begin{itemize}
+  \item Resource Owner
+  
+  - the user who authorises an application to access their account
+  \item Client
+  
+  - the application from which the user wants access
+  \item Resource Server
+  
+  - where the users account is stored
+  
+  \item Authorisation Server
+  
+  - verifies the users identify then provides an access token
+\end{itemize}
 
 % --------------------------------------------%
 % Similar Technologies researched
