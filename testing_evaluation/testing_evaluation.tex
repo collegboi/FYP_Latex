@@ -2,7 +2,7 @@
 
 \section{Testing}
 
-Software testing is an investigation conducted to provide information about the quality of the product or service under test. Testing is executing a system to identify any gaps, errors, or missing requirements in contrary to the actual conditions. In this project the test-driven approach method was used, this helps eliminate parts of the code that will not work or fix them before adding them to the system.
+Software testing is an investigation conducted to provide information about the quality of the product or service under test. Testing is executing a system to identify any gaps, errors, or missing requirements in contrary to the actual conditions. In this project the test-driven approach method was used, this helps eliminate parts of the code that will not work or fix them before adding them to the project.
 
 \subsection{Service testing}
 
@@ -41,11 +41,11 @@ As this project is Test Driven Development approach, all service unit testing ha
 
 \subsection{Integrated App Testing}
 
-This part of testing involved developing a new mobile application with a simple user interface. The SDK developed was downloaded uses Cocoapods and installed in the testing app workspace. The application illustrated in the following Figures \ref{fig:dark-theme} and \ref{fig:light-theme}, displays a table view where an array of “Friend“ are shown. The objective of creating this test application is to demonstrate the remote configuration that allows the user to choose a new theme in Figure \ref{fig:app-themes-options}, and instantly see the difference.
+This part of testing involved developing a new mobile application with a simple user interface. The SDK developed was downloaded uses Cocoapods and installed in the testing app workspace. The application illustrated in the following Figures \ref{fig:dark-theme} and \ref{fig:light-theme}, displays a table view where a list of friends are shown. The objective of creating this test application is to demonstrate the remote configuration that allows the user to choose a new theme in Figure \ref{fig:app-themes-options}, and instantly see the difference. The testing project was given to the developers to test and evaluate. The appendices chapter under evaluation section is where the feedback from the developers is.
 
 The project aim from the beginning was to speed up development, testing and when the app is live. The Figures \ref{fig:dark-theme} and \ref{fig:light-theme} illustrates how the app can be updated when the application is live quickly. The next three listings demonstrate on what is required in the development stage to be able to refresh the UI objects when the app is published.
 
-Listing \ref{lst:test1} is UI objects include label and button, and these in one line can be initialised to start using the remote configuration feature.
+Listing \ref{lst:test1} shows the UI objects include labels and buttons in one line can be initialised to start using the remote configuration feature.
 
 \lstinputlisting[label={lst:test1},language=Swift, caption=Remote Config demo1]{testing_evaluation/code/test_project1.m}
 
@@ -82,7 +82,7 @@ Listing \ref{lst:test2}, the configuration file is being updated. This means the
 
 \subsection{Sanity testing}
 
-Sanity testing is kind of software testing which is performed once a build is completed with changes made. The goal is to run through the functionality of the application, and ensure they work as expected. Sanity testing is also carried out to check that the reported bugs fixed and new features do not break previously working functionality. The kind of testing is performed by testers which were done using college colleagues. A list of tests was given as seen in Table \ref{tb:sanity} along with the average result found. The Table \ref{tb:sanity} tests refer to the application stated above in integrated app testing section.
+Sanity testing is kind of software testing which is performed once a build is completed with changes made. The goal is to run through the functionality of the application, and ensure they work as expected. Sanity testing is also carried out to check that the reported bugs fixed and new features do not break previously working functionality. This kind of testing is performed by testers which were done using college colleagues. A list of tests was given as seen in Table \ref{tb:sanity} along with the average result found. The Table \ref{tb:sanity} tests refer to the application stated above in integrated app testing section.
 
 \begin{table}[!h]
 \centering
@@ -102,9 +102,9 @@ No & Description     & Initial state     & Steps  & Expected Result  & Result \\
 
 \section{Evaluation}
 
-Throughout the project, continuous communication with the outsourced developers from Trust5 and Tapadoo was done to ensure the changes made was acceptable. The substantial changes made were moving from Django web server to Perfect (server side swift), and the dashboard from iPad to Mac app. Once the project was completed, an evaluation was done by two developers from Trust5. The first developer gave me a non-technical feedback, while the second did. The full feedback report is in appendices chapter under the evaluation section \ref{appendices:evaluation}.
+Throughout the project, continuous communication with the outsourced developers from Trust5 and Tapadoo was done to ensure the changes made was acceptable. The substantial changes made were moving from Django web server to Perfect (server side swift), and the dashboard from iPad to a Mac app. Once the project was completed, an evaluation was done by two developers from Trust5. The first developer gave a non-technical feedback, while the second did. The full feedback report is in appendices chapter under the evaluation section \ref{appendices:evaluation}.
 
-The general feedback is good based on the usability of the library, and how effortless using the library is, developer 2 states:  "the MBaaSKit library to be very easy to integrate with any iOS app". He also went on to say that using Cocoapods was a good choice as this "is the most common practice to include libraries".
+The general feedback is good based on the usability of the library, and how effortless using the library is, the developer 2 states how the found:  "the MBaaSKit library to be very easy to integrate with any iOS app". He also went on to say that using Cocoapods was a good choice as this "is the most common practice to include libraries".
 
 One of interesting feedback that wasn't considered before was the fact that the library can be used a "functional test tool". This enables the developer to load different configuration files and see which one looks the best without the need for a new build.
 

@@ -3,21 +3,21 @@
 
 \section{Installation Deployment}
 
-One of the key components of my project is the back-end web application. So the developer can host their back-end on any server of their choosing as long as the operating system is Ubuntu 16.04. The complete system is available on Github.
+One of the key components of the project is the back-end web application. So the developer can host their backend on any machine of their choosing as long as the operating system is Ubuntu . The complete system is available on Github.
 
 \url{https://github.com/collegboi/PerfectServer}
 
 \lstinputlisting[label={lst:login}, language=Bash, caption=Server Login]{implementation/code/login.m}
 
-SSH or Secure Shell is a network protocol that provides a secure, encrypted way to communicate with your server. In Figure \ref{lst:login} is used to log in to your server. The username by default by root but we will change this next, and the next field is the IP address of your server.
+SSH or Secure Shell is a network protocol that provides a secure, encrypted way to communicate with the server. In Listing \ref{lst:login} is used to log in to your server. The username by default by root but will be changed next, and the next field is the IP address of the server.
 
 
 \lstinputlisting[label={lst:user-name}, language=Bash, caption=Setting user-name]{implementation/code/setting-username.m}
 
- In Figure \ref{lst:user-name} we are going to set your new username and password. Doing this will help secure your server by moving away from the default root user-name.
+ In Listing \ref{lst:user-name} a new username and password will be set. Doing this will help secure the server by moving away from the default root user-name.
 
 \lstinputlisting[label={lst:github}, language=Bash, caption=Installing]{implementation/code/github.m}
-Last is to pull down the server from Github and install all the necessary packages This is done by running the following commands one at a time in Figure \ref{lst:github}.
+Last is to pull down the server from Github and install all the necessary packages This is done by running the following commands one at a time in Listing \ref{lst:github}.
 
 \section{Development}
 
@@ -25,13 +25,13 @@ Last is to pull down the server from Github and install all the necessary packag
 
 \lstinputlisting[label={lst:pod_init},language=Bash, caption=Init pods]{implementation/code/pod_init.m}
 
-After creating if you don't have a Xcode project, you will want to install the SDK. This will be done using CocoaPods. CocoaPods is a dependency manager for Swift projects. It contains thousands of libraries that can be used in your apps. One of which is MBaasKit. Start off with stepping into your project as seen in Figure \ref{lst:pod_init}.
+After creating if a Xcode project does not exist, the SDK will need to be installed. This will be done using CocoaPods. CocoaPods is a dependency manager for Swift projects. It contains thousands of libraries that can be used in the app. One of which is MBaasKit. Start off with stepping into the project as seen in Listing \ref{lst:pod_init}.
 
-Next, we will add the MBaasKit pod to the file \ref{lst:pod}.
+Next, adding the MBaasKit pod to the file \ref{lst:pod}.
 
 \lstinputlisting[label={lst:pod},language=Bash, caption=Pod file]{implementation/code/pod.m}
 
-Last part for adding the SDK to your project is to install the pod. This is done by running the command in Figure \ref{lst:pod_install}.
+Last part for adding the SDK to the project is to install the pod. This is done by running the command in Listing \ref{lst:pod_install}.
 
 \lstinputlisting[label={lst:pod_install},language=Bash, caption=Pod install]{implementation/code/pod_install.m}
 
@@ -47,16 +47,16 @@ Once the SDK has been included in the project, the following values are required
 
 \subsubsection{Remote Configuration}
 
-Remote Configuration provides the ability to maintain the application user interface in production. The frame- work contains a list of protocols for the UI objects such as \textit{UITextField}, \textit{UITableView}, etc. This protocol will grab the required properties for the object from locally stored configuration files. These files are download initially when the application is first opened, and the end user has the option depending on the developers choice of themes if any. The steps required to implement this is shown in the following Listing  \ref{lst:rc}.
+Remote Configuration provides the ability to maintain the application user interface in production. The framework contains a list of protocols for the UI objects such as \textit{UITextField}, \textit{UITableView}, etc. This protocol will grab the required properties for the object from the locally stored configuration files. These files can be download initially when the application is first opened, and the end user has the option depending on the developers choice of themes if any. The steps required to implement this is shown in the following Listing \ref{lst:rc}.
 
 \lstinputlisting[label={lst:rc},language=Swift, caption=Remote Configuration Setup]{implementation/swift/rc_implemented.m}
 
-In listing \ref{lst:new_theme} illustrates how downloading a new theme that the end user has selected. The call back function takes the parameter of the theme name, once the call back has been called, updating the view can be done. Line 4 is updating the configuration file with the reading file name. This can be changed to be included in a function that handles when the app goes in the background depending on choice. The \textit{updateViews()} function can be implemented to refresh the view if changes are immediate.
+In Listing \ref{lst:new_theme} illustrates how downloading a new theme that the end user has selected. The call back function takes the parameter of the theme name, once the call back has been called, updating the view can be done. Line 4 is updating the configuration file with the reading file name. This can be changed to be included in a function that handles when the app goes in the background depending on choice. The \textit{updateViews()} function can be implemented to refresh the view if changes are immediate.
 
 \lstinputlisting[label={lst:new_theme},language=Swift, caption=Retrieving new theme]{implementation/swift/config_update.m}
 
 \subsubsection{Notifications}
-To start using notifications, we first need to create the installation object and send that to our server. This is done by adding the following function in Listing \ref{lst:installation} in the \textit{AppDelegate} file.
+To start using notifications, the first step is to create the installation object and send that to the server. This is done by adding the following function in Listing \ref{lst:installation} in the \textit{AppDelegate} file.
 
 \lstinputlisting[label={lst:installation},language=Swift, caption=Register for Notifications]{implementation/swift/installation.m}
 
@@ -68,11 +68,11 @@ The sending of the notification is illustrated in Listing \ref{lst:installation}
 
 \lstinputlisting[label={lst:object},language=Swift, caption=Storing/Retrieving Objects]{implementation/swift/object.m}
 
-As can be seen in Figure \ref{lst:object}, when creating a struct and using the protocol \textit{TBJSONSerialiszable}, we can then send and retrieve the objects in the backgrounds using those commands.
+As can be seen in Listing \ref{lst:object}, when creating a struct and using the protocol \textit{TBJSONSerialiszable}, it can then send and retrieve the objects in the backgrounds using those commands. In lines 13 - 23 the array of objects variable makes a request using the protocol to retrieve all records of the \textit{TestObject} collection. In lines 25 - 35, the newly created object is being sent to the server.
 
 
 \subsubsection{Exception Handling}
 
-An exception is a problem that arises during the execution of a program. If exceptions are not handled, it can cause the app to crashes, and when the app is live, there is no way of knowing. But by adding the following lines 1 and 2 in Listing \ref{lst:exception} the uncaught exceptions can be caught and sent to the back-end storage and view with the dashboard. Line 4 is an example of sending a caught exception that can have a message sent along.
+An exception is a problem that arises during the execution of a program. If exceptions are not handled, it can cause the app to crashes, and when the app is live, there is no way of knowing. But by adding the following lines 1 and 2 in Listing \ref{lst:exception} the uncaught exceptions can be caught and sent to the back-end storage and can be viewed in the dashboard. Line 4 is an example of sending a caught exception that can have a message sent along.
 
 \lstinputlisting[label={lst:exception},language=Swift, caption=Storing/Retrieving Objects]{implementation/swift/exception.m}
